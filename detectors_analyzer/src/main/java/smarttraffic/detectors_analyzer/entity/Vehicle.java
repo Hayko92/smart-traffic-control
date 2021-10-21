@@ -1,5 +1,7 @@
 package smarttraffic.detectors_analyzer.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -17,9 +19,11 @@ public class Vehicle {
     private String registrationCertificate;
 
     @Column(name = "insurance_expiry_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Date insuranceExpiry;
 
     @Column(name = "tech_inspection_expiry_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Date techInspectionExpiry;
 
     @Column(name = "checked")
