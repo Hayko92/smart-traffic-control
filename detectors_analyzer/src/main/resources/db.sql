@@ -1,18 +1,19 @@
-create table captureGIcrossRoad
+create table "capture_GI_crossroad"
 (
-    id           bigserial
+    id           bigint default nextval('capture_id_seq'::regclass) not null
         constraint capture_pk
             primary key,
-    photo_url    varchar(500) not null,
-    capture_time timestamp    not null,
-    number       varchar(7)   not null
+    photo_url    varchar(500)                                       not null,
+    capture_time timestamp                                          not null,
+    number       varchar(7)                                         not null
 );
 
-alter table captureGIcrossRoad
+alter table "capture_GI_crossroad"
     owner to postgres;
 
 create unique index capture_id_uindex
-    on captureGIcrossRoad (id);
+    on "capture_GI_crossroad" (id);
+
 create table vehicle
 (
     id                          bigserial
@@ -34,4 +35,52 @@ create unique index vehicle_number_uindex
 
 create unique index vehicle_registration_certificate_uindex
     on vehicle (registration_certificate);
+
+create table capture_ar_ar_crossroad
+(
+    id           bigserial
+        constraint capture_ar_ar_crossroad_pk
+            primary key,
+    photo_url    varchar(500) not null,
+    capture_time timestamp    not null,
+    number       varchar(7)   not null
+);
+
+alter table capture_ar_ar_crossroad
+    owner to postgres;
+
+create unique index capture_ar_ar_crossroad_id_uindex
+    on capture_ar_ar_crossroad (id);
+
+create table capture_seb_tich_crossroad
+(
+    id           bigserial
+        constraint capture_seb_tich_crossroad_pk
+            primary key,
+    photo_url    varchar(500) not null,
+    capture_time timestamp    not null,
+    number       varchar(7)   not null
+);
+
+alter table capture_seb_tich_crossroad
+    owner to postgres;
+
+create unique index capture_seb_tich_crossroad_id_uindex
+    on capture_seb_tich_crossroad (id);
+
+create table capture_is_am_crossroad
+(
+    id           bigint default nextval('capture_ar_ar_crossroad_1_id_seq'::regclass) not null
+        constraint capture_ar_ar_crossroad_1_pk
+            primary key,
+    photo_url    varchar(500)                                                         not null,
+    capture_time timestamp                                                            not null,
+    number       varchar(7)                                                           not null
+);
+
+alter table capture_is_am_crossroad
+    owner to postgres;
+
+create unique index capture_ar_ar_crossroad_1_id_uindex
+    on capture_is_am_crossroad (id);
 
