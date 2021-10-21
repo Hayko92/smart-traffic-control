@@ -3,15 +3,16 @@ package smarttraffic.detectors_analyzer.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Service;
 import smarttraffic.detectors_analyzer.entity.Capture;
-import smarttraffic.detectors_analyzer.entity.InsuranceViolation;
 import smarttraffic.detectors_analyzer.entity.Vehicle;
+import smarttraffic.detectors_analyzer.entity.Violation;
 import smarttraffic.detectors_analyzer.repository.CaptureRepository;
 import smarttraffic.detectors_analyzer.repository.VehicleRepository;
 import smarttraffic.detectors_analyzer.util.NumberExtractor;
 
 import java.util.Date;
-
+@Service
 public class CaptureServiceImp implements CaptureService {
     @Autowired
     private ResourceLoader resourceLoader;
@@ -61,7 +62,7 @@ public class CaptureServiceImp implements CaptureService {
     }
 
     @Override
-    public void createViolation(InsuranceViolation insuranceViolation, Capture capture) {
+    public void createViolation(Violation insuranceViolation, Capture capture) {
         //fixme
     }
 
