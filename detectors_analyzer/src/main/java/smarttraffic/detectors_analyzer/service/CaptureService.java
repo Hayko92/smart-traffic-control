@@ -2,7 +2,7 @@ package smarttraffic.detectors_analyzer.service;
 
 import org.springframework.stereotype.Service;
 import smarttraffic.detectors_analyzer.entity.Capture;
-import smarttraffic.detectors_analyzer.entity.InsuranceViolation;
+import smarttraffic.detectors_analyzer.entity.Violation;
 
 @Service
 public interface CaptureService {
@@ -14,5 +14,5 @@ public interface CaptureService {
 
      void setStatusChecked(Capture capture);
 
-     void createViolation(InsuranceViolation insuranceViolation, Capture capture);
+     void createViolation(Violation violation, Capture capture);
 }
