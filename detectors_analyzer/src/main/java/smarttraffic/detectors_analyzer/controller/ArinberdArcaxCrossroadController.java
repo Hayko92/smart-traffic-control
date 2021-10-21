@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.*;
 import smarttraffic.detectors_analyzer.entity.CaptureGIcrossRoad;
 import smarttraffic.detectors_analyzer.service.CaptureGIcrossroadService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/gasparyan_isakov")
-public class GasparyanIsakovCrossroadController implements Camera {
-    private final Map<Camera,Double> previousCameras = new HashMap<>();
+public class ArinberdArcaxCrossroadController implements Camera {
+    private final Set<Camera> previousCameras = new HashSet<>();
 
     @Autowired
     private CaptureGIcrossroadService captureGIcrossroadService;
