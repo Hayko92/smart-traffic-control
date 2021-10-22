@@ -43,7 +43,7 @@ create table capture_ar_ar_crossroad
             primary key,
     photo_url    varchar(500) not null,
     capture_time timestamp    not null,
-    number       varchar(7)   not null
+    number       varchar(7)
 );
 
 alter table capture_ar_ar_crossroad

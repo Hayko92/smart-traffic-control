@@ -42,6 +42,7 @@ public class CaptureIsAmCrossroadServiceImpl implements CaptureIsAmCrossroadServ
         String photoURL = captureIsAmCrossRoad.getPhotoURL();
         String number = extractNumber(photoURL);
         Vehicle vehicle = vehicleRepository.getByNumber(number);
+        if (vehicle != null) captureIsAmCrossRoad.setNumber(number);
         return date.before(vehicle.getInsuranceExpiry());
     }
 
@@ -77,6 +78,7 @@ public class CaptureIsAmCrossroadServiceImpl implements CaptureIsAmCrossroadServ
         String photoURL = captureIsAmCrossRoad.getPhotoURL();
         String number = extractNumber(photoURL);
         Vehicle vehicle = vehicleRepository.getByNumber(number);
+        if(vehicle!=null) captureIsAmCrossRoad.setNumber(number);
         return vehicle != null;
     }
 
@@ -107,9 +109,9 @@ public class CaptureIsAmCrossroadServiceImpl implements CaptureIsAmCrossroadServ
     }
 
     @Override
-    public void checkSpeed(Map<Camera, Double> previousCameras, CaptureIsAmCrossRoad captureIsAmCrossRoad) {
+    public void checkSpeed(Map<Camera, Integer> previousCameras, CaptureIsAmCrossRoad captureIsAmCrossRoad) {
         Timestamp timestampEnd = captureIsAmCrossRoad.getCaptureTime();
-        for (Map.Entry<Camera, Double> entry : previousCameras.entrySet()) {
+        for (Map.Entry<Camera, Integer> entry : previousCameras.entrySet()) {
             int maxValidTimeInSeconds = (int) (entry.getValue() / 19.44);
             Capture capture = entry.getKey().getCapture(captureIsAmCrossRoad.getNumber());
             if (capture != null) {
@@ -117,6 +119,7 @@ public class CaptureIsAmCrossroadServiceImpl implements CaptureIsAmCrossroadServ
                 long duration = (timestampEnd.getTime() - timestampStart.getTime()) / 1000;
                 if (duration < maxValidTimeInSeconds)
                     createViolation(new SpeedViolation(), captureIsAmCrossRoad, (CaptureIsAmCrossRoad) capture);
+                break;
             }
         }
     }

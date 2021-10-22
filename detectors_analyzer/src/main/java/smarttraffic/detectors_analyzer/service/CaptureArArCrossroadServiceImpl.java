@@ -37,6 +37,7 @@ public class CaptureArArCrossroadServiceImpl implements CaptureArArCrossroadServ
         String photoURL = captureArArCrossRoad.getPhotoURL();
         String number = extractNumber(photoURL);
         Vehicle vehicle = vehicleRepository.getByNumber(number);
+        if(vehicle!=null) captureArArCrossRoad.setNumber(number);
         return date.before(vehicle.getInsuranceExpiry());
     }
 

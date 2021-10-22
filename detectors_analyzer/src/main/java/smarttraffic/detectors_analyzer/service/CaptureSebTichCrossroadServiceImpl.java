@@ -39,6 +39,7 @@ public class CaptureSebTichCrossroadServiceImpl implements CaptureSebTichCrossro
         String photoURL = captureSebTichCrossRoad.getPhotoURL();
         String number = extractNumber(photoURL);
         Vehicle vehicle = vehicleRepository.getByNumber(number);
+        if(vehicle!=null) captureSebTichCrossRoad.setNumber(number);
         return date.before(vehicle.getInsuranceExpiry());
     }
 
@@ -74,6 +75,7 @@ public class CaptureSebTichCrossroadServiceImpl implements CaptureSebTichCrossro
         String photoURL = captureSebTichCrossRoad.getPhotoURL();
         String number = extractNumber(photoURL);
         Vehicle vehicle = vehicleRepository.getByNumber(number);
+        if(vehicle!=null) captureSebTichCrossRoad.setNumber(number);
         return vehicle != null;
     }
 

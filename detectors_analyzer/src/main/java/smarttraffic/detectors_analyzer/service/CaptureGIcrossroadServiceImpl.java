@@ -74,6 +74,7 @@ public class CaptureGIcrossroadServiceImpl implements CaptureGIcrossroadService 
         String photoURL = captureGIcrossRoad.getPhotoURL();
         String number = extractNumber(photoURL);
         Vehicle vehicle = vehicleRepository.getByNumber(number);
+        if(vehicle!=null) captureGIcrossRoad.setNumber(number);
         return vehicle != null;
     }
 
