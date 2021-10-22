@@ -1,3 +1,4 @@
+
 create table capture
 (
     id bigserial,
@@ -117,4 +118,5 @@ create unique index owner_id_uindex
 
 create unique index owner_id_uindex_2
     on owner (id);
+
 

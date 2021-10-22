@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="smart_traffic_control@localhost" uuid="ca72a690-ff1d-4cea-ada7-cdbdab5c489e">
+    <data-source source="LOCAL" name="mart-traffic-control@localhost" uuid="d8630d9c-7b6b-436f-bb43-00f405604b90">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <schema-control>AUTOMATIC</schema-control>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/smart_traffic_control</jdbc-url>
-      <jdbc-additional-properties>
-        <property name="SHOW_TEMPLATE_DATABASES" value="true" />
-      </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
