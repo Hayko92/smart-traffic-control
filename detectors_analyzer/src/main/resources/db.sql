@@ -1,4 +1,5 @@
-create database smart_traffic_control
+create
+database smart_traffic_control
     with owner postgres;
 
 create table capture
@@ -13,14 +14,15 @@ create table capture
 alter table capture
     owner to postgres;
 
-create unique index capture_id_uindex
+create
+unique index capture_id_uindex
     on capture (id);
 
 
 -- auto-generated definition
 create table vehicle
 (
-    id  bigint  default nextval('"Vehicle_id_seq"'::regclass) not null
+    id                          bigint  default nextval('"Vehicle_id_seq"'::regclass) not null
         constraint vehicle_pk
             primary key,
     number                      varchar(7)                                            not null,
@@ -34,12 +36,15 @@ create table vehicle
 alter table vehicle
     owner to postgres;
 
-create unique index vehicle_id_uindex
+create
+unique index vehicle_id_uindex
     on vehicle (id);
 
-create unique index vehicle_number_uindex
+create
+unique index vehicle_number_uindex
     on vehicle (number);
 
-create unique index vehicle_registration_certificate_uindex
+create
+unique index vehicle_registration_certificate_uindex
     on vehicle (registration_certificate);
 
