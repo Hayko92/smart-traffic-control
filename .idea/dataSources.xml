@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/smart_traffic_control</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="mxbgfsco@fanny.db.elephantsql.com" uuid="95ab12d6-94d7-4e7e-9fc5-2c118df1f6f2">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://fanny.db.elephantsql.com/mxbgfsco</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
