@@ -9,6 +9,7 @@ import smarttraffic.detectors_analyzer.entity.*;
 import smarttraffic.detectors_analyzer.repository.CaptureIsAmCrossroadRepository;
 import smarttraffic.detectors_analyzer.repository.VehicleRepository;
 import smarttraffic.detectors_analyzer.util.NumberExtractor;
+import smarttraffic.detectors_analyzer.util.ViolationCounter;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -116,11 +117,29 @@ public class CaptureIsAmCrossroadServiceImpl implements CaptureIsAmCrossroadServ
             if (capture != null) {
                 Timestamp timestampStart = capture.getCaptureTime();
                 long duration = (timestampEnd.getTime() - timestampStart.getTime()) / 1000;
-                if (duration < maxValidTimeInSeconds)
+                if (duration < maxValidTimeInSeconds) {
+                    int basePrice = ViolationCounter.countSpeedViolationBasePrice(duration,entry.getValue());
+                    reducePoints(basePrice,captureIsAmCrossRoad);
+                    int countOfViolationsInLast30Days =  violationCountsPerMonth(captureIsAmCrossRoad.getNumber());
+                    if(countOfViolationsInLast30Days>=5) basePrice *=3;
+                    else if(countOfViolationsInLast30Days>=3) basePrice*=2;
                     createViolation(new SpeedViolation(), captureIsAmCrossRoad, (CaptureIsAmCrossRoad) capture);
+                }
                 break;
             }
         }
+    }
+
+    private void reducePoints(int basePrice, Capture capture) {
+      // TODO reduce points according base price
+        String number = capture.getNumber();
+        Owner owner =null;
+        owner.setPoints(owner.getPoints()-2);
+    }
+
+    private int violationCountsPerMonth(String number) {
+        // TOTO
+        return 0;
     }
 
 }
