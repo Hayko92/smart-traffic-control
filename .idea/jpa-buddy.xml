@@ -2,9 +2,5 @@
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig">
     <option name="defaultUnitInitialized" value="true" />
-<<<<<<< HEAD
-    <option name="reverseEngineeringLastDbConnectionId" value="ca72a690-ff1d-4cea-ada7-cdbdab5c489e" />
-=======
->>>>>>> eb322cf (added data base for violation service)
   </component>
 </project>
