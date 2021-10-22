@@ -30,5 +30,5 @@ public interface CaptureIsAmCrossroadService {
 
      CaptureIsAmCrossRoad getCapture(String number);
 
-    void checkSpeed(Map<Camera, Double> previousCameras, CaptureIsAmCrossRoad captureIsAmCrossRoad);
+    void checkSpeed(Map<Camera, Integer> previousCameras, CaptureIsAmCrossRoad captureIsAmCrossRoad);
 }

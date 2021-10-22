@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/gasparyan_isakov")
+@RequestMapping("/api/arinberd_arcax")
 public class ArinberdArcaxCrossroadController implements Camera {
     private final Set<Camera> previousCameras = new HashSet<>();
 

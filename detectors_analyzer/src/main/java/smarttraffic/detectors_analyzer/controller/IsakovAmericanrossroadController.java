@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/isakov-american")
 public class IsakovAmericanrossroadController implements Camera {
-    private final Map<Camera, Double> previousCameras = new HashMap<>();
+    private final Map<Camera, Integer> previousCameras = new HashMap<>();
     @Autowired
     ArinberdArcaxCrossroadController captureArArCrossroadRepository;
     @Autowired
@@ -25,9 +25,9 @@ public class IsakovAmericanrossroadController implements Camera {
     @Autowired
     SebastiaTichinaCrossroadController captureGIcrossroadRepository;
     {
-        previousCameras.put(captureArArCrossroadRepository,7400D);
-        previousCameras.put(captureSebTichCrossroadRepository,7100D);
-        previousCameras.put(captureGIcrossroadRepository,4900D);
+        previousCameras.put(captureArArCrossroadRepository,7400);
+        previousCameras.put(captureSebTichCrossroadRepository,7100);
+        previousCameras.put(captureGIcrossroadRepository,4900);
     }
 
     @Autowired
