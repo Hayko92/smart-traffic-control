@@ -42,7 +42,6 @@ public class CaptureIsAmCrossroadServiceImpl implements CaptureIsAmCrossroadServ
         String photoURL = captureIsAmCrossRoad.getPhotoURL();
         String number = extractNumber(photoURL);
         Vehicle vehicle = vehicleRepository.getByNumber(number);
-        if (vehicle != null) captureIsAmCrossRoad.setNumber(number);
         return date.before(vehicle.getInsuranceExpiry());
     }
 
@@ -84,7 +83,7 @@ public class CaptureIsAmCrossroadServiceImpl implements CaptureIsAmCrossroadServ
 
     @Override
     public void sendNotificationToPatrol(CaptureIsAmCrossRoad captureSebTichCrossRoad) {
-        //fixme
+        //todo
     }
 
     @Override
