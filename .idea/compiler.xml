@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="authentication" target="11" />
+      <module name="authentication.main" target="11" />
+      <module name="authentication.test" target="11" />
+      <module name="CameraImitation" target="1.8" />
+      <module name="CameraImitation.main" target="1.8" />
+      <module name="CameraImitation.test" target="1.8" />
+      <module name="detectors_analyzer" target="13" />
+      <module name="detectors_analyzer.main" target="13" />
+      <module name="detectors_analyzer.test" target="13" />
+      <module name="notifiers" target="11" />
+      <module name="notifiers.main" target="11" />
+      <module name="notifiers.test" target="11" />
+      <module name="vehicle_service" target="11" />
+      <module name="vehicle_service.main" target="11" />
+      <module name="vehicle_service.test" target="11" />
+      <module name="violation_service" target="11" />
+      <module name="violation_service.main" target="11" />
+      <module name="violation_service.test" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
