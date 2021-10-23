@@ -1,3 +1,4 @@
+
 create table capture
 (
     id bigserial,
@@ -13,7 +14,7 @@ create unique index capture_id_uindex
 
 create table vehicle
 (
-    id bigint default nextval('"Vehicle_id_seq"'::regclass) not null,
+    id bigint not null,
     number varchar(7) not null,
     registration_certificate varchar(8) not null,
     owner_id bigint not null,
@@ -26,6 +27,7 @@ create table vehicle
     constraint vehicle_pk
         primary key (id)
 );
+
 
 create unique index vehicle_id_uindex
     on vehicle (id);
@@ -116,4 +118,5 @@ create unique index owner_id_uindex
 
 create unique index owner_id_uindex_2
     on owner (id);
+
 
