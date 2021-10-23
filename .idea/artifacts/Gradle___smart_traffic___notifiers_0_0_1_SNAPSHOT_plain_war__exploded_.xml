@@ -1,0 +1,51 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Gradle : smart-traffic : notifiers-0.0.1-SNAPSHOT-plain.war (exploded)">
+    <output-path>$PROJECT_DIR$/notifiers/build/libs/exploded/notifiers-0.0.1-SNAPSHOT-plain.war</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$/notifiers">
+        <manifest>TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==</manifest>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/notifiers/build/libs/exploded/notifiers-0.0.1-SNAPSHOT-plain.war/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="notifiers.main/web/Web Gradle : notifiers-0.0.1-SNAPSHOT-plain.war" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="notifiers.main" />
+          <element id="dir-copy" path="$PROJECT_DIR$/notifiers/build/resources/main" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-web:2.5.5" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-json:2.5.5" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter:2.5.5" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.3.10" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.3.10" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.12.5" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.5" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.12.5" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.5.5" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot:2.5.5" />
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-logging:2.5.5" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.3.10" />
+          <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.28" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.3.10" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.3.10" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.3.10" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.3.10" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.12.5" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.12.5" />
+          <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.6" />
+          <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.14.1" />
+          <element id="library" level="project" name="Gradle: org.slf4j:jul-to-slf4j:1.7.32" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.3.10" />
+          <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.6" />
+          <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.32" />
+          <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.14.1" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
