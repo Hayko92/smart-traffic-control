@@ -6,8 +6,7 @@ import smarttraffic.detectors_analyzer.entity.Capture;
 import smarttraffic.detectors_analyzer.entity.Vehicle;
 import smarttraffic.detectors_analyzer.repository.VehicleRepository;
 
- import java.time.Instant;
-import java.util.Date;
+import java.time.Instant;
 
 @Service
 public class VehicleServiceImpl implements VehicleService{

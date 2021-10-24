@@ -28,6 +28,7 @@ public class DetectorController {
     public List<Integer> receiveCapture(@RequestBody Capture capture) {
         System.out.println(capture);
         String plateNumber = capture.getPlateNumber();
+        //todo
         //Vehicle vehicle = vehicleService.getByNumber(plateNumber);
 //        if(vehicle==null) {
 //            sendNotifocationToPatrol(capture);

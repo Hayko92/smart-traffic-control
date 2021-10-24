@@ -14,7 +14,7 @@ public class Capture implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "plateNumber")
+    @Column(name = "plate_number")
     private String plateNumber;
 
     @Column(name = "place")

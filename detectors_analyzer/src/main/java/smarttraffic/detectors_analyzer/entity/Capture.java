@@ -1,8 +1,5 @@
 
 package smarttraffic.detectors_analyzer.entity;
-
-
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
