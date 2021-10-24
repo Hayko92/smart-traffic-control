@@ -2,10 +2,12 @@
   <library name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.6.0-SNAPSHOT">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.6.0-SNAPSHOT/9a01c65dc96f12e5114d484df0dcc8cc39074930/spring-boot-autoconfigure-2.6.0-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.6.0-SNAPSHOT/756c9fe11678a7dd9c52231617e06010ef47fe3b/spring-boot-autoconfigure-2.6.0-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.6.0-SNAPSHOT/a43d6bb4d0745f9f0116ad9bc7ee63bceaa3103e/spring-boot-autoconfigure-2.6.0-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.6.0-SNAPSHOT/c8c1207fab507096ba8f24a9d6fab6dc55ffd801/spring-boot-autoconfigure-2.6.0-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

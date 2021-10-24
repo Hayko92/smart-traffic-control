@@ -13,7 +13,10 @@ public class Detector implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+
+    @Column(name = "place")
+    private String place;
 
     @Column(name = "name")
     private String name;
@@ -22,10 +25,12 @@ public class Detector implements Serializable {
     @OneToMany(mappedBy = "nextCamId")
     private List<Detector> previousDetectors;
 
-    @ManyToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name="next_cam_id")
-     private Detector nextCamId;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "next_cam_id")
+    private Detector nextCamId;
 
+    @Column(name = "distance_from_next_detector")
+    private Integer distanceFromNextDetector;
 
     public List<Detector> getPreviousDetectors() {
         return previousDetectors;
@@ -38,7 +43,7 @@ public class Detector implements Serializable {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,19 +55,35 @@ public class Detector implements Serializable {
         this.name = name;
     }
 
-//    public void setPreviousDetectors(List<Detector> previousDetectors) {
-//        this.previousDetectors = previousDetectors;
-//    }
+    public String getPlace() {
+        return place;
+    }
 
-//    public Detector getNextCamId() {
-//        return nextCamId;
-//    }
+    public void setPlace(String place) {
+        this.place = place;
+    }
 
-//    public void setNextCamId(Detector nextCamId) {
-//        this.nextCamId = nextCamId;
-//    }
+    public void setPreviousDetectors(List<Detector> previousDetectors) {
+        this.previousDetectors = previousDetectors;
+    }
 
-    public Detector(Long id, String name) {
+    public Detector getNextCamId() {
+        return nextCamId;
+    }
+
+    public void setNextCamId(Detector nextCamId) {
+        this.nextCamId = nextCamId;
+    }
+
+    public Integer getDistanceFromNextDetector() {
+        return distanceFromNextDetector;
+    }
+
+    public void setDistanceFromNextDetector(Integer distanceFromNextDetector) {
+        this.distanceFromNextDetector = distanceFromNextDetector;
+    }
+
+    public Detector(int id, String name) {
         this.id = id;
         this.name = name;
     }

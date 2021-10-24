@@ -2,10 +2,12 @@
   <library name="Gradle: org.springframework.boot:spring-boot-starter:2.6.0-SNAPSHOT">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/2.6.0-SNAPSHOT/509f41feba2a02695ff9b67853478df3bc7ee524/spring-boot-starter-2.6.0-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/2.6.0-SNAPSHOT/6ff1f57198f5abe0c423e0aa6cdd6d1ad26ee3af/spring-boot-starter-2.6.0-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/2.6.0-SNAPSHOT/e257ffd27ca1156db18ddf268c07c6d9c351eabb/spring-boot-starter-2.6.0-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/2.6.0-SNAPSHOT/d1bc943de18c773f4885ec7aa9b7f366e19bbac2/spring-boot-starter-2.6.0-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
