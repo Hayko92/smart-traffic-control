@@ -7,18 +7,21 @@ plugins {
 
 group = 'smart-traffic'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+//sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.5'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-vision', version: '1.2.8.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-dependencies', version: '1.2.8.RELEASE', ext: 'pom'
+    runtimeOnly 'org.postgresql:postgresql:42.2.24.jre7'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.5.5'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
 }
-
 test {
     useJUnitPlatform()
 }
