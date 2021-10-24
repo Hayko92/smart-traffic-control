@@ -6,6 +6,7 @@ package smarttraffic.notifiers.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,29 +17,24 @@ public class Capture implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "number")
+    @Column(name = "plateNumber")
     private String plateNumber;
 
-    @Column(name= "place")
+    @Column(name = "place")
     private String place;
 
     @Column(name = "time_stamp")
     private Instant instant;
 
-    @ElementCollection
-    private List<Integer> violationIds;
-
     @Column(name = "photo_url")
     private String photoUrl;
+
+    @ElementCollection
+    private List<Integer> violationIds;
 
     public Capture() {
     }
 
-    public Capture(String number, String place, Instant instant) {
-        this.plateNumber = number;
-        this.place = place;
-        this.instant = instant;
-    }
     public Capture(String plateNumber, String photoUrl, String place, Instant instant) {
         this.plateNumber = plateNumber;
         this.photoUrl = photoUrl;
@@ -46,13 +42,6 @@ public class Capture implements Serializable {
         this.instant = instant;
     }
 
-    public String getPlateNumber() {
-        return plateNumber;
-    }
-
-    public void setPlateNumber(String plateNumber) {
-        this.plateNumber = plateNumber;
-    }
 
     public String getPhotoUrl() {
         return photoUrl;
@@ -70,11 +59,11 @@ public class Capture implements Serializable {
         this.id = id;
     }
 
-    public String getNumber() {
+    public String getPlateNumber() {
         return plateNumber;
     }
 
-    public void setNumber(String number) {
+    public void setPlateNumber(String number) {
         this.plateNumber = number;
     }
 
@@ -101,8 +90,14 @@ public class Capture implements Serializable {
     public void setViolationIds(List<Integer> violationIds) {
         this.violationIds = violationIds;
     }
-    public  void addViolationId (Integer id) {
+
+    public void addViolationId(Integer id) {
         this.violationIds.add(id);
+    }
+
+    public void addToViolationList(List<Integer> violationIds) {
+        if(this.violationIds==null) this.violationIds=new ArrayList<>();
+        if(violationIds!=null) this.violationIds.addAll(violationIds);
     }
 
     @Override

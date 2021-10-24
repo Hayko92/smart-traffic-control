@@ -6,6 +6,7 @@ package smarttraffic.detectors_analyzer.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,10 +17,10 @@ public class Capture implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "plateNumber")
+    @Column(name = "plate_number")
     private String plateNumber;
 
-    @Column(name= "place")
+    @Column(name = "place")
     private String place;
 
     @Column(name = "time_stamp")
@@ -34,17 +35,20 @@ public class Capture implements Serializable {
     public Capture() {
     }
 
-    public Capture(String plateNumber, String place, Instant instant) {
-        this.plateNumber = plateNumber;
-        this.place = place;
-        this.instant = instant;
-    }
-
     public Capture(String plateNumber, String photoUrl, String place, Instant instant) {
         this.plateNumber = plateNumber;
         this.photoUrl = photoUrl;
         this.place = place;
         this.instant = instant;
+    }
+
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public int getId() {
@@ -55,11 +59,11 @@ public class Capture implements Serializable {
         this.id = id;
     }
 
-    public String getNumber() {
+    public String getPlateNumber() {
         return plateNumber;
     }
 
-    public void setNumber(String number) {
+    public void setPlateNumber(String number) {
         this.plateNumber = number;
     }
 
@@ -86,8 +90,14 @@ public class Capture implements Serializable {
     public void setViolationIds(List<Integer> violationIds) {
         this.violationIds = violationIds;
     }
-    public  void addViolationId (Integer id) {
+
+    public void addViolationId(Integer id) {
         this.violationIds.add(id);
+    }
+
+    public void addToViolationList(List<Integer> violationIds) {
+        if(this.violationIds==null) this.violationIds=new ArrayList<>();
+        if(violationIds!=null) this.violationIds.addAll(violationIds);
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Vehicle {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "plateNumber")
+    @Column(name = "plate_number")
     private String plateNumber;
 
     @Column(name = "insurance_expiry_date")

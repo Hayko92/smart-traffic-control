@@ -27,7 +27,7 @@ public class DetectorController {
     @PostMapping("/api/detector_analyzer")
     public List<Integer> receiveCapture(@RequestBody Capture capture) {
         System.out.println(capture);
-        String plateNumber = capture.getNumber();
+        String plateNumber = capture.getPlateNumber();
         //Vehicle vehicle = vehicleService.getByNumber(plateNumber);
 //        if(vehicle==null) {
 //            sendNotifocationToPatrol(capture);
