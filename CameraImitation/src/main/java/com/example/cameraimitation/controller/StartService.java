@@ -58,9 +58,9 @@ public class StartService {
         }
         captureService.save(capture);
     }
-    @GetMapping("/api/camera-imitation-service/{detector_id}")
-    public Detector getDetector(@PathVariable long detector_id) {
-        return detectorService.getById(detector_id);
+    @GetMapping("/api/camera-imitation-service/{detectorPlace}")
+    public Detector getDetector(@PathVariable String detectorPlace) {
+        return detectorService.getByPlace(detectorPlace);
     }
 
     private URL getRadnomUrl() throws MalformedURLException {
