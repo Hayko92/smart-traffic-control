@@ -5,4 +5,6 @@ import smarttraffic.detectors_analyzer.entity.Capture;
 
 public interface CaptureRepository extends JpaRepository<Capture, Integer> {
     Capture findFirstByPlateNumberOrderByIdDesc(String plateNumber);
+
+    Capture findFirstByPlaceOrderByIdDesc(String place);
 }

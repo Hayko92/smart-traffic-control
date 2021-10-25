@@ -50,7 +50,8 @@ public class VehicleServiceImpl implements VehicleService{
         if(previousDet!=null) {
             for(Map.Entry<Detector, Integer> prevDet: previousDet.entrySet()) {
                 int distance =prevDet.getValue();
-                Capture captureFromPreviousDetector = captureService.getByPlateNumber(capture.getPlateNumber());
+                //todo
+                Capture captureFromPreviousDetector = captureService.getByPlace(capture.getPlace());
                 long secondsFrom =captureFromPreviousDetector.getInstant().getEpochSecond();
                 long secondsTo =capture.getInstant().getEpochSecond();
                 long duration = secondsTo-secondsFrom;

@@ -14,4 +14,9 @@ public class CaptureServiceImpl implements CaptureService{
     public Capture getByPlateNumber(String plateNumber) {
         return captureRepository.findFirstByPlateNumberOrderByIdDesc(plateNumber);
     }
+
+    @Override
+    public Capture getByPlace(String place) {
+        return captureRepository.findFirstByPlaceOrderByIdDesc(place);
+    }
 }

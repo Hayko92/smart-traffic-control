@@ -5,9 +5,9 @@
       <module name="authentication" target="11" />
       <module name="authentication.main" target="11" />
       <module name="authentication.test" target="11" />
-      <module name="CameraImitation" target="11" />
-      <module name="CameraImitation.main" target="11" />
-      <module name="CameraImitation.test" target="11" />
+      <module name="CameraImitation" target="1.8" />
+      <module name="CameraImitation.main" target="1.8" />
+      <module name="CameraImitation.test" target="1.8" />
       <module name="detectors_analyzer" target="13" />
       <module name="detectors_analyzer.main" target="13" />
       <module name="detectors_analyzer.test" target="13" />
