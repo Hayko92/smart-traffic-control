@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/../../CameraImitation">
       <excludeFolder url="file://$MODULE_DIR$/../../CameraImitation/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../CameraImitation/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../CameraImitation/.idea" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
