@@ -1,25 +1,15 @@
-package com.example.cameraimitation.entity;
+package smarttraffic.detectors_analyzer.entity;
 
 import org.hibernate.Hibernate;
-
-import javax.persistence.*;
 import java.util.Map;
 import java.util.Objects;
 
-@Entity
-@Table(name = "detector")
-@Embeddable
+public class Detector {
 
-public class Detector  {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
-    @Column(name = "place")
     private String place;
 
-   @ElementCollection(fetch = FetchType.EAGER)
     private Map<Detector,Integer> previousDetectorsDistance;
 
     public Detector() {

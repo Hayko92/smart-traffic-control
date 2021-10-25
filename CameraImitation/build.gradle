@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.0-SNAPSHOT'
+    id 'org.springframework.boot' version '2.5.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'war'
@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-//sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -23,6 +23,8 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql:42.2.24.jre7'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.5.5'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
+    implementation group: 'com.vladmihalcea', name: 'hibernate-types-55', version: '2.13.0'
+
 }
 
 test {

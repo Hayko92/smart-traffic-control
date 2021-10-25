@@ -43,18 +43,18 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_13">
     <output url="file://$MODULE_DIR$/../../detectors_analyzer/build/classes/java/main" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../detectors_analyzer/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../detectors_analyzer/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../detectors_analyzer/src/main/resources" type="java-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/../../detectors_analyzer/src/main/java/smarttraffic/detectors_analyzer/oldVersion" />
-      <excludeFolder url="file://$MODULE_DIR$/../../detectors_analyzer/src/main/java/smarttraffic/detectors_analyzer/util" />
     </content>
     <content url="file://$MODULE_DIR$/../../detectors_analyzer/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../detectors_analyzer/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../detectors_analyzer/src/main/resources" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/../../detectors_analyzer/src/main/java/smarttraffic/detectors_analyzer/oldVersion" />
+      <excludeFolder url="file://$MODULE_DIR$/../../detectors_analyzer/src/main/java/smarttraffic/detectors_analyzer/util" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

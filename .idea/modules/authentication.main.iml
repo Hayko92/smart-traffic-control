@@ -6,7 +6,10 @@
         <webroots>
           <root url="file://$MODULE_DIR$/../../authentication/src/main/webapp" relative="/" />
         </webroots>
-        <sourceRoots />
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/../../authentication/src/main/java" />
+          <root url="file://$MODULE_DIR$/../../authentication/src/main/resources" />
+        </sourceRoots>
       </configuration>
     </facet>
     <facet type="web" name="Web">

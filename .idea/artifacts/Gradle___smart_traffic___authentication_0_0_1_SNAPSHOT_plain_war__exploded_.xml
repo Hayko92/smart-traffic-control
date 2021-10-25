@@ -17,8 +17,11 @@
           <element id="dir-copy" path="$PROJECT_DIR$/authentication/build/resources/main" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-web:2.6.0-SNAPSHOT" />
           <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-json:2.6.0-SNAPSHOT" />
           <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter:2.6.0-SNAPSHOT" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.3.12" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.3.12" />
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0" />
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.0" />
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.0" />
@@ -26,24 +29,21 @@
           <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.6.0-SNAPSHOT" />
           <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot:2.6.0-SNAPSHOT" />
           <element id="library" level="project" name="Gradle: org.springframework.boot:spring-boot-starter-logging:2.6.0-SNAPSHOT" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.3.12" />
           <element id="library" level="project" name="Gradle: org.yaml:snakeyaml:1.29" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.3.12" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.3.12" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.3.12" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.3.12" />
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.13.0" />
           <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.13.0" />
           <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.2.6" />
           <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.14.1" />
           <element id="library" level="project" name="Gradle: org.slf4j:jul-to-slf4j:1.7.32" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.3.12" />
           <element id="library" level="project" name="Gradle: ch.qos.logback:logback-core:1.2.6" />
           <element id="library" level="project" name="Gradle: org.slf4j:slf4j-api:1.7.32" />
           <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.14.1" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:5.3.12" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-web:5.3.12" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-core:5.3.12" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-context:5.3.12" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-aop:5.3.12" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-beans:5.3.12" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-expression:5.3.12" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-jcl:5.3.12" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/2.6.0-SNAPSHOT/7c0db5697f220df17a31b460763bcdfdcd24e6ad/spring-boot-starter-web-2.6.0-SNAPSHOT.jar" />
         </element>
       </element>
     </root>
