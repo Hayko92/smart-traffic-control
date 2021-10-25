@@ -3,38 +3,26 @@ package smarttraffic.detectors_analyzer.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.time.Instant;
 
 @Entity
 @Table(name = "vehicle")
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
-    @Column(name = "number")
-    private String number;
-
-    @Column(name = "mark")
-    private String mark;
-
-    @Column(name = "production_year")
-    private int productionYear;
-
-    @Column(name = "model")
-    private String model;
-
-    @Column(name = "registration_certificate")
-    private String registrationCertificate;
+    @Column(name = "plate_number")
+    private String plateNumber;
 
     @Column(name = "insurance_expiry_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
-    private Date insuranceExpiry;
+    private Instant insuranceExpiry;
 
     @Column(name = "tech_inspection_expiry_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
-    private Date techInspectionExpiry;
+    private Instant techInspectionExpiry;
 
     @Column(name = "checked")
     private boolean checked;
@@ -52,20 +40,12 @@ public class Vehicle {
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPlateNumber() {
+        return plateNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getRegistrationCertificate() {
-        return registrationCertificate;
-    }
-
-    public void setRegistrationCertificate(String registrationCertificate) {
-        this.registrationCertificate = registrationCertificate;
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 
     public boolean isChecked() {
@@ -76,43 +56,20 @@ public class Vehicle {
         this.checked = checked;
     }
 
-    public Date getInsuranceExpiry() {
+    public Instant getInsuranceExpiry() {
         return insuranceExpiry;
     }
 
-    public void setInsuranceExpiry(Date insuranceExpiry) {
+    public void setInsuranceExpiry(Instant insuranceExpiry) {
         this.insuranceExpiry = insuranceExpiry;
     }
 
-    public Date getTechInspectionExpiry() {
+    public Instant getTechInspectionExpiry() {
         return techInspectionExpiry;
     }
 
-    public void setTechInspectionExpiry(Date techInspectionExpiry) {
+    public void setTechInspectionExpiry(Instant techInspectionExpiry) {
         this.techInspectionExpiry = techInspectionExpiry;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
-    public int getProductionYear() {
-        return productionYear;
-    }
-
-    public void setProductionYear(int productionYear) {
-        this.productionYear = productionYear;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
 }

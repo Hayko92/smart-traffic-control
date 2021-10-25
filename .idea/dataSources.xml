@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="smart_traffic_control@localhost" uuid="ca72a690-ff1d-4cea-ada7-cdbdab5c489e">
+    <data-source source="LOCAL" name="mart-traffic-control@localhost" uuid="d8630d9c-7b6b-436f-bb43-00f405604b90">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
+      <schema-control>AUTOMATIC</schema-control>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/smart_traffic_control</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="mxbgfsco@fanny.db.elephantsql.com" uuid="95ab12d6-94d7-4e7e-9fc5-2c118df1f6f2">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://fanny.db.elephantsql.com/mxbgfsco</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/smart_traffic_control?currentSchema=camera_imitation</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
