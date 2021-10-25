@@ -14,8 +14,7 @@ public class CaptureServiceImpl implements CaptureService {
     CaptureRepository captureRrepository;
     @Override
     @Transactional
-    public void save(Capture capture, List<Integer> ids) {
-        capture.addToViolationList(ids);
+    public void save(Capture capture) {
         captureRrepository.save(capture);
     }
 }

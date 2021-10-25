@@ -14,4 +14,5 @@ public interface VehicleService {
 
     boolean checktechinspection(Capture capture, Vehicle vehicle);
 
+    Capture checkSpeed(Capture capture);
 }

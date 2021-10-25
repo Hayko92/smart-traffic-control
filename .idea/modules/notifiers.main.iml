@@ -16,8 +16,8 @@
           <root url="file://$MODULE_DIR$/../../notifiers/src/main/webapp" relative="/" />
         </webroots>
         <sourceRoots>
-          <root url="file://$MODULE_DIR$/../../notifiers/src/main/resources" />
           <root url="file://$MODULE_DIR$/../../notifiers/src/main/java" />
+          <root url="file://$MODULE_DIR$/../../notifiers/src/main/resources" />
         </sourceRoots>
       </configuration>
     </facet>
@@ -27,8 +27,8 @@
           <root url="file://$MODULE_DIR$/../../notifiers/src/main/webapp" relative="/" />
         </webroots>
         <sourceRoots>
-          <root url="file://$MODULE_DIR$/../../notifiers/src/main/resources" />
           <root url="file://$MODULE_DIR$/../../notifiers/src/main/java" />
+          <root url="file://$MODULE_DIR$/../../notifiers/src/main/resources" />
         </sourceRoots>
       </configuration>
     </facet>
@@ -36,12 +36,14 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="entityManagerFactory" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_13">
     <output url="file://$MODULE_DIR$/../../notifiers/build/classes/java/main" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../notifiers/src/main">

@@ -1,4 +1,7 @@
 package smarttraffic.detectors_analyzer.service;
 
+import smarttraffic.detectors_analyzer.entity.Capture;
+
 public interface CaptureService {
+    Capture getByPlateNumber(String plateNumber);
 }

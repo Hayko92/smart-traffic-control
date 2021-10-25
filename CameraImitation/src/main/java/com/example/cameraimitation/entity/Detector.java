@@ -3,13 +3,14 @@ package com.example.cameraimitation.entity;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Entity
 @Table(name = "detector")
-public class Detector implements Serializable {
+@Embeddable
+
+public class Detector  {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,25 +19,16 @@ public class Detector implements Serializable {
     @Column(name = "place")
     private String place;
 
-    @Column(name = "name")
-    private String name;
-
-
-    @OneToMany(mappedBy = "nextCamId")
-    private List<Detector> previousDetectors;
-
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "next_cam_id")
-    private Detector nextCamId;
-
-    @Column(name = "distance_from_next_detector")
-    private Integer distanceFromNextDetector;
-
-    public List<Detector> getPreviousDetectors() {
-        return previousDetectors;
-    }
+   @ElementCollection(fetch = FetchType.EAGER)
+    private Map<Detector,Integer> previousDetectorsDistance;
 
     public Detector() {
+    }
+
+    public Detector(int id, String place, Map<Detector, Integer> previousDetectors, Detector nextCamId) {
+        this.id = id;
+        this.place = place;
+        this.previousDetectorsDistance = previousDetectors;
     }
 
     public long getId() {
@@ -47,14 +39,6 @@ public class Detector implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getPlace() {
         return place;
     }
@@ -63,29 +47,12 @@ public class Detector implements Serializable {
         this.place = place;
     }
 
-    public void setPreviousDetectors(List<Detector> previousDetectors) {
-        this.previousDetectors = previousDetectors;
+    public Map<Detector, Integer> getPreviousDetectorsDistance() {
+        return previousDetectorsDistance;
     }
 
-    public Detector getNextCamId() {
-        return nextCamId;
-    }
-
-    public void setNextCamId(Detector nextCamId) {
-        this.nextCamId = nextCamId;
-    }
-
-    public Integer getDistanceFromNextDetector() {
-        return distanceFromNextDetector;
-    }
-
-    public void setDistanceFromNextDetector(Integer distanceFromNextDetector) {
-        this.distanceFromNextDetector = distanceFromNextDetector;
-    }
-
-    public Detector(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public void setPreviousDetectorsDistance(Map<Detector, Integer> previousDetectors) {
+        this.previousDetectorsDistance = previousDetectors;
     }
 
     @Override
