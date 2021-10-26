@@ -48,9 +48,9 @@ public class NotificationController {
     public String sendSMS() throws MessagingException {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         MessageCreator message = Message.create(ACCOUNT_SID,
-                new PhoneNumber("+37493191719"),
+                new PhoneNumber("+37498108010"),
                 new PhoneNumber(TWILIO_NUMBER),
-                        "SMART TRAFFIC ARMENIA-\n չգիտեի՞ր որ կամերա կա ուր ես տենց արագ քշու՞մ,\n լավ եղավ՞");
+                        "Ճանապարհային Ոստիկանություն \n Դուք ունեք նոր իրավախախտում,\n խնդրում ենք մուտք գործել https://roadpolice.am/ և վճարել");
          Message message1 = message.execute();
          return "Sended";
     }
