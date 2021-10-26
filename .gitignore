@@ -11,6 +11,8 @@ bin-release/
 .gradle/
 /**/.gradle/
 **/.gradle/
+/**/gradle/
+**/gradle/
 
 # Executables
 *.swf
