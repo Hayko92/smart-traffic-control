@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.constraints.Digits;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -15,9 +15,12 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-.gradle/
-### IntelliJ IDEA ###
+
+
+
 .idea/
+.gradle/
+
 *.iws
 *.iml
 *.ipr
@@ -31,6 +34,10 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
+
 /**.gradle/
-### VS Code ###
+
+
+
+
 .vscode/
