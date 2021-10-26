@@ -1,4 +1,3 @@
-
 package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
@@ -94,8 +93,8 @@ public class Capture implements Serializable {
     }
 
     public void addToViolationList(List<Integer> violationIds) {
-        if(this.violationIds==null) this.violationIds=new ArrayList<>();
-        if(violationIds!=null) this.violationIds.addAll(violationIds);
+        if (this.violationIds == null) this.violationIds = new ArrayList<>();
+        if (violationIds != null) this.violationIds.addAll(violationIds);
     }
 
     @Override
