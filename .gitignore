@@ -3,7 +3,9 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
-
+.idea/
+**/.idea/
+/**/.idea/
 # Other files and folders
 .settings/
 .gradle/
