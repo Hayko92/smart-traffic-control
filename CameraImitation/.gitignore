@@ -34,8 +34,7 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-/**/gradle/
-
+<<<<<<<<< Temporary merge branch 1
 /**.gradle/
 
 
