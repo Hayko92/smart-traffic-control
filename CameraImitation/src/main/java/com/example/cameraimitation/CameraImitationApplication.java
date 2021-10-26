@@ -8,5 +8,5 @@ public class CameraImitationApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CameraImitationApplication.class, args);
-  }
+    }
 }

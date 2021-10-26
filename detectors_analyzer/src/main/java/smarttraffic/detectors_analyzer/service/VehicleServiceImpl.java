@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.Map;
 
 @Service
-public class VehicleServiceImpl implements VehicleService{
+public class VehicleServiceImpl implements VehicleService {
     @Autowired
     VehicleRepository vehicleRepository;
 
@@ -31,14 +31,14 @@ public class VehicleServiceImpl implements VehicleService{
 
     @Override
     public boolean checkInsurance(Capture capture, Vehicle vehicle) {
-        Instant date =  capture.getInstant();
+        Instant date = capture.getInstant();
         Instant dateOfExpiringInsurance = vehicle.getInsuranceExpiry();
         return date.isBefore(dateOfExpiringInsurance);
     }
 
     @Override
     public boolean checktechinspection(Capture capture, Vehicle vehicle) {
-        Instant date =  capture.getInstant();
+        Instant date = capture.getInstant();
         Instant dateOfExpiringTechInspection = vehicle.getTechInspectionExpiry();
         return date.isBefore(dateOfExpiringTechInspection);
     }
@@ -47,16 +47,16 @@ public class VehicleServiceImpl implements VehicleService{
     public Capture checkSpeed(Capture capture) {
         Map<Detector, Integer> previousDet = getPreviousDetectors(capture);
         Capture prev = null;
-        if(previousDet!=null) {
-            for(Map.Entry<Detector, Integer> prevDet: previousDet.entrySet()) {
-                int distance =prevDet.getValue();
+        if (previousDet != null) {
+            for (Map.Entry<Detector, Integer> prevDet : previousDet.entrySet()) {
+                int distance = prevDet.getValue();
                 //todo
                 Capture captureFromPreviousDetector = captureService.getByPlace(capture.getPlace());
-                long secondsFrom =captureFromPreviousDetector.getInstant().getEpochSecond();
-                long secondsTo =capture.getInstant().getEpochSecond();
-                long duration = secondsTo-secondsFrom;
-                int speed = (int) ((distance/duration)*3.6);
-                if(speed>70)  {
+                long secondsFrom = captureFromPreviousDetector.getInstant().getEpochSecond();
+                long secondsTo = capture.getInstant().getEpochSecond();
+                long duration = secondsTo - secondsFrom;
+                int speed = (int) ((distance / duration) * 3.6);
+                if (speed > 70) {
                     return captureFromPreviousDetector;
                 }
             }
@@ -65,9 +65,9 @@ public class VehicleServiceImpl implements VehicleService{
     }
 
     private Map<Detector, Integer> getPreviousDetectors(Capture capture) {
-        RestTemplate restTemplate =new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
         String place = capture.getPlace();
-        Detector detector = restTemplate.getForObject("http://127.0.0.1:8080/api/camera-imitation-service/"+place,Detector.class);
+        Detector detector = restTemplate.getForObject("http://127.0.0.1:8080/api/camera-imitation-service/" + place, Detector.class);
         assert detector != null;
         return detector.getPreviousDetectorsDistance();
     }

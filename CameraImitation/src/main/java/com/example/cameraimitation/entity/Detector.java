@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "detector")
 @Embeddable
 
-public class Detector  {
+public class Detector {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +19,8 @@ public class Detector  {
     @Column(name = "place")
     private String place;
 
-   @ElementCollection(fetch = FetchType.EAGER)
-    private Map<Detector,Integer> previousDetectorsDistance;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Map<Detector, Integer> previousDetectorsDistance;
 
     public Detector() {
     }
@@ -31,7 +31,7 @@ public class Detector  {
         this.previousDetectorsDistance = previousDetectors;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

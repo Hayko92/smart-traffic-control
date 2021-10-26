@@ -1,6 +1,7 @@
 package smarttraffic.detectors_analyzer.entity;
 
 import org.hibernate.Hibernate;
+
 import java.util.Map;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public class Detector {
 
     private String place;
 
-    private Map<Detector,Integer> previousDetectorsDistance;
+    private Map<Detector, Integer> previousDetectorsDistance;
 
     public Detector() {
     }

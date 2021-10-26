@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 public class CaptureServiceImpl implements CaptureService {
     @Autowired
     CaptureRepository captureRrepository;
+
     @Override
     @Transactional
     public void save(Capture capture) {
