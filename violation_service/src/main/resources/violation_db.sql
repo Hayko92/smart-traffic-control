@@ -1,4 +1,5 @@
-CREATE DATABASE violation_db;
+CREATE
+DATABASE violation_db;
 
 CREATE TABLE car_owner
 (

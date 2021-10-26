@@ -1,11 +1,9 @@
 HELP.md
 .gradle
 build/
-.gradle/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
 ### STS ###
 .apt_generated
 .classpath
@@ -18,8 +16,10 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-### IntelliJ IDEA ###
+
+
 .idea/
+.gradle/
 
 *.iws
 *.iml
@@ -34,6 +34,10 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
+<<<<<<<<< Temporary merge branch 1
+/**.gradle/
 
-### VS Code ###
+
+
+
 .vscode/

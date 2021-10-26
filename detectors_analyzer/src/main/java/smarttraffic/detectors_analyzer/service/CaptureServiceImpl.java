@@ -6,7 +6,7 @@ import smarttraffic.detectors_analyzer.entity.Capture;
 import smarttraffic.detectors_analyzer.repository.CaptureRepository;
 
 @Service
-public class CaptureServiceImpl implements CaptureService{
+public class CaptureServiceImpl implements CaptureService {
     @Autowired
     CaptureRepository captureRepository;
 

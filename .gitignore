@@ -3,17 +3,23 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
-
+.idea/
+**/.idea/
+/**/.idea/
 # Other files and folders
 .settings/
 .gradle/
+/**/.gradle/
+**/.gradle/
+/**/gradle/
+**/gradle/
+.idea
 
 # Executables
 *.swf
 *.air
 *.ipa
-*.apk
-
+/**/build/
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.

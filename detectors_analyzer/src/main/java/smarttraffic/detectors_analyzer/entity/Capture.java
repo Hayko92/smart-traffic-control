@@ -1,5 +1,5 @@
-
 package smarttraffic.detectors_analyzer.entity;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -93,8 +93,8 @@ public class Capture implements Serializable {
     }
 
     public void addToViolationList(List<Integer> violationIds) {
-        if(this.violationIds==null) this.violationIds=new ArrayList<>();
-        if(violationIds!=null) this.violationIds.addAll(violationIds);
+        if (this.violationIds == null) this.violationIds = new ArrayList<>();
+        if (violationIds != null) this.violationIds.addAll(violationIds);
     }
 
     @Override

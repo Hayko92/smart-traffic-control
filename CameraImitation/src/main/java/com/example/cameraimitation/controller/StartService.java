@@ -11,6 +11,7 @@ import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,40 +25,42 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
+@Validated
 public class StartService {
     @Autowired
     DetectorRepository detectorRepository;
-
+    @Autowired
+    CaptureService captureService;
+    @Autowired
+    DetectorService detectorService;
     @Autowired
     private ResourceLoader resourceLoader;
-
     @Autowired
     private CloudVisionTemplate cloudVisionTemplate;
 
-    @Autowired
-    CaptureService captureService;
-
-    @Autowired
-    DetectorService detectorService;
-
     @GetMapping("/api/startCameras")
-    public void sendRequest() throws MalformedURLException {
-        RestTemplate restTemplate = new RestTemplate();
-        Detector randomDetector = getRandomDetector();
-        URL url = getRadnomUrl();
-        String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
-        String plateNumber = NumberExtractor.extract(textFromImage);
+    public void sendRequest() throws MalformedURLException, InterruptedException {
+        while (true) {
+            RestTemplate restTemplate = new RestTemplate();
+            Detector randomDetector = getRandomDetector();
+            URL url = getRadnomUrl();
+            String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
+            String plateNumber = NumberExtractor.extract(textFromImage);
 
-        Instant instant = Instant.now();
-        String place = randomDetector.getPlace();
-        Capture capture = new Capture(plateNumber, url.toString(), place, instant);
-        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        restTemplate.postForObject("http://127.0.0.1:8081/api/detector_analyzer", httpEntity, String.class);
-        if (plateNumber == null) {
-            sendNotifocationToPatrol(capture);
+            Instant instant = Instant.now();
+            String place = randomDetector.getPlace();
+            Capture capture = new Capture(plateNumber, url.toString(), place, instant);
+            HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
+            restTemplate.postForObject("http://127.0.0.1:8081/api/detector_analyzer", httpEntity, String.class);
+            if (plateNumber == null) {
+                sendNotifocationToPatrol(capture);
+            }
+            captureService.save(capture);
+            Thread.sleep(5000);
         }
-        captureService.save(capture);
+
     }
+
     @GetMapping("/api/camera-imitation-service/{detectorPlace}")
     public Detector getDetector(@PathVariable String detectorPlace) {
         return detectorService.getByPlace(detectorPlace);

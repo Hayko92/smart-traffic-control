@@ -1,6 +1,4 @@
-
 package smarttraffic.vehicle_service.entity;
-
 
 
 import javax.persistence.*;
@@ -18,7 +16,7 @@ public class Capture {
     @Column(name = "number")
     private String number;
 
-    @Column(name= "place")
+    @Column(name = "place")
     private String place;
 
     @Column(name = "time_stamp")
@@ -75,7 +73,8 @@ public class Capture {
     public void setViolationIds(List<Integer> violationIds) {
         this.violationIds = violationIds;
     }
-    public  void addViolationId (Integer id) {
+
+    public void addViolationId(Integer id) {
         this.violationIds.add(id);
     }
 
