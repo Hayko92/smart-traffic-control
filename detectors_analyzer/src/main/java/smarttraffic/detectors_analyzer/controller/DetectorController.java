@@ -12,9 +12,10 @@ import smarttraffic.detectors_analyzer.entity.Vehicle;
 import smarttraffic.detectors_analyzer.service.CaptureService;
 import smarttraffic.detectors_analyzer.service.VehicleService;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DetectorController {

@@ -7,7 +7,7 @@ plugins {
 
 group = 'smart_traffic'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '8'
 
 repositories {
     mavenCentral()
@@ -16,9 +16,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.5.5'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
 }
 
 test {
