@@ -24,6 +24,7 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.5.5'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
     implementation group: 'com.vladmihalcea', name: 'hibernate-types-55', version: '2.13.0'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.6'
 
 }
 
