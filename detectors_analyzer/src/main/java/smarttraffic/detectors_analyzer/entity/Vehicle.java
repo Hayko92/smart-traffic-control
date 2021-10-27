@@ -26,7 +26,7 @@ public class Vehicle {
 
     @Column(name = "checked")
     private boolean checked;
-    //todo
+    // TODO
 //    private List<Violation> violationList;
 
     public Vehicle() {

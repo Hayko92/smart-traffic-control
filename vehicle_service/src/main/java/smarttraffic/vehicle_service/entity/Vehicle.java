@@ -1,9 +1,8 @@
 package smarttraffic.vehicle_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+
 
 @Entity
 @Table(name = "vehicle")
@@ -12,8 +11,14 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "number")
-    private String number;
+    @Column(name = "plate_number")
+    private String plateNumber;
+
+    @Column(name = "horse_power")
+    private String horsPower;
+
+    @Column(name = "color")
+    private String Color;
 
     @Column(name = "mark")
     private String mark;
@@ -21,26 +26,36 @@ public class Vehicle {
     @Column(name = "production_year")
     private int productionYear;
 
-    @Column(name = "model")
-    private String model;
 
-    @Column(name = "registration_certificate")
-    private String registrationCertificate;
-
-    @Column(name = "insurance_expiry_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
-    private Date insuranceExpiry;
-
-    @Column(name = "tech_inspection_expiry_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
-    private Date techInspectionExpiry;
-
-    @Column(name = "checked")
-    private boolean checked;
-    //todo
-//    private List<Violation> violationList;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
 
     public Vehicle() {
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
+    }
+
+    public String getHorsPower() {
+        return horsPower;
+    }
+
+    public void setHorsPower(String horsPower) {
+        this.horsPower = horsPower;
+    }
+
+    public String getColor() {
+        return Color;
+    }
+
+    public void setColor(String color) {
+        Color = color;
     }
 
     public long getId() {
@@ -49,46 +64,6 @@ public class Vehicle {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getRegistrationCertificate() {
-        return registrationCertificate;
-    }
-
-    public void setRegistrationCertificate(String registrationCertificate) {
-        this.registrationCertificate = registrationCertificate;
-    }
-
-    public boolean isChecked() {
-        return checked;
-    }
-
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-
-    public Date getInsuranceExpiry() {
-        return insuranceExpiry;
-    }
-
-    public void setInsuranceExpiry(Date insuranceExpiry) {
-        this.insuranceExpiry = insuranceExpiry;
-    }
-
-    public Date getTechInspectionExpiry() {
-        return techInspectionExpiry;
-    }
-
-    public void setTechInspectionExpiry(Date techInspectionExpiry) {
-        this.techInspectionExpiry = techInspectionExpiry;
     }
 
     public String getMark() {
@@ -107,11 +82,4 @@ public class Vehicle {
         this.productionYear = productionYear;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
 }
