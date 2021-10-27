@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import smarttraffic.notifiers.entity.Capture;
 
 import javax.mail.MessagingException;
@@ -20,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.File;
 
 @RestController
+@RequestMapping("/api/notification-service")
 public class NotificationController {
     private static final String ACCOUNT_SID ="ACf8751052d983ad03251129ce8f0c7e98" ;
     private static final String AUTH_TOKEN = "91e63ea44f0483b36048a1436ebcdafd";
@@ -27,12 +25,12 @@ public class NotificationController {
     @Autowired
     private JavaMailSender mailSender;
 
-    @PostMapping("/api/notification-service/patrol")
+    @PostMapping("/patrol")
     public String sendToPatrol(@RequestBody Capture capture) {
         return "OK...we have recevied";
     }
 //todo must be formatted after violation service request
-    @PostMapping ("/api/notification-service/email")
+    @PostMapping ("/email")
     public String sendEmail(@RequestBody MimeMessage mimeMessage) throws MessagingException {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
@@ -44,7 +42,7 @@ public class NotificationController {
         mailSender.send(mimeMessage);
         return "OK...we have recevied";
     }
-    @GetMapping ("/api/notification-service/sms")
+    @PostMapping ("/sms")
     public String sendSMS() throws MessagingException {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         MessageCreator message = Message.create(ACCOUNT_SID,

@@ -19,4 +19,9 @@ public class CaptureServiceImpl implements CaptureService {
     public Capture getByPlace(String place) {
         return captureRepository.findFirstByPlaceOrderByIdDesc(place);
     }
+
+    @Override
+    public Capture getById(int id) {
+        return captureRepository.getById(id);
+    }
 }

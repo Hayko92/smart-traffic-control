@@ -19,6 +19,8 @@ public class Violation {
     @Column(name = "violation_date_2")
     private Instant violation_date_2;
 
+    private String place;
+
     @Column(name = "price")
     private int price;
     @Column(name = "type")
@@ -40,6 +42,14 @@ public class Violation {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public Instant getCreationDate() {

@@ -20,17 +20,17 @@ public class ViolationServiceImpl implements ViolationService{
     }
 
     @Override
-    public void saveViolation(Violation violation) {
+    public void save(Violation violation) {
         violationRepository.save(violation);
     }
 
     @Override
-    public Optional<Violation> getViolation(String number) {
+    public Optional<Violation> getByNumber(String number) {
         return violationRepository.findById(number);
     }
 
     @Override
-    public void deleteViolation(Violation violation) {
+    public void delete(Violation violation) {
         violationRepository.delete(violation);
     }
 }
