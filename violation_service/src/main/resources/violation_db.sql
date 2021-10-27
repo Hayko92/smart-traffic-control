@@ -45,21 +45,6 @@ CREATE TABLE violation_service.vehicle
 ALTER TABLE violation_service.vehicle
     ADD FOREIGN KEY (owner_id) REFERENCES violation_service.vehicle_owner (id);
 
-CREATE TABLE violation_service.capture
-(
-    id           bigserial,
-    photo_URL    varchar(500) not null,
-    capture_time timestamp    not null,
-    plate_number varchar(7),
-    place        varchar(500),
-    time_stamp   timestamp,
-    constraint capture_pk
-        primary key (id)
-);
-
-ALTER TABLE violation_service.capture
-    ADD FOREIGN KEY (id) REFERENCES violation_service.violation_report (id);
-
 CREATE TABLE violation_service.violation_report
 (
     id               INT PRIMARY KEY,
