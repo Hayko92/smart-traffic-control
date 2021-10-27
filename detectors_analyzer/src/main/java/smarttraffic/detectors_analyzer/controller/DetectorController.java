@@ -2,7 +2,6 @@ package smarttraffic.detectors_analyzer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +11,7 @@ import smarttraffic.detectors_analyzer.entity.Vehicle;
 import smarttraffic.detectors_analyzer.service.CaptureService;
 import smarttraffic.detectors_analyzer.service.VehicleService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,6 +24,8 @@ public class DetectorController {
 
     @PostMapping("/api/detector_analyzer")
     public void receiveCapture(@RequestBody Capture capture) {
+        Capture prev = null;
+        int speed = 0;
         System.out.println(capture);
         String plateNumber = capture.getPlateNumber();
         Vehicle vehicle = vehicleService.getByNumber(plateNumber);
@@ -35,9 +34,14 @@ public class DetectorController {
             return;
         }
         if (vehicle.isChecked()) {
-            Capture prev = vehicleService.checkSpeed(capture);
-            if (prev != null) createSpeedViolation(prev, capture);
-
+            Map<Capture, Integer> prevCaptureOverspeed = vehicleService.checkSpeed(capture);
+            if (prevCaptureOverspeed != null) {
+                for (Map.Entry<Capture, Integer> entry : prevCaptureOverspeed.entrySet()) {
+                    prev = entry.getKey();
+                    speed = entry.getValue();
+                }
+                createSpeedViolation(prev, capture, speed);
+            }
         } else {
             boolean hasValidInsurance = vehicleService.checkInsurance(capture, vehicle);
             boolean hasValidTechInspection = vehicleService.checktechinspection(capture, vehicle);
@@ -48,13 +52,14 @@ public class DetectorController {
         }
     }
 
-    private void createSpeedViolation(Capture prev, Capture capture) {
+    private void createSpeedViolation(Capture prev, Capture current, int speed) {
         RestTemplate restTemplate = new RestTemplate();
-        List<Capture> captures = new ArrayList<>();
-        captures.add(prev);
-        captures.add(capture);
-        HttpEntity<List<Capture>> httpEntity = new HttpEntity<>(captures);
-        restTemplate.postForObject("http://127.0.0.1:8082/api/violationService/speed", httpEntity, String.class);
+        Map<String, Integer> info = new HashMap<>();
+        info.put("previousCapture", prev.getId());
+        info.put("currentCapture", current.getId());
+        info.put("speed", speed);
+        HttpEntity<Map<String, Integer>> httpEntity = new HttpEntity<>(info);
+        restTemplate.postForLocation("http://127.0.0.1:8082/api/violationService/speed", httpEntity);
     }
 
     public void createViolation(Capture capture, String type) {
@@ -62,13 +67,12 @@ public class DetectorController {
         Map<String, Capture> body = new HashMap<>();
         body.put(type, capture);
         HttpEntity<Map<String, Capture>> httpEntity = new HttpEntity<>(body);
-        restTemplate.postForObject("http://127.0.0.1:8082/api/violationService", httpEntity, String.class);
+        restTemplate.postForLocation("http://127.0.0.1:8082/api/violationService", httpEntity);
     }
 
     private void sendNotifocationToPatrol(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        ResponseEntity<String> result = restTemplate.postForEntity("http://127.0.0.1:8083/api/notification-service/patrol", httpEntity, String.class);
-        System.out.println(result.getBody());
+        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol", httpEntity);
     }
 }

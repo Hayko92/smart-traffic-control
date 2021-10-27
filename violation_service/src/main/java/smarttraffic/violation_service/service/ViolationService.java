@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface ViolationService {
     List<Violation> getAllViolations();
 
-    void saveViolation(Violation violation);
+    void save (Violation violation);
 
-    Optional<Violation> getViolation(String number);
+    Optional<Violation> getByNumber(String number);
 
-    void deleteViolation(Violation violation);
+    void delete(Violation violation);
 }
