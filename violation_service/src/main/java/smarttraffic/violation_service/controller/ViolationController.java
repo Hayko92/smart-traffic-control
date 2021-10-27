@@ -10,14 +10,14 @@ import smarttraffic.violation_service.service.ViolationService;
 
 @RestController
 @RequestMapping()
-public class Controller extends Violation {
+public class ViolationController {
     private Capture capture;
     private Violation violation;
 
     @Autowired
     private final ViolationService violationService;
 
-    public Controller(ViolationService violationService) {
+    public ViolationController(ViolationService violationService) {
         this.violationService = violationService;
     }
 
@@ -27,9 +27,7 @@ public class Controller extends Violation {
     }
 
     @PostMapping("/api/detectors-analyzer-service/")
-    public @ResponseBody
-    void createViolation(@RequestBody Capture capture) {
-        violation.setId(capture.getId());
+    public void createViolation(@RequestBody Capture capture, String type) {
         violation.setNumber(capture.getPlateNumber());
         violation.setPhotoUrl1(capture.getPhotoUrl());
         violation.setCreationDate(capture.getInstant());
