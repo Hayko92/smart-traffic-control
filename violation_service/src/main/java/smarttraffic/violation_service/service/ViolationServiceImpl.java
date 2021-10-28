@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ViolationServiceImpl implements ViolationService{
+public class ViolationServiceImpl implements ViolationService {
 
     @Autowired
     private ViolationRepository violationRepository;

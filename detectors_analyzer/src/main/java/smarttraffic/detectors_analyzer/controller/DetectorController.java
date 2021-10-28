@@ -25,7 +25,7 @@ public class DetectorController {
     @PostMapping("/api/detector_analyzer")
     public void receiveCapture(@RequestBody Capture capture) {
         Capture prev = null;
-        int speed = 0;
+
         System.out.println(capture);
         String plateNumber = capture.getPlateNumber();
         Vehicle vehicle = vehicleService.getByNumber(plateNumber);
@@ -34,6 +34,7 @@ public class DetectorController {
             return;
         }
         if (vehicle.isChecked()) {
+            int speed = 0;
             Map<Capture, Integer> prevCaptureOverspeed = vehicleService.checkSpeed(capture);
             if (prevCaptureOverspeed != null) {
                 for (Map.Entry<Capture, Integer> entry : prevCaptureOverspeed.entrySet()) {

@@ -35,6 +35,10 @@ public class Vehicle {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Date techInspectionExpiry;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+
     public Vehicle() {
     }
 
@@ -100,5 +104,13 @@ public class Vehicle {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }

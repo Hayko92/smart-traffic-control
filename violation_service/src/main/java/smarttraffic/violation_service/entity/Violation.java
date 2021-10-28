@@ -2,7 +2,6 @@ package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Date;
 
 @Entity
 @Table(name = "violation_report")
@@ -14,11 +13,7 @@ public class Violation {
     @Column(name = "creation_date")
     private Instant creationDate;
 
-    @Column(name = "violation_date_1")
-    private Instant violation_date_1;
-    @Column(name = "violation_date_2")
-    private Instant violation_date_2;
-
+    @Column(name = "place")
     private String place;
 
     @Column(name = "price")
@@ -28,10 +23,16 @@ public class Violation {
 
     @Column(name = "photoUrl1")
     private String photoUrl1;
+
     @Column(name = "photoUrl2")
     private String photoUrl2;
 
-    private String number;
+    @OneToOne
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+    @OneToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 
     public Violation() {
     }
@@ -58,22 +59,6 @@ public class Violation {
 
     public void setCreationDate(Instant creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public Instant getViolation_date_1() {
-        return violation_date_1;
-    }
-
-    public void setViolation_date_1(Instant violation_date_1) {
-        this.violation_date_1 = violation_date_1;
-    }
-
-    public Instant getViolation_date_2() {
-        return violation_date_2;
-    }
-
-    public void setViolation_date_2(Instant violation_date_2) {
-        this.violation_date_2 = violation_date_2;
     }
 
     public int getPrice() {
@@ -108,11 +93,19 @@ public class Violation {
         this.photoUrl2 = photoUrl2;
     }
 
-    public String getNumber() {
-        return number;
+    public Owner getOwner() {
+        return owner;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }

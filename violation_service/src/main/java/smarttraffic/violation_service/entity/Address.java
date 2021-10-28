@@ -1,10 +1,11 @@
 package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "vehicle_owner_address")
-public class Owner_address {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,15 +20,16 @@ public class Owner_address {
     @Column(name = "building")
     private String building;
 
-    @Column(name = "telephone")
-    private String telephone;
+    @Column(name = "zip_code")
+    private int zipCode;
 
-    @Column(name = "emailAddress")
-    private String email;
+    @OneToMany(mappedBy = "address")
+    private Set<Owner> owners;
 
-    public Owner_address() {
+    public Address() {
     }
 
+    //todo add owner relations
     public long getId() {
         return id;
     }
@@ -60,19 +62,19 @@ public class Owner_address {
         this.building = building;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public int getZipCode() {
+        return zipCode;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
     }
 
-    public String getEmail() {
-        return email;
+    public Set<Owner> getOwners() {
+        return owners;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setOwners(Set<Owner> owners) {
+        this.owners = owners;
     }
 }

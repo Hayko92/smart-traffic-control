@@ -2,10 +2,10 @@ package smarttraffic.violation_service.util;
 
 public final class PointsCounter {
 
+    private int points = 9;
+
     private PointsCounter() {
     }
-
-    private int points = 9;
 
     public int getPoints() {
         points--;

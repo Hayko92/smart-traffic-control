@@ -1,0 +1,73 @@
+create table violation_service.vehicle_owner
+(
+    id integer not null,
+    firstname varchar(255) not null,
+    lastname varchar(255) not null,
+    dateofbirthday date not null,
+    vehicle_vin varchar(7) not null,
+    points integer not null,
+    constraint vehicle_owner_pkey
+        primary key (id)
+);
+
+create table violation_service.vehicle_owner_address
+(
+    city varchar(255) not null,
+    street varchar(255) not null,
+    building varchar(255) not null,
+    apartment varchar(255),
+    telephone integer not null,
+    emailaddress varchar(30) not null,
+    address_id integer not null,
+    constraint vehicle_owner_address_pkey
+        primary key (address_id),
+    constraint vehicle_owner_address_address_id_fkey
+        foreign key (address_id) references violation_service.vehicle_owner
+);
+
+create table violation_service.vehicle
+(
+    mark varchar(30) not null,
+    model varchar(30) not null,
+    production_year date not null,
+    vin varchar(30) not null,
+    plate_numbers varchar(7) not null,
+    insurance_expiry_date date not null,
+    tech_inspection_expiry_date date not null,
+    registration_certificate_numbers varchar(7) not null,
+    photourl1 varchar(500) not null,
+    photourl2 varchar(500) not null,
+    violation_date_1 date,
+    violation_date_2 date,
+    owner_id integer not null,
+    id serial,
+    constraint vehicle_pk
+        primary key (id),
+    constraint vehicle_owner_id_fkey
+        foreign key (owner_id) references violation_service.vehicle_owner
+);
+
+create unique index vehicle_id_uindex
+    on violation_service.vehicle (id);
+
+create table violation_service.violation_report
+(
+    id integer not null,
+    type varchar(10) not null,
+    price integer not null,
+    vehicle_numbers varchar(10) not null,
+    photourl1 varchar(500) not null,
+    photourl2 varchar(500) not null,
+    creation_date date,
+    violation_date_1 date,
+    violation_date_2 date,
+    owner_id integer,
+    vehicle_id integer not null,
+    constraint violation_report_pkey
+        primary key (id),
+    constraint violation_report_vehicle_owner_id_fk
+        foreign key (owner_id) references violation_service.vehicle_owner,
+    constraint violation_report_vehicle_id_fk
+        foreign key (vehicle_id) references violation_service.vehicle
+);
+

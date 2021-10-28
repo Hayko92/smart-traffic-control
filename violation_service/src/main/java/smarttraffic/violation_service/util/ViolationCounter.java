@@ -1,9 +1,5 @@
 package smarttraffic.violation_service.util;
 
-import smarttraffic.violation_service.entity.Capture;
-
-import java.util.List;
-
 public final class ViolationCounter {
 
     private static PointsCounter pointsCounter;
@@ -12,7 +8,7 @@ public final class ViolationCounter {
     }
 
     public static int countSpeedViolationBasePrice(int speed) {
-        int overSpeed = ( speed - 70);
+        int overSpeed = (speed - 70);
         int result = 0;
         if (overSpeed > 0 && overSpeed <= 10) result = overSpeed * 1000;
         else if (overSpeed > 10 && overSpeed <= 30) result = 20000;

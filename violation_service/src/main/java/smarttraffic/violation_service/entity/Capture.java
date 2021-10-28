@@ -1,6 +1,6 @@
 package smarttraffic.violation_service.entity;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
