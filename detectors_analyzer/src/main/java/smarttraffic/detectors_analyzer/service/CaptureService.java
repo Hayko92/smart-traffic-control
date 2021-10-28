@@ -6,4 +6,5 @@ public interface CaptureService {
     Capture getByPlateNumber(String plateNumber);
 
     Capture getByPlace(String place);
+    Capture getById(int id);
 }

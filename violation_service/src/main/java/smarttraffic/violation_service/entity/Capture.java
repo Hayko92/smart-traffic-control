@@ -7,23 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table(name = "capture")
 public class Capture implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    @Column(name = "plate_number")
     private String plateNumber;
 
-    @Column(name = "place")
     private String place;
 
-    @Column(name = "time_stamp")
     private Instant instant;
 
-    @Column(name = "photo_url")
     private String photoUrl;
 
     @ElementCollection
@@ -46,14 +37,6 @@ public class Capture implements Serializable {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getPlateNumber() {
@@ -102,18 +85,18 @@ public class Capture implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Capture capture = (Capture) o;
-        return id == capture.id && Objects.equals(plateNumber, capture.plateNumber) && Objects.equals(place, capture.place) && Objects.equals(instant, capture.instant) && Objects.equals(violationIds, capture.violationIds);
+        return Objects.equals(plateNumber, capture.plateNumber) && Objects.equals(place, capture.place) &&
+                Objects.equals(instant, capture.instant) && Objects.equals(violationIds, capture.violationIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, plateNumber, place, instant, violationIds);
+        return Objects.hash(plateNumber, place, instant, violationIds);
     }
 
     @Override
     public String toString() {
         return "Capture{" +
-                "id=" + id +
                 ", number='" + plateNumber + '\'' +
                 ", place='" + place + '\'' +
                 ", instant=" + instant +

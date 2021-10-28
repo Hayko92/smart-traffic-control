@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import smarttraffic.detectors_analyzer.entity.Capture;
 import smarttraffic.detectors_analyzer.entity.Vehicle;
 
+import java.util.Map;
+
 @Service
 public interface VehicleService {
     Vehicle getByNumber(String number);
@@ -14,5 +16,5 @@ public interface VehicleService {
 
     boolean checktechinspection(Capture capture, Vehicle vehicle);
 
-    Capture checkSpeed(Capture capture);
+    Map<Capture,Integer> checkSpeed(Capture capture);
 }

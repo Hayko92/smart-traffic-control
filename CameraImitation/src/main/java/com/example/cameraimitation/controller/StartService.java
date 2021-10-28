@@ -1,20 +1,18 @@
 package com.example.cameraimitation.controller;
 
+import com.example.cameraimitation.dto.DetectorDTO;
 import com.example.cameraimitation.entity.Capture;
 import com.example.cameraimitation.entity.Detector;
 import com.example.cameraimitation.repository.DetectorRepository;
 import com.example.cameraimitation.service.CaptureService;
 import com.example.cameraimitation.service.DetectorService;
+import com.example.cameraimitation.util.DetectorMapper;
 import com.example.cameraimitation.util.NumberExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -25,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@Validated
+@RequestMapping("/api/detector-imitation-service")
 public class StartService {
     @Autowired
     DetectorRepository detectorRepository;
@@ -38,32 +36,45 @@ public class StartService {
     @Autowired
     private CloudVisionTemplate cloudVisionTemplate;
 
-    @GetMapping("/api/startCameras")
+    @GetMapping()
     public void sendRequest() throws MalformedURLException, InterruptedException {
         while (true) {
-            RestTemplate restTemplate = new RestTemplate();
-            Detector randomDetector = getRandomDetector();
-            URL url = getRadnomUrl();
-            String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
-            String plateNumber = NumberExtractor.extract(textFromImage);
-
-            Instant instant = Instant.now();
-            String place = randomDetector.getPlace();
-            Capture capture = new Capture(plateNumber, url.toString(), place, instant);
-            HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-            restTemplate.postForObject("http://127.0.0.1:8081/api/detector_analyzer", httpEntity, String.class);
-            if (plateNumber == null) {
-                sendNotifocationToPatrol(capture);
-            }
-            captureService.save(capture);
+            sendRandomPhotoFromRandomDetector();
             Thread.sleep(5000);
         }
+    }
+    @GetMapping("/capture/{id}")
+    public void sendCapture(@PathVariable String id) {
+       Capture capture =captureService.getById(Integer.parseInt(id));
+    }
 
+    private void sendRandomPhotoFromRandomDetector() throws MalformedURLException {
+        RestTemplate restTemplate = new RestTemplate();
+        Detector randomDetector = getRandomDetector();
+        URL url = getRadnomUrl();
+        String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
+        String plateNumber = NumberExtractor.extract(textFromImage);
+
+        Instant instant = Instant.now();
+        String place = randomDetector.getPlace();
+        Capture capture = new Capture(plateNumber, url.toString(), place, instant);
+        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
+        restTemplate.postForLocation("http://127.0.0.1:8081/api/detector_analyzer", httpEntity);
+        if (plateNumber == null) {
+            //todo che this method
+            sendNotifocationToPatrol(capture);
+        }
+        captureService.save(capture);
     }
 
     @GetMapping("/api/camera-imitation-service/{detectorPlace}")
-    public Detector getDetector(@PathVariable String detectorPlace) {
-        return detectorService.getByPlace(detectorPlace);
+    public DetectorDTO getDetector(@PathVariable String detectorPlace) {
+        Detector detector = detectorService.getByPlace(detectorPlace);
+        DetectorDTO detectorDTO = null;
+        if (detector != null) {
+            detectorDTO = DetectorMapper.mapToDetectorDTO(detector);
+        }
+        return detectorDTO;
     }
 
     private URL getRadnomUrl() throws MalformedURLException {
@@ -82,7 +93,6 @@ public class StartService {
     private void sendNotifocationToPatrol(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        ResponseEntity<String> result = restTemplate.postForEntity("http://127.0.0.1:8083/api/notification-service/patrol", httpEntity, String.class);
-        System.out.println(result.getBody());
+        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol", httpEntity);
     }
 }
