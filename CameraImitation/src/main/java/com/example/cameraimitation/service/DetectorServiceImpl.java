@@ -4,7 +4,7 @@ import com.example.cameraimitation.entity.Detector;
 import com.example.cameraimitation.repository.DetectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class DetectorServiceImpl implements DetectorService{
+public class DetectorServiceImpl implements DetectorService {
     @Autowired
     DetectorRepository detectorRepository;
 

@@ -1,4 +1,5 @@
-CREATE DATABASE smart_traffic_control;
+CREATE
+DATABASE smart_traffic_control;
 CREATE SCHEMA violation_service;
 
 CREATE TABLE violation_service.vehicle_owner
@@ -19,7 +20,7 @@ CREATE TABLE violation_service.vehicle_owner_address
     apartment    varchar(255),
     telephone    INT             NOT NULL,
     emailAddress varchar(30)     NOT NULL,
-    address_id     INT PRIMARY KEY NOT NULL
+    address_id   INT PRIMARY KEY NOT NULL
 );
 
 ALTER TABLE violation_service.vehicle_owner_address

@@ -2,7 +2,6 @@ package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Date;
 
 @Entity
 @Table(name = "violation_report")
@@ -14,6 +13,7 @@ public class Violation {
     @Column(name = "creation_date")
     private Instant creationDate;
 
+    @Column(name = "place")
     private String place;
 
     @Column(name = "price")
@@ -23,6 +23,7 @@ public class Violation {
 
     @Column(name = "photoUrl1")
     private String photoUrl1;
+
     @Column(name = "photoUrl2")
     private String photoUrl2;
 
@@ -32,8 +33,6 @@ public class Violation {
     @OneToOne
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
-
-    private String number;
 
     public Violation() {
     }
@@ -92,14 +91,6 @@ public class Violation {
 
     public void setPhotoUrl2(String photoUrl2) {
         this.photoUrl2 = photoUrl2;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public Owner getOwner() {

@@ -31,11 +31,12 @@ public class Owner {
 
     @OneToMany(mappedBy = "owner")
     private Set<Vehicle> vehicleSet;
-    public Owner() {
-    }
     @ManyToOne()
     @JoinColumn(name = "address_id")
     private Address address;
+
+    public Owner() {
+    }
 
     public long getId() {
         return id;
@@ -76,6 +77,7 @@ public class Owner {
     public void setPoints(int points) {
         this.points = points;
     }
+
     public int getReducedPoint() {
         points--;
         return points;
@@ -104,9 +106,10 @@ public class Owner {
     public void setEmail(String email) {
         this.email = email;
     }
-    public  Vehicle getVehicleByPlateNUmber(String plateNumber){
+
+    public Vehicle getVehicleByPlateNUmber(String plateNumber) {
         return vehicleSet.stream()
-                .filter(e->e.getNumber().equals(plateNumber))
+                .filter(e -> e.getNumber().equals(plateNumber))
                 .findAny()
                 .orElse(null);
     }

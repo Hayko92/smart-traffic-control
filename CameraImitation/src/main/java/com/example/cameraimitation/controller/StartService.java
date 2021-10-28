@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -43,9 +46,10 @@ public class StartService {
             Thread.sleep(5000);
         }
     }
+
     @GetMapping("/capture/{id}")
     public void sendCapture(@PathVariable String id) {
-       Capture capture =captureService.getById(Integer.parseInt(id));
+        Capture capture = captureService.getById(Integer.parseInt(id));
     }
 
     private void sendRandomPhotoFromRandomDetector() throws MalformedURLException {

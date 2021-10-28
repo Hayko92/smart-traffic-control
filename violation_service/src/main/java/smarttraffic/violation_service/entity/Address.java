@@ -28,7 +28,8 @@ public class Address {
 
     public Address() {
     }
-//todo add owner relations
+
+    //todo add owner relations
     public long getId() {
         return id;
     }
@@ -61,4 +62,19 @@ public class Address {
         this.building = building;
     }
 
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public Set<Owner> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(Set<Owner> owners) {
+        this.owners = owners;
+    }
 }
