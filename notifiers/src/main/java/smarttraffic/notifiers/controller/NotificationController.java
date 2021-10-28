@@ -15,6 +15,7 @@ import smarttraffic.notifiers.entity.Capture;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/notification-service")
@@ -29,10 +30,14 @@ public class NotificationController {
     public String sendToPatrol(@RequestBody Capture capture) {
         return "OK...we have recevied";
     }
+    @PostMapping("/patrol/owner")
+    public String sendToPatrolIDofOwner(@RequestBody Long ownerID) {
+        return "OK...we have recevied";
+    }
 //todo must be formatted after violation service request
-    @PostMapping ("/email")
-    public String sendEmail(@RequestBody MimeMessage mimeMessage) throws MessagingException {
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+    @PostMapping ("speed/email")
+    public String sendEmail(@RequestBody Map<String, String> info) throws MessagingException {
+        MimeMessageHelper helper = new MimeMessageHelper(new MimeMessage(), true);
         helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
         helper.setTo("asatryanhayko92@gmail.com");
         helper.setSubject("YOU HAVE A NEW VIOLATION! CONGRATULATIONS");
