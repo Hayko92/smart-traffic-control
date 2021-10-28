@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class CaptureServiceImpl implements CaptureService {
     @Autowired
-    CaptureRepository captureRrepository;
+    CaptureRepository captureRepository;
 
     @Override
     public void save(Capture capture) {
-        captureRrepository.save(capture);
+        captureRepository.save(capture);
     }
 
     @Override
     public Capture getById(int parseInt) {
-        return captureRrepository.getById(parseInt);
+        return captureRepository.getById(parseInt);
     }
 }

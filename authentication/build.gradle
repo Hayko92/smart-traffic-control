@@ -1,13 +1,13 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.0-SNAPSHOT'
+    id 'org.springframework.boot' version '2.5.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'war'
 }
 
-group = 'smart_traffic'
+group = 'smart-traffic'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '8'
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()

@@ -30,7 +30,7 @@ public class DetectorController {
         String plateNumber = capture.getPlateNumber();
         Vehicle vehicle = vehicleService.getByNumber(plateNumber);
         if (vehicle == null) {
-            sendNotifocationToPatrol(capture);
+            sendNotificationToPatrol(capture);
             return;
         }
         if (vehicle.isChecked()) {
@@ -45,7 +45,7 @@ public class DetectorController {
             }
         } else {
             boolean hasValidInsurance = vehicleService.checkInsurance(capture, vehicle);
-            boolean hasValidTechInspection = vehicleService.checktechinspection(capture, vehicle);
+            boolean hasValidTechInspection = vehicleService.checkTechInspection(capture, vehicle);
             if (!hasValidInsurance) createViolation(capture, "INS");
             if (!hasValidTechInspection) createViolation(capture, "TECH");
             vehicle.setChecked(true);
@@ -71,7 +71,7 @@ public class DetectorController {
         restTemplate.postForLocation("http://127.0.0.1:8082/api/violationService", httpEntity);
     }
 
-    private void sendNotifocationToPatrol(Capture capture) {
+    private void sendNotificationToPatrol(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
         restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol", httpEntity);
