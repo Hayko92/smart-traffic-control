@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "vehicle_owner")
+@Table(name = "owner")
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,13 +16,13 @@ public class Owner {
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "date_of_birthday")
+    @Column(name = "date_of_birth")
     private int dateOfBirthday;
 
-    @Column(name = "telephone")
-    private String telephone;
+    @Column(name = "phone")
+    private String phone;
 
-    @Column(name = "email_address")
+    @Column(name = "email")
     private String email;
 
     @Column(name = "points")
@@ -91,12 +91,12 @@ public class Owner {
         this.vehicleSet = vehicleSet;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPhone(String telephone) {
+        this.phone = telephone;
     }
 
     public String getEmail() {
