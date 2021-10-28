@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "violation_report")
+@Table(name = "violation")
 public class Violation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

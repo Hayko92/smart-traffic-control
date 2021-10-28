@@ -23,7 +23,7 @@ public final class InfoExtractor {
         result.put("price", String.valueOf(violation.getPrice()));
         result.put("firstName", violation.getOwner().getFirstname());
         result.put("lastName", violation.getOwner().getLastname());
-        result.put("phone", violation.getOwner().getTelephone());
+        result.put("phone", violation.getOwner().getPhone());
         result.put("email", violation.getOwner().getEmail());
         result.put("vehicleMark", violation.getVehicle().getMark());
         result.put("vehicleModel", violation.getVehicle().getModel());
