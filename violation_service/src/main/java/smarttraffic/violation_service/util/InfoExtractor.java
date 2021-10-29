@@ -16,7 +16,7 @@ public final class InfoExtractor {
         Map<String, String> result = new HashMap<>();
         result.put("id", String.valueOf(violation.getId()));
         result.put("type", violation.getType());
-        result.put("plateNumber", violation.getVehicle().getPlateNumber());
+        result.put("plateNumber", violation.getVehicle().getNumber());
         result.put("place", violation.getPlace());
         result.put("photoURL1", violation.getPhotoUrl1());
         result.put("time", violation.getCreationDate().truncatedTo(ChronoUnit.SECONDS).toString());

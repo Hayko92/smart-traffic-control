@@ -10,12 +10,6 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "point")
-    private int point;
-
-    @Column(name = "id_number")
-    private String idNumber;
-
     @Column(name = "license_number")
     private String licenseNumber;
 
@@ -28,9 +22,16 @@ public class Owner {
     @OneToMany(mappedBy = "owner")
     private Set<Vehicle> vehicles;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    @ManyToOne
     @JoinColumn(name = "contact_id")
     private OwnerContact ownerContact;
+
+    @Column(name = "point")
+    private int point;
 
     public Set<Vehicle> getVehicles() {
         return vehicles;
@@ -46,6 +47,14 @@ public class Owner {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public OwnerContact getOwnerContact() {
@@ -80,7 +89,15 @@ public class Owner {
         this.lastName = lastName;
     }
 
-    public int getReduscedPoint() {
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public int getRedusedPoint() {
         point--;
         return point;
     }
