@@ -12,4 +12,19 @@ public class VehicleMark {
     @Column(name = "mark_name")
     private String markName;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getMarkName() {
+        return markName;
+    }
+
+    public void setMarkName(String markName) {
+        this.markName = markName;
+    }
 }

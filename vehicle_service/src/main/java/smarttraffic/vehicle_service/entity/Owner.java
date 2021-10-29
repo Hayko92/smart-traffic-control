@@ -25,10 +25,6 @@ public class Owner {
     @OneToMany(mappedBy = "owner")
     private Set<Vehicle> vehicles;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-
     @OneToOne
     @JoinColumn(name = "contact_id")
     private OwnerContact ownerContact;
@@ -47,14 +43,6 @@ public class Owner {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public OwnerContact getOwnerContact() {
