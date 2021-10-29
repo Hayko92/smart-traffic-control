@@ -38,7 +38,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public boolean checktechinspection(Capture capture, Vehicle vehicle) {
+    public boolean checkTechInspection(Capture capture, Vehicle vehicle) {
         Instant date = capture.getInstant();
         Instant dateOfExpiringTechInspection = vehicle.getTechInspectionExpiry();
         return date.isBefore(dateOfExpiringTechInspection);

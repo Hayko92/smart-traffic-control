@@ -14,7 +14,7 @@ public interface VehicleService {
 
     boolean checkInsurance(Capture capture, Vehicle vehicle);
 
-    boolean checktechinspection(Capture capture, Vehicle vehicle);
+    boolean checkTechInspection(Capture capture, Vehicle vehicle);
 
     Map<Capture, Integer> checkSpeed(Capture capture);
 }
