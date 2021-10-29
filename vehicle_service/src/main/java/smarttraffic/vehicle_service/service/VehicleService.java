@@ -13,5 +13,7 @@ interface VehicleService {
 
     void update(Vehicle vehicle);
 
+    void delete(long id);
+
 
 }

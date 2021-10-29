@@ -14,11 +14,6 @@ import javax.persistence.*;
         @Column(name = "phone_number")
         private String phoneNumber;
 
-        @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "owner_id")
-        private Owner owner;
-
-
         public long getId() {
             return id;
         }
@@ -43,11 +38,4 @@ import javax.persistence.*;
             this.phoneNumber = phoneNumber;
         }
 
-        public Owner getOwner() {
-            return owner;
-        }
-
-        public void setOwner(Owner owner) {
-            this.owner = owner;
-        }
     }

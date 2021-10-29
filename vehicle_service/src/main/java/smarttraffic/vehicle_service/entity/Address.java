@@ -1,4 +1,4 @@
-package smarttraffic.violation_service.entity;
+package smarttraffic.vehicle_service.entity;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -29,7 +29,6 @@ public class Address {
     public Address() {
     }
 
-    //todo add owner relations
     public long getId() {
         return id;
     }
