@@ -1,36 +1,27 @@
-package smarttraffic.vehicle_service.entity;
+package smarttraffic.violation_service.model;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "owner")
+import smarttraffic.vehicle_service.entity.OwnerContact;
+
+import java.util.Set;
+
 public class Owner {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
 
-    @Column(name = "id_number")
-    private String idNumber;
-
-    @Column(name = "license_number")
     private String licenseNumber;
 
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "owner")
     private Set<Vehicle> vehicles;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToOne
-    @JoinColumn(name = "contact_id")
     private OwnerContact ownerContact;
+
+    private int point;
 
     public Set<Vehicle> getVehicles() {
         return vehicles;
@@ -86,5 +77,18 @@ public class Owner {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public int getReducedPoint() {
+        point--;
+        return point;
     }
 }

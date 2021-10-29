@@ -1,5 +1,8 @@
 package smarttraffic.violation_service.entity;
 
+import smarttraffic.vehicle_service.entity.Address;
+import smarttraffic.vehicle_service.entity.OwnerContact;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -10,32 +13,32 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "firstname")
-    private String firstname;
+    @Column(name = "license_number")
+    private String licenseNumber;
 
-    @Column(name = "lastname")
-    private String lastname;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "date_of_birth")
-    private int dateOfBirthday;
-
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "points")
-    private int points;
-// todo add addres field and refference to database
+    @Column(name = "last_name")
+    private String lastName;
 
     @OneToMany(mappedBy = "owner")
-    private Set<Vehicle> vehicleSet;
-    @ManyToOne()
+    private Set<Vehicle> vehicles;
+
+    @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
-    public Owner() {
+    @OneToOne
+    @JoinColumn(name = "contact_id")
+    private OwnerContact ownerContact;
+
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(Set<Vehicle> vehicleSet) {
+        this.vehicles = vehicleSet;
     }
 
     public long getId() {
@@ -46,71 +49,43 @@ public class Owner {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public String getLastname() {
-        return lastname;
+    public OwnerContact getOwnerContact() {
+        return ownerContact;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setOwnerContact(OwnerContact ownerContact) {
+        this.ownerContact = ownerContact;
     }
 
-    public int getDateOfBirthday() {
-        return dateOfBirthday;
+    public String getLicenseNumber() {
+        return licenseNumber;
     }
 
-    public void setDateOfBirthday(int birthYear) {
-        this.dateOfBirthday = birthYear;
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 
-    public int getPoints() {
-        return points;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public int getReducedPoint() {
-        points--;
-        return points;
+    public String getLastName() {
+        return lastName;
     }
 
-    public Set<Vehicle> getVehicleSet() {
-        return vehicleSet;
-    }
-
-    public void setVehicleSet(Set<Vehicle> vehicleSet) {
-        this.vehicleSet = vehicleSet;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String telephone) {
-        this.phone = telephone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Vehicle getVehicleByPlateNUmber(String plateNumber) {
-        return vehicleSet.stream()
-                .filter(e -> e.getNumber().equals(plateNumber))
-                .findAny()
-                .orElse(null);
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

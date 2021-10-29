@@ -22,24 +22,4 @@ public final class ViolationCounter {
         return result;
     }
 
-    public static int countInsurancePrice() {
-        int result = 5000;
-//        if (days > 1) result += 5000;  if we try to change violation prise calculation logic
-//        if (result > 100000) {
-//            result = 100000;
-//            isDriverVeryBad = true;
-//        }
-        return result;
-    }
-
-    public static int techInspection() {
-        int result = 10000;
-//        if (days) result += 10000;  if we try to change violation prise calculation logic
-//        if (result > 100000) {
-//            result = 1000000;
-//            isDriverVeryBad = true;
-//        }
-        return result;
-    }
-
 }

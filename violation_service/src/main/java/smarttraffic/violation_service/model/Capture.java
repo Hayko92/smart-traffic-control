@@ -1,26 +1,21 @@
-package smarttraffic.vehicle_service.entity;
+package smarttraffic.violation_service.model;
 
-
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table(name = "capture")
-public class Capture {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class Capture implements Serializable {
 
-    @Column(name = "number")
-    private String number;
+    private String plateNumber;
 
-    @Column(name = "place")
     private String place;
 
-    @Column(name = "time_stamp")
     private Instant instant;
+
+    private String photoUrl;
 
     @ElementCollection
     private List<Integer> violationIds;
@@ -28,26 +23,28 @@ public class Capture {
     public Capture() {
     }
 
-    public Capture(String number, String place, Instant instant) {
-        this.number = number;
+    public Capture(String plateNumber, String photoUrl, String place, Instant instant) {
+        this.plateNumber = plateNumber;
+        this.photoUrl = photoUrl;
         this.place = place;
         this.instant = instant;
     }
 
-    public int getId() {
-        return id;
+
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
-    public String getNumber() {
-        return number;
+    public String getPlateNumber() {
+        return plateNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPlateNumber(String number) {
+        this.plateNumber = number;
     }
 
     public String getPlace() {
@@ -78,24 +75,29 @@ public class Capture {
         this.violationIds.add(id);
     }
 
+    public void addToViolationList(List<Integer> violationIds) {
+        if (this.violationIds == null) this.violationIds = new ArrayList<>();
+        if (violationIds != null) this.violationIds.addAll(violationIds);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Capture capture = (Capture) o;
-        return id == capture.id && Objects.equals(number, capture.number) && Objects.equals(place, capture.place) && Objects.equals(instant, capture.instant) && Objects.equals(violationIds, capture.violationIds);
+        return Objects.equals(plateNumber, capture.plateNumber) && Objects.equals(place, capture.place) &&
+                Objects.equals(instant, capture.instant) && Objects.equals(violationIds, capture.violationIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, number, place, instant, violationIds);
+        return Objects.hash(plateNumber, place, instant, violationIds);
     }
 
     @Override
     public String toString() {
         return "Capture{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
+                ", number='" + plateNumber + '\'' +
                 ", place='" + place + '\'' +
                 ", instant=" + instant +
                 ", violationIds=" + violationIds +
