@@ -33,6 +33,9 @@ public class Owner {
     @JoinColumn(name = "contact_id")
     private OwnerContact ownerContact;
 
+    @Column(name = "point")
+    private int point;
+
     public Set<Vehicle> getVehicles() {
         return vehicles;
     }
@@ -87,5 +90,18 @@ public class Owner {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public int getReduscedPoint() {
+        point--;
+        return point;
     }
 }
