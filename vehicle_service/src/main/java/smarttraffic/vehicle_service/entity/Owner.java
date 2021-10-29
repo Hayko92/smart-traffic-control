@@ -1,6 +1,7 @@
 package smarttraffic.vehicle_service.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "owner")

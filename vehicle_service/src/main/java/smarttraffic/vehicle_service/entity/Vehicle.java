@@ -123,11 +123,4 @@ public class Vehicle implements Serializable {
         this.model = model;
     }
 
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
 }
