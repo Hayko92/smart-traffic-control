@@ -1,7 +1,6 @@
 package smarttraffic.violation_service.entity;
 
-import smarttraffic.violation_service.model.Owner;
-import smarttraffic.violation_service.model.Vehicle;
+
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -31,7 +30,7 @@ public class Violation {
     private String photoUrl2;
 
     @ManyToOne
-//    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id")
     private Owner owner;
 
     @ManyToOne

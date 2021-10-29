@@ -7,13 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.violation_service.entity.InsuranceViolation;
-import smarttraffic.violation_service.entity.SpeedViolation;
-import smarttraffic.violation_service.entity.TechinspectionViolation;
-import smarttraffic.violation_service.entity.Violation;
-import smarttraffic.violation_service.model.Capture;
-import smarttraffic.violation_service.model.Owner;
-import smarttraffic.violation_service.model.Vehicle;
+import smarttraffic.violation_service.entity.*;
 import smarttraffic.violation_service.service.ViolationService;
 import smarttraffic.violation_service.util.InfoExtractor;
 import smarttraffic.violation_service.util.ViolationCounter;
@@ -100,7 +94,7 @@ public class ViolationController {
     private void checkOwnerPoints(Owner owner) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Long> ownerID = new HttpEntity<>(owner.getId());
-        if (owner.getReducedPoint() == 0)
+        if (owner.getReduscedPoint() == 0)
             restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol/owner", ownerID);
     }
 
