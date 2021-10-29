@@ -2,12 +2,11 @@ package smarttraffic.vehicle_service.entity;
 
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 @Entity
 @Table(name = "vehicle")
-public class Vehicle implements Serializable {
+public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -17,9 +16,6 @@ public class Vehicle implements Serializable {
 
     @Column(name = "plate_number")
     private String plateNumber;
-
-    @Column(name = "vin")
-    private String vin;
 
     @Column(name = "horse_power")
     private int horsPower;
@@ -36,27 +32,22 @@ public class Vehicle implements Serializable {
     @Column(name = "production_year")
     private int productionYear;
 
+    @Column(name = "insurance_expiry_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
+    private Instant insuranceExpiry;
+
+    @Column(name = "tech_inspection_expiry_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
+    private Instant techInspectionExpiry;
+
+    @Column(name = "checked")
+    private boolean checked;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
     public Vehicle() {
-    }
-
-    public String getVin() {
-        return vin;
-    }
-
-    public void setVin(String vin) {
-        this.vin = vin;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
     }
 
     public String getPlateNumber() {
@@ -123,4 +114,35 @@ public class Vehicle implements Serializable {
         this.model = model;
     }
 
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public Instant getInsuranceExpiry() {
+        return insuranceExpiry;
+    }
+
+    public void setInsuranceExpiry(Instant insuranceExpiry) {
+        this.insuranceExpiry = insuranceExpiry;
+    }
+
+    public Instant getTechInspectionExpiry() {
+        return techInspectionExpiry;
+    }
+
+    public void setTechInspectionExpiry(Instant techInspectionExpiry) {
+        this.techInspectionExpiry = techInspectionExpiry;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 }

@@ -1,7 +1,10 @@
 package smarttraffic.violation_service.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import java.time.Instant;
 
 
 @Entity
@@ -35,6 +38,15 @@ public class Vehicle {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private Owner owner;
+
+    @Column(name = "insurance_expiry_date")
+    private Instant insuranceExpiry;
+
+    @Column(name = "tech_inspection_expiry_date")
+    private Instant techInspectionExpiry;
+
+    @Column(name = "checked")
+    private boolean checked;
 
     public Vehicle() {
     }
@@ -109,5 +121,29 @@ public class Vehicle {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public Instant getInsuranceExpiry() {
+        return insuranceExpiry;
+    }
+
+    public void setInsuranceExpiry(Instant insuranceExpiry) {
+        this.insuranceExpiry = insuranceExpiry;
+    }
+
+    public Instant getTechInspectionExpiry() {
+        return techInspectionExpiry;
+    }
+
+    public void setTechInspectionExpiry(Instant techInspectionExpiry) {
+        this.techInspectionExpiry = techInspectionExpiry;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }
