@@ -1,7 +1,10 @@
 package smarttraffic.vehicle_service.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import java.time.Instant;
 
 
 @Entity
@@ -31,6 +34,17 @@ public class Vehicle {
 
     @Column(name = "production_year")
     private int productionYear;
+
+    @Column(name = "insurance_expiry_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
+    private Instant insuranceExpiry;
+
+    @Column(name = "tech_inspection_expiry_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
+    private Instant techInspectionExpiry;
+
+    @Column(name = "checked")
+    private boolean checked;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
@@ -109,5 +123,29 @@ public class Vehicle {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public Instant getInsuranceExpiry() {
+        return insuranceExpiry;
+    }
+
+    public void setInsuranceExpiry(Instant insuranceExpiry) {
+        this.insuranceExpiry = insuranceExpiry;
+    }
+
+    public Instant getTechInspectionExpiry() {
+        return techInspectionExpiry;
+    }
+
+    public void setTechInspectionExpiry(Instant techInspectionExpiry) {
+        this.techInspectionExpiry = techInspectionExpiry;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }
