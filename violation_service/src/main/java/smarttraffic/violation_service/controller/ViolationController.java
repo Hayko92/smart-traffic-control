@@ -104,4 +104,10 @@ public class ViolationController {
         restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/email", speedViolationInfo);
         restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/sms", speedViolationInfo);
     }
+
+    @PostMapping("/vehiclenumber")
+    public List<Violation> createViolation(@RequestBody String number) {
+        List<Violation> violations = violationService.getAllByNumber(number);
+        return violations;
+    }
 }
