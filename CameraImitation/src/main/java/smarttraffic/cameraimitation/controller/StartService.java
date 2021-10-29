@@ -1,13 +1,5 @@
 package smarttraffic.cameraimitation.controller;
 
-import smarttraffic.cameraimitation.dto.DetectorDTO;
-import smarttraffic.cameraimitation.entity.Capture;
-import smarttraffic.cameraimitation.entity.Detector;
-import smarttraffic.cameraimitation.repository.DetectorRepository;
-import smarttraffic.cameraimitation.service.CaptureService;
-import smarttraffic.cameraimitation.service.DetectorService;
-import smarttraffic.cameraimitation.util.DetectorMapper;
-import smarttraffic.cameraimitation.util.NumberExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
@@ -17,6 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import smarttraffic.cameraimitation.dto.DetectorDTO;
+import smarttraffic.cameraimitation.entity.Capture;
+import smarttraffic.cameraimitation.entity.Detector;
+import smarttraffic.cameraimitation.repository.DetectorRepository;
+import smarttraffic.cameraimitation.service.CaptureService;
+import smarttraffic.cameraimitation.service.DetectorService;
+import smarttraffic.cameraimitation.util.DetectorMapper;
+import smarttraffic.cameraimitation.util.NumberExtractor;
 
 import java.io.File;
 import java.net.MalformedURLException;

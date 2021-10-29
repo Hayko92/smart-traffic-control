@@ -1,7 +1,7 @@
 package smarttraffic.cameraimitation.repository;
 
-import smarttraffic.cameraimitation.entity.Capture;
 import org.springframework.data.jpa.repository.JpaRepository;
+import smarttraffic.cameraimitation.entity.Capture;
 
 public interface CaptureRepository extends JpaRepository<Capture, Integer> {
 }

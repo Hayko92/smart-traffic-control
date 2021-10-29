@@ -11,11 +11,14 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "vin_number")
+    private String vinNumber;
+
     @Column(name = "plate_number")
     private String plateNumber;
 
     @Column(name = "horse_power")
-    private String horsPower;
+    private int horsPower;
 
     @Column(name = "color")
     private String Color;
@@ -23,9 +26,11 @@ public class Vehicle {
     @Column(name = "mark")
     private String mark;
 
+    @Column(name = "model")
+    private String model;
+
     @Column(name = "production_year")
     private int productionYear;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
@@ -42,11 +47,11 @@ public class Vehicle {
         this.plateNumber = plateNumber;
     }
 
-    public String getHorsPower() {
+    public int getHorsPower() {
         return horsPower;
     }
 
-    public void setHorsPower(String horsPower) {
+    public void setHorsPower(int horsPower) {
         this.horsPower = horsPower;
     }
 
@@ -82,4 +87,27 @@ public class Vehicle {
         this.productionYear = productionYear;
     }
 
+    public String getVinNumber() {
+        return vinNumber;
+    }
+
+    public void setVinNumber(String vinNumber) {
+        this.vinNumber = vinNumber;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
 }

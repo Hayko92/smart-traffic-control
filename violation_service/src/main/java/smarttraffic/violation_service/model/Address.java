@@ -1,29 +1,19 @@
-package smarttraffic.vehicle_service.entity;
+package smarttraffic.violation_service.model;
 
-import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name = "address")
 public class Address {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "city")
     private String city;
 
-    @Column(name = "street")
     private String street;
 
-    @Column(name = "building")
     private String building;
 
-    @Column(name = "zip_code")
     private int zipCode;
 
-    @OneToMany(mappedBy = "address")
     private Set<Owner> owners;
 
     public Address() {
