@@ -1,5 +1,8 @@
 package smarttraffic.violation_service.entity;
 
+import smarttraffic.violation_service.model.Owner;
+import smarttraffic.violation_service.model.Vehicle;
+
 import javax.persistence.*;
 import java.time.Instant;
 

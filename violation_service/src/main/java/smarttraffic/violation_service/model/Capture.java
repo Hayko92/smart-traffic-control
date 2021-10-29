@@ -1,4 +1,4 @@
-package smarttraffic.violation_service.entity;
+package smarttraffic.violation_service.model;
 
 import javax.persistence.ElementCollection;
 import java.io.Serializable;

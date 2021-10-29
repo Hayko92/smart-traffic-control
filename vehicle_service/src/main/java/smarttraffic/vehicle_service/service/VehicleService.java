@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import smarttraffic.vehicle_service.entity.Vehicle;
 
 @Service
-interface VehicleService {
+public interface VehicleService {
     Vehicle getByNumber(String number);
 
     void create (Vehicle vehicle);

@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.violation_service.entity.*;
+import smarttraffic.violation_service.model.Capture;
+import smarttraffic.violation_service.model.Owner;
+import smarttraffic.violation_service.model.Vehicle;
 import smarttraffic.violation_service.service.ViolationService;
 import smarttraffic.violation_service.util.InfoExtractor;
 import smarttraffic.violation_service.util.ViolationCounter;
@@ -34,16 +37,10 @@ public class ViolationController {
         Capture capturePrev = restTemplate.getForObject("http://127.0.0.1:8080/api/detector-imitation-service/capture/" + idPrev, Capture.class);
         Capture captureCurrent = restTemplate.getForObject("http://127.0.0.1:8080/api/detector-imitation-service/capture/" + idCurr, Capture.class);
         //todo add url handling in vehicle service (url must return owner of vehicle by vehicle number)
-        Owner owner = restTemplate.getForObject("http://127.0.0.1:8084/api/vehicle-service/owner/" + captureCurrent.getPlateNumber(), Owner.class);
+        Vehicle vehicle = restTemplate.getForObject("http://127.0.0.1:8084/api/vehicle-service/" + captureCurrent.getPlateNumber(), Vehicle.class);
         SpeedViolation violation = new SpeedViolation();
-        Vehicle vehicle = owner.getVehicleByPlateNUmber(captureCurrent.getPlateNumber());
-        violation.setCreationDate(captureCurrent.getInstant().truncatedTo(ChronoUnit.DAYS));
-        violation.setPhotoUrl1(captureCurrent.getPhotoUrl());
-        violation.setPhotoUrl2(capturePrev.getPhotoUrl());
-        violation.setPrice(price);
-        violation.setPlace(captureCurrent.getPlace());
-        violation.setOwner(owner);
-        violation.setVehicle(vehicle);
+      //  Vehicle vehicle = owner.g(captureCurrent.getPlateNumber());
+        createSpeedViolation(price, capturePrev, captureCurrent, vehicle);
         //reducing owners points, sending notification to patrol if no points left for current owner
         HttpEntity<Long> ownerID = new HttpEntity<>(owner.getId());
         if (owner.getReducedPoint() == 0)
@@ -53,6 +50,17 @@ public class ViolationController {
         restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/email", speedViolationInfo);
         restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/sms", speedViolationInfo);
         violationService.save(violation);
+    }
+
+    private void createSpeedViolation(int price, Capture capturePrev, Capture captureCurrent, Vehicle vehicle) {
+        SpeedViolation violation = new SpeedViolation();
+        violation.setCreationDate(captureCurrent.getInstant().truncatedTo(ChronoUnit.DAYS));
+        violation.setPhotoUrl1(captureCurrent.getPhotoUrl());
+        violation.setPhotoUrl2(capturePrev.getPhotoUrl());
+        violation.setPrice(price);
+        violation.setPlace(captureCurrent.getPlace());
+        violation.setOwner(vehicle.getOwner());
+        violation.setVehicle(vehicle);
     }
 
     @PostMapping("/techinspection")
