@@ -11,13 +11,14 @@ import smarttraffic.vehicle_service.service.VehicleService;
 public class VehicleServiceController {
 
     @Autowired
-    private  VehicleService vehicleService;
+    private VehicleService vehicleService;
 
     @GetMapping("/owner/{plateNumber}")
     public Owner sendOwnerByPlateNumber(@PathVariable String plateNumber) {
-       Vehicle vehicle = vehicleService.getByNumber(plateNumber);
-       return vehicle.getOwner();
+        Vehicle vehicle = vehicleService.getByNumber(plateNumber);
+        return vehicle.getOwner();
     }
+
     @PostMapping("/{plateNumber}")
     public Vehicle sendVehicleByPlateNumber(@PathVariable String plateNumber) {
         return vehicleService.getByNumber(plateNumber);

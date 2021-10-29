@@ -7,7 +7,7 @@ import smarttraffic.vehicle_service.entity.Vehicle;
 public interface VehicleService {
     Vehicle getByNumber(String number);
 
-    void create (Vehicle vehicle);
+    void create(Vehicle vehicle);
 
     void delete(Vehicle vehicle);
 

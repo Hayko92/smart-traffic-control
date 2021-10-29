@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.violation_service.entity.*;
+import smarttraffic.violation_service.entity.InsuranceViolation;
+import smarttraffic.violation_service.entity.SpeedViolation;
+import smarttraffic.violation_service.entity.TechinspectionViolation;
+import smarttraffic.violation_service.entity.Violation;
 import smarttraffic.violation_service.model.Capture;
 import smarttraffic.violation_service.model.Owner;
 import smarttraffic.violation_service.model.Vehicle;
@@ -22,10 +25,9 @@ import java.util.Map;
 @RequestMapping("/api/violationService")
 public class ViolationController {
 
-
     @Autowired
     private ViolationService violationService;
-    private Capture capture;
+//    private Capture capture;
 
     @PostMapping("/speed")
     public void createSpeedViolation(@RequestBody Map<String, Integer> info) {
@@ -36,23 +38,54 @@ public class ViolationController {
         int price = ViolationCounter.countSpeedViolationBasePrice(speed);
         Capture capturePrev = restTemplate.getForObject("http://127.0.0.1:8080/api/detector-imitation-service/capture/" + idPrev, Capture.class);
         Capture captureCurrent = restTemplate.getForObject("http://127.0.0.1:8080/api/detector-imitation-service/capture/" + idCurr, Capture.class);
-        //todo add url handling in vehicle service (url must return owner of vehicle by vehicle number)
         Vehicle vehicle = restTemplate.getForObject("http://127.0.0.1:8084/api/vehicle-service/" + captureCurrent.getPlateNumber(), Vehicle.class);
-        SpeedViolation violation = new SpeedViolation();
-      //  Vehicle vehicle = owner.g(captureCurrent.getPlateNumber());
-        createSpeedViolation(price, capturePrev, captureCurrent, vehicle);
-        //reducing owners points, sending notification to patrol if no points left for current owner
-        HttpEntity<Long> ownerID = new HttpEntity<>(owner.getId());
-        if (owner.getReducedPoint() == 0)
-            restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol/owner", ownerID);
-
-        Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violation);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/email", speedViolationInfo);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/sms", speedViolationInfo);
+        Owner owner = vehicle.getOwner();
+        Violation violation = createSpeedViolation(price, capturePrev, captureCurrent, vehicle);
+        checkOwnerPoints(owner);
+        sendNotifications(violation);
         violationService.save(violation);
     }
 
-    private void createSpeedViolation(int price, Capture capturePrev, Capture captureCurrent, Vehicle vehicle) {
+
+    @PostMapping
+    public void createViolation(@RequestBody Map<String, Capture> body) {
+        RestTemplate restTemplate = new RestTemplate();
+        Capture capture = null;
+        Vehicle vehicle = restTemplate.getForObject("http://127.0.0.1:8084/api/vehicle-service/" + capture.getPlateNumber(), Vehicle.class);
+        Violation violation = null;
+        violation = checkViolationType(body,vehicle);
+        checkOwnerPoints(vehicle.getOwner());
+        sendNotifications(violation);
+        violationService.save(violation);
+    }
+
+    private Violation checkViolationType(Map<String, Capture> body, Vehicle vehicle) {
+        Capture capture;
+        Violation violation;
+        if (body.containsKey("TECH")) {
+            capture = body.get("TECH");
+            violation = createViolation("TECH", capture, vehicle);
+        } else {
+            capture = body.get("INS");
+            violation = createViolation("INS", capture, vehicle);
+        }
+        return violation;
+    }
+
+    private Violation createViolation(String type, Capture capture, Vehicle vehicle) {
+        Violation violation = null;
+        if (type.equals("TECH")) violation = new TechinspectionViolation();
+        else violation = new InsuranceViolation();
+        violation.setCreationDate(capture.getInstant().truncatedTo(ChronoUnit.DAYS));
+        violation.setPhotoUrl1(capture.getPhotoUrl());
+        violation.setPrice(5000);
+        violation.setPlace(capture.getPlace());
+        violation.setOwner(vehicle.getOwner());
+        violation.setVehicle(vehicle);
+        return violation;
+    }
+
+    private Violation createSpeedViolation(int price, Capture capturePrev, Capture captureCurrent, Vehicle vehicle) {
         SpeedViolation violation = new SpeedViolation();
         violation.setCreationDate(captureCurrent.getInstant().truncatedTo(ChronoUnit.DAYS));
         violation.setPhotoUrl1(captureCurrent.getPhotoUrl());
@@ -61,63 +94,20 @@ public class ViolationController {
         violation.setPlace(captureCurrent.getPlace());
         violation.setOwner(vehicle.getOwner());
         violation.setVehicle(vehicle);
+        return violation;
     }
 
-    @PostMapping("/techinspection")
-    public void createTechinspection(@RequestBody Map<String, Capture> body) {
+    private void checkOwnerPoints(Owner owner) {
         RestTemplate restTemplate = new RestTemplate();
-        Capture idPrev = body.get("TECH");
-        int price = ViolationCounter.techInspection();
-        Capture capturePrev = restTemplate.getForObject("http://127.0.0.1:8080/api/detector-imitation-service/capture/" +
-                idPrev, Capture.class);
-        //todo add url handling in vehicle service (url must return owner of vehicle by vehicle number)
-        Owner owner = restTemplate.getForObject("http://127.0.0.1:8084/api/vehicle-service/owner/" +
-                capturePrev.getPlateNumber(), Owner.class);
-        TechinspectionViolation violation = new TechinspectionViolation();
-        Vehicle vehicle = owner.getVehicleByPlateNUmber(capture.getPlateNumber());
-        violation.setCreationDate(capturePrev.getInstant().truncatedTo(ChronoUnit.DAYS));
-        violation.setPhotoUrl1(capturePrev.getPhotoUrl());
-        violation.setPrice(price);
-        violation.setPlace(capturePrev.getPlace());
-        violation.setOwner(owner);
-        violation.setVehicle(vehicle);
-        //reducing owners points, sending notification to patrol if no points left for current owner
         HttpEntity<Long> ownerID = new HttpEntity<>(owner.getId());
         if (owner.getReducedPoint() == 0)
             restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol/owner", ownerID);
-
-        Map<String, String> techinspectionViolationInfo = InfoExtractor.extractViolationInformation(violation);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/email", techinspectionViolationInfo);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/sms", techinspectionViolationInfo);
-        violationService.save(violation);
     }
 
-    @PostMapping("/insurance")
-    public void createInsurance(@RequestBody Map<String, Capture> body) {
+    private void sendNotifications(Violation violation) {
         RestTemplate restTemplate = new RestTemplate();
-        Capture idPrev = body.get("INS");
-        int price = ViolationCounter.countInsurancePrice();
-        Capture capturePrev = restTemplate.getForObject("http://127.0.0.1:8080/api/detector-imitation-service/capture/" +
-                idPrev, Capture.class);
-        //todo add url handling in vehicle service (url must return owner of vehicle by vehicle number)
-        Owner owner = restTemplate.getForObject("http://127.0.0.1:8084/api/vehicle-service/owner/" +
-                capturePrev.getPlateNumber(), Owner.class);
-        InsuranceViolation violation = new InsuranceViolation();
-        Vehicle vehicle = owner.getVehicleByPlateNUmber(capture.getPlateNumber());
-        violation.setCreationDate(capturePrev.getInstant().truncatedTo(ChronoUnit.DAYS));
-        violation.setPhotoUrl1(capturePrev.getPhotoUrl());
-        violation.setPrice(price);
-        violation.setPlace(capturePrev.getPlace());
-        violation.setOwner(owner);
-        violation.setVehicle(vehicle);
-        //reducing owners points, sending notification to patrol if no points left for current owner
-        HttpEntity<Long> ownerID = new HttpEntity<>(owner.getId());
-        if (owner.getReducedPoint() == 0)
-            restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol/owner", ownerID);
-
-        Map<String, String> insuranceViolationInfo = InfoExtractor.extractViolationInformation(violation);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/email", insuranceViolationInfo);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/sms", insuranceViolationInfo);
-        violationService.save(violation);
+        Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violation);
+        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/email", speedViolationInfo);
+        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/sms", speedViolationInfo);
     }
 }

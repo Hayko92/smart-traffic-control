@@ -1,8 +1,5 @@
 package smarttraffic.vehicle_service.entity;
 
-import javax.persistence.*;
-
-
 public class OwnerContact {
 
     private long id;

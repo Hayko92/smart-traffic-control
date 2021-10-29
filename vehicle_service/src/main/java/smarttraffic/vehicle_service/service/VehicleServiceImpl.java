@@ -7,7 +7,7 @@ import smarttraffic.vehicle_service.repository.VehicleRepository;
 
 
 @Service
-public class VehicleServiceImpl implements VehicleService{
+public class VehicleServiceImpl implements VehicleService {
     @Autowired
     VehicleRepository vehicleRepository;
 

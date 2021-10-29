@@ -1,24 +1,39 @@
-package smarttraffic.violation_service.model;
+package smarttraffic.violation_service.entity;
 
 
+import javax.persistence.*;
+
+
+@Entity
+@Table(name = "vehicle")
 public class Vehicle {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "vin_number")
     private String vinNumber;
 
+    @Column(name = "plate_number")
     private String plateNumber;
 
+    @Column(name = "horse_power")
     private int horsPower;
 
+    @Column(name = "color")
     private String Color;
 
+    @Column(name = "mark")
     private String mark;
 
+    @Column(name = "model")
     private String model;
 
+    @Column(name = "production_year")
     private int productionYear;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id")
     private Owner owner;
 
     public Vehicle() {

@@ -30,10 +30,11 @@ public class Violation {
     @Column(name = "photoUrl2")
     private String photoUrl2;
 
-    @OneToOne
-    @JoinColumn(name = "owner_id")
+    @ManyToOne
+//    @JoinColumn(name = "owner_id")
     private Owner owner;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
