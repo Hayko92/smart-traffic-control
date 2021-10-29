@@ -1,4 +1,4 @@
-package smarttraffic.vehicle_service.entity;
+package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
 
@@ -13,6 +13,10 @@ public class OwnerContact {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     public long getId() {
         return id;
