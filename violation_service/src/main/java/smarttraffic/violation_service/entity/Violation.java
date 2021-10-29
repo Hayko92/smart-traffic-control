@@ -12,6 +12,9 @@ public class Violation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "plate_number")
+    private String number;
+
     @Column(name = "creation_date")
     private Instant creationDate;
 
@@ -20,6 +23,7 @@ public class Violation {
 
     @Column(name = "price")
     private int price;
+
     @Column(name = "type")
     private String type;
 
@@ -110,5 +114,13 @@ public class Violation {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 }

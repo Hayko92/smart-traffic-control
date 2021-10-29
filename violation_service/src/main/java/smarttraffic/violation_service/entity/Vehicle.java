@@ -16,7 +16,7 @@ public class Vehicle {
     private String vinNumber;
 
     @Column(name = "plate_number")
-    private String plateNumber;
+    private String number;
 
     @Column(name = "horse_power")
     private int horsPower;
@@ -49,12 +49,12 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public String getPlateNumber() {
-        return plateNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setPlateNumber(String plateNumber) {
-        this.plateNumber = plateNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public int getHorsPower() {

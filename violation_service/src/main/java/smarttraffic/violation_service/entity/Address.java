@@ -1,4 +1,6 @@
-package smarttraffic.vehicle_service.entity;
+package smarttraffic.violation_service.entity;
+
+import smarttraffic.violation_service.entity.Owner;
 
 import javax.persistence.*;
 import java.util.Set;

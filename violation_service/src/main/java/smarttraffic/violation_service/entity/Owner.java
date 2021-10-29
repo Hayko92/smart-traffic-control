@@ -1,8 +1,5 @@
 package smarttraffic.violation_service.entity;
 
-import smarttraffic.vehicle_service.entity.Address;
-import smarttraffic.vehicle_service.entity.OwnerContact;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -29,7 +26,7 @@ public class Owner {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "contact_id")
     private OwnerContact ownerContact;
 
@@ -100,7 +97,7 @@ public class Owner {
         this.point = point;
     }
 
-    public int getReduscedPoint() {
+    public int getRedusedPoint() {
         point--;
         return point;
     }

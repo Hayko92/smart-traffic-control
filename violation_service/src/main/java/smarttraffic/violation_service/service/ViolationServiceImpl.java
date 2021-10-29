@@ -33,4 +33,9 @@ public class ViolationServiceImpl implements ViolationService {
     public void delete(Violation violation) {
         violationRepository.delete(violation);
     }
+
+    @Override
+    public List<Violation> getAllByNumber(String number){
+        return violationRepository.getAllByNumber(number);
+    }
 }
