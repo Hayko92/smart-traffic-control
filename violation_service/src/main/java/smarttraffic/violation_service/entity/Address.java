@@ -1,4 +1,4 @@
-package smarttraffic.vehicle_service.entity;
+package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,6 +10,9 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "country")
+    private String country;
 
     @Column(name = "city")
     private String city;
@@ -24,7 +27,7 @@ public class Address {
     private int zipCode;
 
     @OneToMany(mappedBy = "address")
-    private Set<Owner> owners;
+    private Set<OwnerContact> owners;
 
     public Address() {
     }
@@ -35,6 +38,14 @@ public class Address {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getCity() {
@@ -69,11 +80,11 @@ public class Address {
         this.zipCode = zipCode;
     }
 
-    public Set<Owner> getOwners() {
+    public Set<OwnerContact> getOwners() {
         return owners;
     }
 
-    public void setOwners(Set<Owner> owners) {
+    public void setOwners(Set<OwnerContact> owners) {
         this.owners = owners;
     }
 }
