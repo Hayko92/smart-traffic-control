@@ -2,17 +2,21 @@ package smarttraffic.vehicle_service.entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "vehicle")
-public class Vehicle {
+public class Vehicle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "plate_number")
     private String plateNumber;
+
+    @Column(name = "vin")
+    private String vin;
 
     @Column(name = "horse_power")
     private String horsPower;
@@ -32,6 +36,22 @@ public class Vehicle {
     private Owner owner;
 
     public Vehicle() {
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 
     public String getPlateNumber() {
