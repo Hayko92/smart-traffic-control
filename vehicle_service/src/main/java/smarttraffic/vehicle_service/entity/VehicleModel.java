@@ -12,9 +12,12 @@ public class VehicleModel {
     @Column(name = "model_name")
     private String modelName;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "vehicle_mark_id")
     private VehicleMark vehicleMark;
+
+    @OneToOne(mappedBy = "model")
+    Vehicle vehicle;
 
     public int getId() {
         return id;

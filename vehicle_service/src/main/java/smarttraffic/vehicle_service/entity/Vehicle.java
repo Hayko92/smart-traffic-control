@@ -26,11 +26,11 @@ public class Vehicle {
     @Column(name = "color")
     private String Color;
 
-    @Column(name = "mark")
-    private String mark;
+    @OneToOne(mappedBy = "vehicle_mark_id")
+    private VehicleMark mark;
 
-    @Column(name = "model")
-    private String model;
+    @OneToOne(mappedBy = "vehicle_model_id")
+    private VehicleModel model;
 
     @Column(name = "production_year")
     private int productionYear;
@@ -51,6 +51,22 @@ public class Vehicle {
     private Owner owner;
 
     public Vehicle() {
+    }
+
+    public VehicleMark getMark() {
+        return mark;
+    }
+
+    public void setMark(VehicleMark mark) {
+        this.mark = mark;
+    }
+
+    public VehicleModel getModel() {
+        return model;
+    }
+
+    public void setModel(VehicleModel model) {
+        this.model = model;
     }
 
     public String getPlateNumber() {
@@ -85,14 +101,6 @@ public class Vehicle {
         this.id = id;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
     public int getProductionYear() {
         return productionYear;
     }
@@ -107,14 +115,6 @@ public class Vehicle {
 
     public void setVinNumber(String vinNumber) {
         this.vinNumber = vinNumber;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public Owner getOwner() {
