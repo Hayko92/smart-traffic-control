@@ -10,6 +10,9 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "id_number")
+    private String idNumber;
+
     @Column(name = "license_number")
     private String licenseNumber;
 
@@ -21,10 +24,6 @@ public class Owner {
 
     @OneToMany(mappedBy = "owner")
     private Set<Vehicle> vehicles;
-
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
 
     @OneToOne
     @JoinColumn(name = "contact_id")
@@ -44,14 +43,6 @@ public class Owner {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public OwnerContact getOwnerContact() {
