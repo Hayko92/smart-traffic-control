@@ -26,7 +26,7 @@ public class Address {
     @Column(name = "zip_code")
     private int zipCode;
 
-    @OneToMany(mappedBy = "address",cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "address", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<OwnerContact> owners;
 
     public Address() {

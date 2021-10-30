@@ -14,7 +14,7 @@ public class VehicleMark {
     @Column(name = "mark_name")
     private String markName;
 
-    @OneToMany(mappedBy = "vehicleMark",cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "vehicleMark", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<VehicleModel> models;
 
     public Set<VehicleModel> getModels() {

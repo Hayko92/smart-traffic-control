@@ -15,7 +15,7 @@ public class OwnerContact {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "address_id")
     private Address address;
 

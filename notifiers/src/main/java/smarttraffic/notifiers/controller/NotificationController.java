@@ -37,7 +37,7 @@ public class NotificationController {
         helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
         helper.setTo("RoadPolice@Armenia.com");
         helper.setSubject("Unrecognized vehicle!");
-        helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s",capture.getInstant(),capture.getPlace()));
+        helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s", capture.getInstant(), capture.getPlace()));
         FileSystemResource file1 = new FileSystemResource(new File(capture.getPhotoUrl()));
         helper.addAttachment("car_photo1.jpg", file1);
         mailSender.send(message);
@@ -50,7 +50,7 @@ public class NotificationController {
         helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
         helper.setTo("RoadPolice@Armenia.com");
         helper.setSubject("Driver with null points!");
-        helper.setText(String.format("Driver with ID %d have 0 points left",ownerID));
+        helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
         mailSender.send(message);
     }
 

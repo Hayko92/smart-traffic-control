@@ -1,27 +1,16 @@
 package smarttraffic.cameraimitation.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-@Entity
-@Table(name = "capture")
+
 public class Capture implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int id;
-
-    @Column(name = "plate_number")
     private String plateNumber;
-
-    @Column(name = "place")
     private String place;
-
-    @Column(name = "time_stamp")
     private Instant instant;
-
-    @Column(name = "photo_url")
     private String photoUrl;
 
     public Capture() {

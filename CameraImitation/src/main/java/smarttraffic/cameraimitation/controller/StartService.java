@@ -30,18 +30,16 @@ import java.util.Random;
 @RequestMapping("/api/detector-imitation-service")
 public class StartService {
 
-    @Value( "${detectorsAnalyzer}")
-    private String detectorAnalyzerUrl;
-
-    @Value( "${notificationService}")
-    private String notifierServiceUrl;
-
     @Autowired
     DetectorRepository detectorRepository;
     @Autowired
     CaptureService captureService;
     @Autowired
     DetectorService detectorService;
+    @Value("${detectorsAnalyzer}")
+    private String detectorAnalyzerUrl;
+    @Value("${notificationService}")
+    private String notifierServiceUrl;
     @Autowired
     private ResourceLoader resourceLoader;
     @Autowired
@@ -106,6 +104,6 @@ public class StartService {
     private void sendNotifocationToPatrol(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        restTemplate.postForLocation(notifierServiceUrl+"/patrol", httpEntity);
+        restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
 }

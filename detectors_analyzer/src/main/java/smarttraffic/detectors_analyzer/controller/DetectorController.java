@@ -20,27 +20,23 @@ import java.util.Map;
 @RequestMapping("/api/detector-analyzer")
 public class DetectorController {
 
-    @Value("${vehicleService}")
-    private String violationServiceUrl;
-
-    @Value( "${notificationService}")
-    private String notifierServiceUrl;
-
-    @Value( "${vehicleService}")
-    private String vehicleServiceUrl;
-
     @Autowired
     CaptureService captureService;
-
     @Autowired
     VehicleService vehicleService;
+    @Value("${vehicleService}")
+    private String violationServiceUrl;
+    @Value("${notificationService}")
+    private String notifierServiceUrl;
+    @Value("${vehicleService}")
+    private String vehicleServiceUrl;
 
     @PostMapping
     public void receiveCapture(@RequestBody Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         Capture prev = null;
         String plateNumber = capture.getPlateNumber();
-        Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl+"/"+plateNumber,Vehicle.class);
+        Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl + "/" + plateNumber, Vehicle.class);
         if (vehicle == null) {
             sendNotificationToPatrol(capture);
             return;
@@ -62,12 +58,12 @@ public class DetectorController {
             if (!hasValidTechInspection) createViolation(capture, "TECH");
             setChecked(vehicle);
         }
-       captureService.save(capture);
+        captureService.save(capture);
     }
 
     private void setChecked(Vehicle vehicle) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForLocation(vehicleServiceUrl+"/set-status-checked",vehicle);
+        restTemplate.postForLocation(vehicleServiceUrl + "/set-status-checked", vehicle);
     }
 
     private void createSpeedViolation(Capture prev, Capture current, int speed) {
@@ -77,7 +73,7 @@ public class DetectorController {
         info.put("currentCapture", current.getId());
         info.put("speed", speed);
         HttpEntity<Map<String, Integer>> httpEntity = new HttpEntity<>(info);
-        restTemplate.postForLocation(violationServiceUrl+"/speed", httpEntity);
+        restTemplate.postForLocation(violationServiceUrl + "/speed", httpEntity);
     }
 
     public void createViolation(Capture capture, String type) {
@@ -91,6 +87,6 @@ public class DetectorController {
     private void sendNotificationToPatrol(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        restTemplate.postForLocation(notifierServiceUrl+"/patrol", httpEntity);
+        restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
 }

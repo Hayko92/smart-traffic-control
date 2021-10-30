@@ -35,7 +35,7 @@ public class ViolationServiceImpl implements ViolationService {
     }
 
     @Override
-    public List<Violation> getAllByNumber(String number){
+    public List<Violation> getAllByNumber(String number) {
         return violationRepository.getAllByNumber(number);
     }
 
