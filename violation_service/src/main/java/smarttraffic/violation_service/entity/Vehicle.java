@@ -38,17 +38,15 @@ public class Vehicle {
     private int productionYear;
 
     @Column(name = "insurance_expiry_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant insuranceExpiry;
 
     @Column(name = "tech_inspection_expiry_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant techInspectionExpiry;
 
     @Column(name = "checked")
     private boolean checked;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade =CascadeType.ALL)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 

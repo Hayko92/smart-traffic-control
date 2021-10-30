@@ -7,72 +7,61 @@ public final class HTMLCreator {
     }
 
     public static String createSpeedViolationBlank(Map<String, String> info) {
-        String blank = String.format("<!DOCTYPE html>\n" +
-                        "<html>\n" +
-                        "<style>\n" +
-                        "table, th, td {\n" +
-                        "  border:1px solid black;\n" +
-                        "}\n" +
-                        "</style>\n" +
-                        "<body>\n" +
-                        "\n" +
-                        "<h2>Dear Mr/Ms $s, You have a new speed violation for your vehicle</h2>\n" +
-                        "\n" +
-                        "\n" +
-                        "<table style=\"width:100%\">\n" +
-                        "\n" +
-                        "  <tr>\n" +
-                        "    <td>id</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "  <tr>\n" +
-                        "    <td>type</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>platenumber</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>place</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "    <tr>\n" +
-                        "    <td>time</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>vehicle mark</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>vehicle model</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>vehicle year</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "    <tr>\n" +
-                        "    <td>price</td>\n" +
-                        "    <td><b>$s</b></td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>firstname</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>lastname</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>phone</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "    <tr>\n" +
-                        "    <td>email</td>\n" +
-                        "    <td>$s</td>\n" +
-                        "  </tr>\n" +
-                        "</table>\n" +
-                        "</body>\n" +
+        return String.format("<!DOCTYPE html><html><style>table, th, td { border:1px solid black;} </style><body> <h2>Dear Mr/Ms $s, You have a new speed violation for your vehicle</h2>"
+                        +"<table style=\"width:100%\">" +
+                        "" +
+                        "  <tr>" +
+                        "    <td>id</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "  <tr>" +
+                        "    <td>type</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>platenumber</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>place</td>" +
+                        "    <td>$s</td>" +
+                        "    <tr>" +
+                        "    <td>time</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>vehicle mark</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>vehicle model</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>vehicle year</td>" +
+                        "    <td>$s</td>" +
+                        "    <tr>" +
+                        "    <td>price</td>" +
+                        "    <td><b>$s</b></td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>firstname</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>lastname</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>phone</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "    <tr>" +
+                        "    <td>email</td>" +
+                        "    <td>$s</td>" +
+                        "  </tr>" +
+                        "</table>" +
+                        "</body>" +
                         "</html>", info.get("surname"),
                 info.get("id"),
                 info.get("type"),
@@ -87,6 +76,5 @@ public final class HTMLCreator {
                 info.get("lastName"),
                 info.get("phone"),
                 info.get("email"));
-        return blank;
     }
 }

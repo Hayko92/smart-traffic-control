@@ -19,6 +19,9 @@ import smarttraffic.notifiers.util.HTMLCreator;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 @RestController
@@ -31,14 +34,16 @@ public class NotificationController {
     private JavaMailSender mailSender;
 
     @PostMapping("/patrol")
-    public void sendToPatrol(@RequestBody Capture capture) throws MessagingException {
+    public void sendToPatrol(@RequestBody Capture capture) throws MessagingException, URISyntaxException, MalformedURLException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
-        helper.setTo("RoadPolice@Armenia.com");
+        //TODO
+        helper.setTo("asatryanhayko92@gmail.com");
         helper.setSubject("Unrecognized vehicle!");
         helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s", capture.getInstant(), capture.getPlace()));
-        FileSystemResource file1 = new FileSystemResource(new File(capture.getPhotoUrl()));
+        File file = new File(capture.getPhotoUrl().substring(5).replace("%20"," "));
+        FileSystemResource file1 = new FileSystemResource(file);
         helper.addAttachment("car_photo1.jpg", file1);
         mailSender.send(message);
     }
@@ -48,7 +53,7 @@ public class NotificationController {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false);
         helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
-        helper.setTo("RoadPolice@Armenia.com");
+        helper.setTo("asatryanhayko92@gmail.com");
         helper.setSubject("Driver with null points!");
         helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
         mailSender.send(message);
@@ -62,10 +67,10 @@ public class NotificationController {
         helper.setTo(info.get("email"));
         helper.setSubject("YOU HAVE A NEW VIOLATION!");
         helper.setText(HTMLCreator.createSpeedViolationBlank(info));
-        FileSystemResource file1 = new FileSystemResource(new File(info.get("photoURL1")));
+        FileSystemResource file1 = new FileSystemResource(new File(info.get("photoURL1").replace("%20"," ").substring(5)));
         helper.addAttachment("car_photo1.jpg", file1);
         if (info.get("type").equals("SPEED")) {
-            FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2")));
+            FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2").replace("%20"," ").substring(5)));
             helper.addAttachment("car_photo2.jpg", file2);
         }
         mailSender.send(message);

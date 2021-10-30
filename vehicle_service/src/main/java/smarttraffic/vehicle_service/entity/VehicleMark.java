@@ -1,5 +1,7 @@
 package smarttraffic.vehicle_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -15,6 +17,7 @@ public class VehicleMark {
     private String markName;
 
     @OneToMany(mappedBy = "vehicleMark")
+    @JsonBackReference
     private Set<VehicleModel> models;
 
     public Set<VehicleModel> getModels() {
