@@ -3,6 +3,7 @@ package smarttraffic.vehicle_service.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "ownerContact")
 public class OwnerContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

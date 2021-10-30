@@ -26,11 +26,13 @@ public class Vehicle {
     @Column(name = "color")
     private String Color;
 
-    @Column(name = "mark")
-    private String mark;
+    @ManyToOne
+    @JoinColumn(name = "mark_id")
+    private VehicleMark mark;
 
-    @Column(name = "model")
-    private String model;
+    @ManyToOne
+    @JoinColumn(name = "model_id")
+    private VehicleModel model;
 
     @Column(name = "production_year")
     private int productionYear;
@@ -85,14 +87,6 @@ public class Vehicle {
         this.id = id;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
     public int getProductionYear() {
         return productionYear;
     }
@@ -109,11 +103,19 @@ public class Vehicle {
         this.vinNumber = vinNumber;
     }
 
-    public String getModel() {
+    public VehicleMark getMark() {
+        return mark;
+    }
+
+    public void setMark(VehicleMark mark) {
+        this.mark = mark;
+    }
+
+    public VehicleModel getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(VehicleModel model) {
         this.model = model;
     }
 

@@ -24,4 +24,9 @@ public class CaptureServiceImpl implements CaptureService {
     public Capture getById(int id) {
         return captureRepository.getById(id);
     }
+
+    @Override
+    public void save(Capture capture) {
+        captureRepository.save(capture);
+    }
 }
