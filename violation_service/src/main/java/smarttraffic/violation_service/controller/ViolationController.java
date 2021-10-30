@@ -13,6 +13,7 @@ import smarttraffic.violation_service.util.InfoExtractor;
 import smarttraffic.violation_service.util.ViolationCounter;
 
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -94,7 +95,7 @@ public class ViolationController {
     private void checkOwnerPoints(Owner owner) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Long> ownerID = new HttpEntity<>(owner.getId());
-        if (owner.getReduscedPoint() == 0)
+        if (owner.getRedusedPoint() == 0)
             restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol/owner", ownerID);
     }
 
@@ -103,5 +104,11 @@ public class ViolationController {
         Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violation);
         restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/email", speedViolationInfo);
         restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/sms", speedViolationInfo);
+    }
+
+    @PostMapping("/vehiclenumber")
+    public List<Violation> createViolation(@RequestBody String number) {
+        List<Violation> violations = violationService.getAllByNumber(number);
+        return violations;
     }
 }

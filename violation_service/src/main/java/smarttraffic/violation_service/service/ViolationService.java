@@ -15,4 +15,6 @@ public interface ViolationService {
     Optional<Violation> getByNumber(String number);
 
     void delete(Violation violation);
+
+    List<Violation> getAllByNumber(String number);
 }
