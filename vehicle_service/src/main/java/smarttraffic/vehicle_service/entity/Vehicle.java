@@ -21,7 +21,7 @@ public class Vehicle {
     private String plateNumber;
 
     @Column(name = "horse_power")
-    private int horsPower;
+    private int horsePower;
 
     @Column(name = "color")
     private String Color;
@@ -64,11 +64,11 @@ public class Vehicle {
     }
 
     public int getHorsPower() {
-        return horsPower;
+        return horsePower;
     }
 
     public void setHorsPower(int horsPower) {
-        this.horsPower = horsPower;
+        this.horsePower = horsPower;
     }
 
     public String getColor() {

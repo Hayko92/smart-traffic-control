@@ -27,17 +27,17 @@ public class Violation {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "photoUrl1")
+    @Column(name = "photo_url1")
     private String photoUrl1;
 
-    @Column(name = "photoUrl2")
+    @Column(name = "photo_url2")
     private String photoUrl2;
 
-    @ManyToOne
+    @ManyToOne (cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 

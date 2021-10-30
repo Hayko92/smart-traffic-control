@@ -38,4 +38,9 @@ public class ViolationServiceImpl implements ViolationService {
     public List<Violation> getAllByNumber(String number){
         return violationRepository.getAllByNumber(number);
     }
+
+    @Override
+    public List<Violation> getAllByOwnerID(Long ownerID) {
+        return violationRepository.getAllByOwnerId(ownerID);
+    }
 }

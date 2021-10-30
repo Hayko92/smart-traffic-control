@@ -1,6 +1,6 @@
 package smarttraffic.violation_service.util;
 
-import smarttraffic.violation_service.entity.SpeedViolation;
+import smarttraffic.violation_service.model.SpeedViolation;
 import smarttraffic.violation_service.entity.Violation;
 
 import java.time.temporal.ChronoUnit;
@@ -16,7 +16,7 @@ public final class InfoExtractor {
         Map<String, String> result = new HashMap<>();
         result.put("id", String.valueOf(violation.getId()));
         result.put("type", violation.getType());
-        result.put("plateNumber", violation.getVehicle().getNumber());
+        result.put("plateNumber", violation.getVehicle().getPlateNumber());
         result.put("place", violation.getPlace());
         result.put("photoURL1", violation.getPhotoUrl1());
         result.put("time", violation.getCreationDate().truncatedTo(ChronoUnit.SECONDS).toString());
@@ -25,8 +25,8 @@ public final class InfoExtractor {
         result.put("lastName", violation.getOwner().getLastName());
         result.put("phone", violation.getOwner().getOwnerContact().getPhoneNumber());
         result.put("email", violation.getOwner().getOwnerContact().getEmailAddress());
-        result.put("vehicleMark", violation.getVehicle().getMark());
-        result.put("vehicleModel", violation.getVehicle().getModel());
+        result.put("vehicleMark", violation.getVehicle().getMark().getMarkName());
+        result.put("vehicleModel", violation.getVehicle().getModel().getModelName());
         result.put("vehicleYear", String.valueOf(violation.getVehicle().getProductionYear()));
         if (violation instanceof SpeedViolation) {
             result.put("photoURL2", violation.getPhotoUrl2());
