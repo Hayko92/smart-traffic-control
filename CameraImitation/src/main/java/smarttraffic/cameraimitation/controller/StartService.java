@@ -1,6 +1,7 @@
 package smarttraffic.cameraimitation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
@@ -28,6 +29,13 @@ import java.util.Random;
 @RestController
 @RequestMapping("/api/detector-imitation-service")
 public class StartService {
+
+    @Value( "${detectorsAnalyzer}")
+    private String detectorAnalyzerUrl;
+
+    @Value( "${notificationService}")
+    private String notifierServiceUrl;
+
     @Autowired
     DetectorRepository detectorRepository;
     @Autowired
@@ -41,6 +49,7 @@ public class StartService {
 
     @GetMapping()
     public void sendRequest() throws MalformedURLException, InterruptedException {
+
         while (true) {
             sendRandomPhotoFromRandomDetector();
             Thread.sleep(5000);
@@ -53,6 +62,7 @@ public class StartService {
     }
 
     private void sendRandomPhotoFromRandomDetector() throws MalformedURLException {
+
         RestTemplate restTemplate = new RestTemplate();
         Detector randomDetector = getRandomDetector();
         URL url = getRadnomUrl();
@@ -63,12 +73,11 @@ public class StartService {
         String place = randomDetector.getPlace();
         Capture capture = new Capture(plateNumber, url.toString(), place, instant);
         HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        restTemplate.postForLocation("http://127.0.0.1:8081/api/detector_analyzer", httpEntity);
+        restTemplate.postForLocation(detectorAnalyzerUrl, httpEntity);
         if (plateNumber == null) {
             //todo che this method
             sendNotifocationToPatrol(capture);
         }
-        captureService.save(capture);
     }
 
     @GetMapping("/api/camera-imitation-service/{detectorPlace}")
@@ -83,7 +92,7 @@ public class StartService {
 
     private URL getRadnomUrl() throws MalformedURLException {
         Random random = new Random();
-        String path = String.format("C:\\Users\\Hayk\\IdeaProjects\\smart-traffic-control\\CameraImitation\\src\\main\\resources\\car_numbers\\%d.jpg", random.nextInt(30));
+        String path = String.format("C:\\Users\\asatr\\OneDrive\\Рабочий стол\\SMART-TRAFFIC-CONTROL\\CameraImitation\\src\\main\\resources\\CAR_numbers\\%s.jpg", random.nextInt(30));
         File file = new File(path);
         return file.toURI().toURL();
     }
@@ -97,6 +106,6 @@ public class StartService {
     private void sendNotifocationToPatrol(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol", httpEntity);
+        restTemplate.postForLocation(notifierServiceUrl+"/patrol", httpEntity);
     }
 }

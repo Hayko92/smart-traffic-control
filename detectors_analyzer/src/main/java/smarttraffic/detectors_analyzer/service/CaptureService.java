@@ -8,4 +8,6 @@ public interface CaptureService {
     Capture getByPlace(String place);
 
     Capture getById(int id);
+
+    void save(Capture capture);
 }

@@ -16,4 +16,7 @@ public interface VehicleService {
     void delete(long id);
 
 
+    Vehicle getById(long id);
+
+    void save(Vehicle vehicle1);
 }
