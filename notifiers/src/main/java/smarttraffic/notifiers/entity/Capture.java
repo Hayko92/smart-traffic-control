@@ -1,33 +1,20 @@
 package smarttraffic.notifiers.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table(name = "capture")
 public class Capture implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int id;
 
-    @Column(name = "plateNumber")
     private String plateNumber;
 
-    @Column(name = "place")
     private String place;
 
-    @Column(name = "time_stamp")
     private Instant instant;
 
-    @Column(name = "photo_url")
     private String photoUrl;
-
-    @ElementCollection
-    private List<Integer> violationIds;
 
     public Capture() {
     }
@@ -38,7 +25,6 @@ public class Capture implements Serializable {
         this.place = place;
         this.instant = instant;
     }
-
 
     public String getPhotoUrl() {
         return photoUrl;
@@ -80,34 +66,17 @@ public class Capture implements Serializable {
         this.instant = instant;
     }
 
-    public List<Integer> getViolationIds() {
-        return violationIds;
-    }
-
-    public void setViolationIds(List<Integer> violationIds) {
-        this.violationIds = violationIds;
-    }
-
-    public void addViolationId(Integer id) {
-        this.violationIds.add(id);
-    }
-
-    public void addToViolationList(List<Integer> violationIds) {
-        if (this.violationIds == null) this.violationIds = new ArrayList<>();
-        if (violationIds != null) this.violationIds.addAll(violationIds);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Capture capture = (Capture) o;
-        return id == capture.id && Objects.equals(plateNumber, capture.plateNumber) && Objects.equals(place, capture.place) && Objects.equals(instant, capture.instant) && Objects.equals(violationIds, capture.violationIds);
+        return id == capture.id && Objects.equals(plateNumber, capture.plateNumber) && Objects.equals(place, capture.place) && Objects.equals(instant, capture.instant);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, plateNumber, place, instant, violationIds);
+        return Objects.hash(id, plateNumber, place, instant);
     }
 
     @Override
@@ -117,7 +86,6 @@ public class Capture implements Serializable {
                 ", number='" + plateNumber + '\'' +
                 ", place='" + place + '\'' +
                 ", instant=" + instant +
-                ", violationIds=" + violationIds +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package smarttraffic.violation_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,12 +18,19 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/violationService")
+@RequestMapping("api/violation-service")
 public class ViolationController {
 
+    @Value("${cameraImitationServise}")
+    private String detectorImitationUrl;
+
+    @Value("${vehicleService}")
+    private String vehicleServiceUrl;
+
+    @Value("${notificationService}")
+    private String notificationServiceUrl;
     @Autowired
     private ViolationService violationService;
-//    private Capture capture;
 
     @PostMapping("/speed")
     public void createSpeedViolation(@RequestBody Map<String, Integer> info) {
@@ -31,9 +39,9 @@ public class ViolationController {
         int idCurr = info.get("currentCapture");
         int speed = info.get("speed");
         int price = ViolationCounter.countSpeedViolationBasePrice(speed);
-        Capture capturePrev = restTemplate.getForObject("http://127.0.0.1:8080/api/detector-imitation-service/capture/" + idPrev, Capture.class);
-        Capture captureCurrent = restTemplate.getForObject("http://127.0.0.1:8080/api/detector-imitation-service/capture/" + idCurr, Capture.class);
-        Vehicle vehicle = restTemplate.getForObject("http://127.0.0.1:8084/api/vehicle-service/" + captureCurrent.getPlateNumber(), Vehicle.class);
+        Capture capturePrev = restTemplate.getForObject(detectorImitationUrl + "/capture/" + idPrev, Capture.class);
+        Capture captureCurrent = restTemplate.getForObject(detectorImitationUrl + "/capture/" + idCurr, Capture.class);
+        Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl+"/" + captureCurrent.getPlateNumber(), Vehicle.class);
         Owner owner = vehicle.getOwner();
         Violation violation = createSpeedViolation(price, capturePrev, captureCurrent, vehicle);
         checkOwnerPoints(owner);
@@ -46,9 +54,9 @@ public class ViolationController {
     public void createViolation(@RequestBody Map<String, Capture> body) {
         RestTemplate restTemplate = new RestTemplate();
         Capture capture = null;
-        Vehicle vehicle = restTemplate.getForObject("http://127.0.0.1:8084/api/vehicle-service/" + capture.getPlateNumber(), Vehicle.class);
+        Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl + "/" + capture.getPlateNumber(), Vehicle.class);
         Violation violation = null;
-        violation = checkViolationType(body,vehicle);
+        violation = checkViolationType(body, vehicle);
         checkOwnerPoints(vehicle.getOwner());
         sendNotifications(violation);
         violationService.save(violation);
@@ -96,14 +104,14 @@ public class ViolationController {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Long> ownerID = new HttpEntity<>(owner.getId());
         if (owner.getRedusedPoint() == 0)
-            restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/patrol/owner", ownerID);
+            restTemplate.postForLocation(notificationServiceUrl+"/patrol/owner", ownerID);
     }
 
     private void sendNotifications(Violation violation) {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violation);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/email", speedViolationInfo);
-        restTemplate.postForLocation("http://127.0.0.1:8083/api/notification-service/sms", speedViolationInfo);
+        restTemplate.postForLocation(notificationServiceUrl+"/email", speedViolationInfo);
+        restTemplate.postForLocation(notificationServiceUrl+"/sms", speedViolationInfo);
     }
 
     @PostMapping("/vehiclenumber")

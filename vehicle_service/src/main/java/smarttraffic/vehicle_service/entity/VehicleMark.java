@@ -1,7 +1,7 @@
 package smarttraffic.vehicle_service.entity;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "vehicle_mark")
@@ -15,10 +15,15 @@ public class VehicleMark {
     private String markName;
 
     @OneToMany(mappedBy = "vehicleMark")
-    private List<VehicleModel> vehicleModels;
+    private Set<VehicleModel> models;
 
-    @OneToOne(mappedBy = "mark")
-    private Vehicle vehicle;
+    public Set<VehicleModel> getModels() {
+        return models;
+    }
+
+    public void setModels(Set<VehicleModel> models) {
+        this.models = models;
+    }
 
     public int getId() {
         return id;

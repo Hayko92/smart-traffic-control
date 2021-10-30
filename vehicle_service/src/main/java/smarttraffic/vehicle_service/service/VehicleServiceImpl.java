@@ -38,4 +38,14 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleRepository.deleteById(id);
     }
 
+    @Override
+    public Vehicle getById(long id) {
+        return vehicleRepository.getById(id);
+    }
+
+    @Override
+    public void save(Vehicle vehicle1) {
+        vehicleRepository.save(vehicle1);
+    }
+
 }

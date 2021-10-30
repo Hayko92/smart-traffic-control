@@ -3,6 +3,7 @@ package smarttraffic.vehicle_service.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "vehicle_model")
 public class VehicleModel {
 
     @Id
@@ -12,12 +13,9 @@ public class VehicleModel {
     @Column(name = "model_name")
     private String modelName;
 
-    @ManyToOne
-    @JoinColumn(name = "vehicle_mark_id")
+    @ManyToOne()
+    @JoinColumn(name = "mark_id")
     private VehicleMark vehicleMark;
-
-    @OneToOne(mappedBy = "model")
-    Vehicle vehicle;
 
     public int getId() {
         return id;

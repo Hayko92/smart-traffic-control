@@ -31,16 +31,29 @@ public class NotificationController {
     private JavaMailSender mailSender;
 
     @PostMapping("/patrol")
-    public String sendToPatrol(@RequestBody Capture capture) {
-        return "OK...we have recevied";
+    public void sendToPatrol(@RequestBody Capture capture) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+        helper.setTo("RoadPolice@Armenia.com");
+        helper.setSubject("Unrecognized vehicle!");
+        helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s",capture.getInstant(),capture.getPlace()));
+        FileSystemResource file1 = new FileSystemResource(new File(capture.getPhotoUrl()));
+        helper.addAttachment("car_photo1.jpg", file1);
+        mailSender.send(message);
     }
 
     @PostMapping("/patrol/owner")
-    public String sendToPatrolIDofOwner(@RequestBody Long ownerID) {
-        return "OK...we have recevied";
+    public void sendToPatrolIDofOwner(@RequestBody Long ownerID) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, false);
+        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+        helper.setTo("RoadPolice@Armenia.com");
+        helper.setSubject("Driver with null points!");
+        helper.setText(String.format("Driver with ID %d have 0 points left",ownerID));
+        mailSender.send(message);
     }
 
-    //todo must be formatted after violation service request
     @PostMapping("/email")
     public void sendEmail(@RequestBody Map<String, String> info) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -50,10 +63,10 @@ public class NotificationController {
         helper.setSubject("YOU HAVE A NEW VIOLATION!");
         helper.setText(HTMLCreator.createSpeedViolationBlank(info));
         FileSystemResource file1 = new FileSystemResource(new File(info.get("photoURL1")));
-        helper.addAttachment("car_photo1", file1);
+        helper.addAttachment("car_photo1.jpg", file1);
         if (info.get("type").equals("SPEED")) {
             FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2")));
-            helper.addAttachment("car_photo2", file2);
+            helper.addAttachment("car_photo2.jpg", file2);
         }
         mailSender.send(message);
     }
@@ -65,7 +78,7 @@ public class NotificationController {
                 new PhoneNumber("+37493191719"),
                 new PhoneNumber(TWILIO_NUMBER),
                 "Ճանապարհային Ոստիկանություն \n Դուք ունեք նոր իրավախախտում,\n խնդրում ենք մուտք գործել https://roadpolice.am/ և վճարել");
-        Message message1 = message.execute();
+        message.execute();
         return "Sended";
     }
 }

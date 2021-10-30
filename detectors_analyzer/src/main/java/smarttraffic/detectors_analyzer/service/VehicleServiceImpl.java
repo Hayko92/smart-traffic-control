@@ -1,12 +1,12 @@
 package smarttraffic.detectors_analyzer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.detectors_analyzer.entity.Capture;
 import smarttraffic.detectors_analyzer.entity.Detector;
-import smarttraffic.detectors_analyzer.entity.Vehicle;
-import smarttraffic.detectors_analyzer.repository.VehicleRepository;
+import smarttraffic.detectors_analyzer.model.Vehicle;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -14,21 +14,12 @@ import java.util.Map;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
-    @Autowired
-    VehicleRepository vehicleRepository;
+
+    @Value("${cameraImitationServise}")
+    private String cameraImitationServiceUrl;
 
     @Autowired
     CaptureService captureService;
-
-    @Override
-    public Vehicle getByNumber(String number) {
-        return vehicleRepository.getByPlateNumber(number);
-    }
-
-    @Override
-    public void save(Vehicle vehicle) {
-        vehicleRepository.save(vehicle);
-    }
 
     @Override
     public boolean checkInsurance(Capture capture, Vehicle vehicle) {
@@ -71,7 +62,7 @@ public class VehicleServiceImpl implements VehicleService {
     private Map<Detector, Integer> getPreviousDetectors(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         String place = capture.getPlace();
-        Detector detector = restTemplate.getForObject("http://127.0.0.1:8080/api/camera-imitation-service/" + place, Detector.class);
+        Detector detector = restTemplate.getForObject(cameraImitationServiceUrl+"/" + place, Detector.class);
         if (detector != null)
             return detector.getPreviousDetectorsDistance();
         else return null;
