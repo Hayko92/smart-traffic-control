@@ -1,10 +1,6 @@
 package smarttraffic.violation_service.util;
 
 public final class ViolationCounter {
-
-    private static PointsCounter pointsCounter;
-//    private static boolean isDriverVeryBad = false;   if we try to change violation prise calculation logic
-
     private ViolationCounter() {
     }
 

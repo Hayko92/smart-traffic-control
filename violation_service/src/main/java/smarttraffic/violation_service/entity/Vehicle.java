@@ -1,6 +1,8 @@
 package smarttraffic.violation_service.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -16,53 +18,57 @@ public class Vehicle {
     private String vinNumber;
 
     @Column(name = "plate_number")
-    private String number;
+    private String plateNumber;
 
     @Column(name = "horse_power")
-    private int horsPower;
+    private int horsePower;
 
     @Column(name = "color")
     private String Color;
 
-    @Column(name = "mark")
-    private String mark;
+    @ManyToOne
+    @JoinColumn(name = "mark_id")
+    private VehicleMark mark;
 
-    @Column(name = "model")
-    private String model;
+    @ManyToOne
+    @JoinColumn(name = "model_id")
+    private VehicleModel model;
 
     @Column(name = "production_year")
     private int productionYear;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "owner_id")
-    private Owner owner;
-
     @Column(name = "insurance_expiry_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant insuranceExpiry;
 
     @Column(name = "tech_inspection_expiry_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant techInspectionExpiry;
 
     @Column(name = "checked")
     private boolean checked;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+
     public Vehicle() {
     }
 
-    public String getNumber() {
-        return number;
+    public String getPlateNumber() {
+        return plateNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 
     public int getHorsPower() {
-        return horsPower;
+        return horsePower;
     }
 
     public void setHorsPower(int horsPower) {
-        this.horsPower = horsPower;
+        this.horsePower = horsPower;
     }
 
     public String getColor() {
@@ -81,14 +87,6 @@ public class Vehicle {
         this.id = id;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
     public int getProductionYear() {
         return productionYear;
     }
@@ -105,11 +103,19 @@ public class Vehicle {
         this.vinNumber = vinNumber;
     }
 
-    public String getModel() {
+    public VehicleMark getMark() {
+        return mark;
+    }
+
+    public void setMark(VehicleMark mark) {
+        this.mark = mark;
+    }
+
+    public VehicleModel getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(VehicleModel model) {
         this.model = model;
     }
 

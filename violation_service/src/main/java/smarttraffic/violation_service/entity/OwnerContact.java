@@ -1,9 +1,9 @@
 package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
+@Table(name = "ownerContact")
 public class OwnerContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,9 +15,9 @@ public class OwnerContact {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "address_id")
-    private List<Address> address;
+    private Address address;
 
     public long getId() {
         return id;

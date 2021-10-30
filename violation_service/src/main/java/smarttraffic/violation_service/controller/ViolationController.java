@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.violation_service.entity.*;
+
+import smarttraffic.violation_service.entity.Owner;
+import smarttraffic.violation_service.entity.Vehicle;
+import smarttraffic.violation_service.entity.Violation;
+import smarttraffic.violation_service.model.*;
 import smarttraffic.violation_service.service.ViolationService;
 import smarttraffic.violation_service.util.InfoExtractor;
 import smarttraffic.violation_service.util.ViolationCounter;
