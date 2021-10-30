@@ -1,7 +1,6 @@
 package smarttraffic.vehicle_service.entity;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "address")
@@ -26,11 +25,7 @@ public class Address {
     @Column(name = "zip_code")
     private int zipCode;
 
-    @OneToMany(mappedBy = "address")
-    private Set<OwnerContact> owners;
-
-    public Address() {
-    }
+    public Address() { }
 
     public long getId() {
         return id;
@@ -80,11 +75,5 @@ public class Address {
         this.zipCode = zipCode;
     }
 
-    public Set<OwnerContact> getOwners() {
-        return owners;
-    }
 
-    public void setOwners(Set<OwnerContact> owners) {
-        this.owners = owners;
-    }
 }
