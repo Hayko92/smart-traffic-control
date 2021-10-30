@@ -10,28 +10,43 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "id_number")
+    private String idNumber;
+
     @Column(name = "license_number")
     private String licenseNumber;
 
-    @Column(name = "first_name")
+    @Column(name = "firstname")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "lastname")
     private String lastName;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner",cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     private Set<Vehicle> vehicles;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-
-    @ManyToOne
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "contact_id")
     private OwnerContact ownerContact;
 
-    @Column(name = "point")
-    private int point;
+    @Column(name = "points")
+    private int points;
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public Set<Vehicle> getVehicles() {
         return vehicles;
@@ -47,14 +62,6 @@ public class Owner {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public OwnerContact getOwnerContact() {
@@ -89,16 +96,8 @@ public class Owner {
         this.lastName = lastName;
     }
 
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point = point;
-    }
-
     public int getRedusedPoint() {
-        point--;
-        return point;
+        points--;
+        return points;
     }
 }

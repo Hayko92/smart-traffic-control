@@ -17,4 +17,6 @@ public interface ViolationService {
     void delete(Violation violation);
 
     List<Violation> getAllByNumber(String number);
+
+    List<Violation> getAllByOwnerID(Long ownerID);
 }
