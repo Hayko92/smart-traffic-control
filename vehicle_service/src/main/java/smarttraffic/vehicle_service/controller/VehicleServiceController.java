@@ -23,10 +23,11 @@ public class VehicleServiceController {
     public Vehicle sendVehicleByPlateNumber(@PathVariable String plateNumber) {
         return vehicleService.getByNumber(plateNumber);
     }
+
     @PostMapping("/set-status-checked")
     public void setStatusCheched(@RequestBody Vehicle vehicle) {
         long id = vehicle.getId();
-        Vehicle vehicle1 =vehicleService.getById(id);
+        Vehicle vehicle1 = vehicleService.getById(id);
         vehicle1.setChecked(true);
         vehicleService.update(vehicle1);
     }

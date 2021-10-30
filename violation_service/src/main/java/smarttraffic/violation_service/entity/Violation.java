@@ -1,7 +1,6 @@
 package smarttraffic.violation_service.entity;
 
 
-
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -33,11 +32,11 @@ public class Violation {
     @Column(name = "photo_url2")
     private String photoUrl2;
 
-    @ManyToOne (cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 

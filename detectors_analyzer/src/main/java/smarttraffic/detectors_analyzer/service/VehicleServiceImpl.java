@@ -15,11 +15,10 @@ import java.util.Map;
 @Service
 public class VehicleServiceImpl implements VehicleService {
 
-    @Value("${cameraImitationServise}")
-    private String cameraImitationServiceUrl;
-
     @Autowired
     CaptureService captureService;
+    @Value("${cameraImitationServise}")
+    private String cameraImitationServiceUrl;
 
     @Override
     public boolean checkInsurance(Capture capture, Vehicle vehicle) {
@@ -62,7 +61,7 @@ public class VehicleServiceImpl implements VehicleService {
     private Map<Detector, Integer> getPreviousDetectors(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         String place = capture.getPlace();
-        Detector detector = restTemplate.getForObject(cameraImitationServiceUrl+"/" + place, Detector.class);
+        Detector detector = restTemplate.getForObject(cameraImitationServiceUrl + "/" + place, Detector.class);
         if (detector != null)
             return detector.getPreviousDetectorsDistance();
         else return null;

@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
 import smarttraffic.violation_service.entity.Owner;
 import smarttraffic.violation_service.entity.Vehicle;
 import smarttraffic.violation_service.entity.Violation;
-import smarttraffic.violation_service.model.*;
+import smarttraffic.violation_service.model.Capture;
+import smarttraffic.violation_service.model.InsuranceViolation;
+import smarttraffic.violation_service.model.SpeedViolation;
+import smarttraffic.violation_service.model.TechinspectionViolation;
 import smarttraffic.violation_service.service.ViolationService;
 import smarttraffic.violation_service.util.InfoExtractor;
 import smarttraffic.violation_service.util.ViolationCounter;
@@ -42,7 +44,7 @@ public class ViolationController {
         int price = ViolationCounter.countSpeedViolationBasePrice(speed);
         Capture capturePrev = restTemplate.getForObject(detectorImitationUrl + "/capture/" + idPrev, Capture.class);
         Capture captureCurrent = restTemplate.getForObject(detectorImitationUrl + "/capture/" + idCurr, Capture.class);
-        Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl+"/" + captureCurrent.getPlateNumber(), Vehicle.class);
+        Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl + "/" + captureCurrent.getPlateNumber(), Vehicle.class);
         Owner owner = vehicle.getOwner();
         Violation violation = createSpeedViolation(price, capturePrev, captureCurrent, vehicle);
         checkOwnerPoints(owner);
@@ -105,20 +107,21 @@ public class ViolationController {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Long> ownerID = new HttpEntity<>(owner.getId());
         if (owner.getRedusedPoint() == 0)
-            restTemplate.postForLocation(notificationServiceUrl+"/patrol/owner", ownerID);
+            restTemplate.postForLocation(notificationServiceUrl + "/patrol/owner", ownerID);
     }
 
     private void sendNotifications(Violation violation) {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violation);
-        restTemplate.postForLocation(notificationServiceUrl+"/email", speedViolationInfo);
-        restTemplate.postForLocation(notificationServiceUrl+"/sms", speedViolationInfo);
+        restTemplate.postForLocation(notificationServiceUrl + "/email", speedViolationInfo);
+        restTemplate.postForLocation(notificationServiceUrl + "/sms", speedViolationInfo);
     }
 
     @GetMapping("/platenumber/{vehiclenumber}")
     public List<Violation> sendViolationsByplatenumber(@PathVariable String vehiclenumber) {
         return violationService.getAllByNumber(vehiclenumber);
     }
+
     @GetMapping("/ownerID/{ownerID}")
     public List<Violation> createViolation(@RequestBody Long ownerID) {
         return violationService.getAllByOwnerID(ownerID);
