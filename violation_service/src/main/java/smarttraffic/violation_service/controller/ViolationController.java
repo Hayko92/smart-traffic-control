@@ -3,10 +3,7 @@ package smarttraffic.violation_service.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import smarttraffic.violation_service.entity.Owner;
@@ -118,9 +115,12 @@ public class ViolationController {
         restTemplate.postForLocation(notificationServiceUrl+"/sms", speedViolationInfo);
     }
 
-    @PostMapping("/vehiclenumber")
-    public List<Violation> createViolation(@RequestBody String number) {
-        List<Violation> violations = violationService.getAllByNumber(number);
-        return violations;
+    @GetMapping("/platenumber/{vehiclenumber}")
+    public List<Violation> sendViolationsByplatenumber(@PathVariable String vehiclenumber) {
+        return violationService.getAllByNumber(vehiclenumber);
+    }
+    @GetMapping("/ownerID/{ownerID}")
+    public List<Violation> createViolation(@RequestBody Long ownerID) {
+        return violationService.getAllByOwnerID(ownerID);
     }
 }

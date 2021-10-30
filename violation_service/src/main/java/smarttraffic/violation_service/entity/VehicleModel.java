@@ -13,7 +13,7 @@ public class VehicleModel {
     @Column(name = "model_name")
     private String modelName;
 
-    @ManyToOne()
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "mark_id")
     private VehicleMark vehicleMark;
 

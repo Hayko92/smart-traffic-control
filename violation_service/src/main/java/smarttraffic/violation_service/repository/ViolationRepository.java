@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ViolationRepository extends JpaRepository<Violation, String> {
     List<Violation> getAllByNumber(String number);
+
+    List<Violation> getAllByOwnerId(Long id);
 }
