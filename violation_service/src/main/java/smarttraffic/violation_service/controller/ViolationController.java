@@ -31,6 +31,9 @@ public class ViolationController {
 
     @Value("${notificationService}")
     private String notificationServiceUrl;
+
+    @Value("${detectorsAnalyzer}")
+    private String detectorAnalyzerServiceUrl;
     @Autowired
     private ViolationService violationService;
 
@@ -41,8 +44,9 @@ public class ViolationController {
         int idCurr = info.get("currentCapture");
         int speed = info.get("speed");
         int price = ViolationCounter.countSpeedViolationBasePrice(speed);
-        Capture capturePrev = restTemplate.getForObject(detectorImitationUrl + "/capture/" + idPrev, Capture.class);
-        Capture captureCurrent = restTemplate.getForObject(detectorImitationUrl + "/capture/" + idCurr, Capture.class);
+        // todo no serialyzer found exception
+        Capture capturePrev = restTemplate.getForObject(detectorAnalyzerServiceUrl + "/capture/" + idPrev, Capture.class);
+        Capture captureCurrent = restTemplate.getForObject(detectorAnalyzerServiceUrl + "/capture/" + idCurr, Capture.class);
         Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl + "/" + captureCurrent.getPlateNumber(), Vehicle.class);
         Owner owner = vehicle.getOwner();
         Violation violation = createSpeedViolation(price, capturePrev, captureCurrent, vehicle);
@@ -111,7 +115,6 @@ public class ViolationController {
 
     private void sendNotifications(Violation violation) {
         RestTemplate restTemplate = new RestTemplate();
-        // violationService.save(violation);
         Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violation);
         restTemplate.postForLocation(notificationServiceUrl + "/email", speedViolationInfo);
         restTemplate.postForLocation(notificationServiceUrl + "/sms", speedViolationInfo);

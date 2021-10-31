@@ -36,17 +36,18 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Map<Capture, Integer> checkSpeed(Capture capture) {
-        Map<Detector, Integer> previousDet = getPreviousDetectors(capture);
+        Map<String, Integer> previousDet = getPreviousDetectors(capture);
         Capture prev;
         Map<Capture, Integer> prevCaptureOverspeedMap = null;
         if (previousDet != null) {
-            for (Map.Entry<Detector, Integer> prevDet : previousDet.entrySet()) {
+            long secondsFrom = 0;
+            for (Map.Entry<String, Integer> prevDet : previousDet.entrySet()) {
                 int distance = prevDet.getValue();
-                //todo
-                prev = captureService.getByPlace(prevDet.getKey().getPlace());
-                long secondsFrom = prev.getInstant().getEpochSecond();
+                prev = captureService.getByPlaceAndNumber(prevDet.getKey(), capture.getPlateNumber());
+                if (prev == null) continue;
+                secondsFrom = prev.getInstant().getEpochSecond();
                 long secondsTo = capture.getInstant().getEpochSecond();
-                long duration = secondsTo - secondsFrom;
+                long duration = secondsTo - secondsFrom+1;
                 int speedKMH = (int) ((distance / duration) * 3.6);
                 if (speedKMH > 70) {
                     prevCaptureOverspeedMap = new HashMap<>();
@@ -58,12 +59,11 @@ public class VehicleServiceImpl implements VehicleService {
         return prevCaptureOverspeedMap;
     }
 
-    private Map<Detector, Integer> getPreviousDetectors(Capture capture) {
+    private Map<String, Integer> getPreviousDetectors(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         String place = capture.getPlace();
         Detector detector = restTemplate.getForObject(cameraImitationServiceUrl + "/" + place, Detector.class);
-        if (detector != null)
-            return detector.getPreviousDetectorsDistance();
+        if (detector != null) return detector.getPreviousDetectorsDistance();
         else return null;
     }
 }

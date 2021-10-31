@@ -30,8 +30,9 @@ public class DetectorController {
     private String vehicleServiceUrl;
 
     @GetMapping("/capture/{id}")
-    public void sendCapture(@PathVariable String id) {
+    public Capture sendCapture(@PathVariable String id) {
         Capture capture = captureService.getById(Integer.parseInt(id));
+        return capture;
     }
     @PostMapping
     public void receiveCapture(@RequestBody Capture capture) {
@@ -66,7 +67,7 @@ public class DetectorController {
 
     private void setChecked(Vehicle vehicle) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForLocation(vehicleServiceUrl + "/set-status-checked", vehicle);
+        restTemplate.getForObject(vehicleServiceUrl + "/set-status-checked/"+vehicle.getId(), String.class);
     }
 
     private void createSpeedViolation(Capture prev, Capture current, int speed) {

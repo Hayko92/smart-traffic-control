@@ -21,7 +21,7 @@ public final class HTMLCreator {
                         "vehicle owner lastname: %s\n"+
                         "vehicle phone: %s\n"+
                         "vehicle email: %s\n",
-                info.get("surname"),
+                info.get("lastName"),
                 info.get("id"),
                 info.get("type"),
                 info.get("plateNumber"),

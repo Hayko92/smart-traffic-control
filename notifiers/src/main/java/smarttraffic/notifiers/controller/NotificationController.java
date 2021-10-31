@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/api/notification-service")
 public class NotificationController {
     private static final String ACCOUNT_SID = "ACf8751052d983ad03251129ce8f0c7e98";
-    private static final String AUTH_TOKEN = "91e63ea44f0483b36048a1436ebcdafd";
+    private static final String AUTH_TOKEN = "c05e8d9b613cc613c533ad9d1000720e";
     private static final String TWILIO_NUMBER = "+12075013766";
     @Autowired
     private JavaMailSender mailSender;
@@ -83,7 +83,7 @@ public class NotificationController {
                 new PhoneNumber("+37493191719"),
                 new PhoneNumber(TWILIO_NUMBER),
                 "Ճանապարհային Ոստիկանություն \n Դուք ունեք նոր իրավախախտում,\n խնդրում ենք մուտք գործել https://roadpolice.am/ և վճարել");
-        message.execute();
+       // message.execute();
         return "Sended";
     }
 }

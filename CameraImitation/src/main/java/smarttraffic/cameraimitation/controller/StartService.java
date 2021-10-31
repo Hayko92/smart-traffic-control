@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.cameraimitation.dto.DetectorDTO;
 import smarttraffic.cameraimitation.entity.Capture;
 import smarttraffic.cameraimitation.entity.Detector;
 import smarttraffic.cameraimitation.repository.DetectorRepository;
 import smarttraffic.cameraimitation.service.DetectorService;
-import smarttraffic.cameraimitation.util.DetectorMapper;
 import smarttraffic.cameraimitation.util.NumberExtractor;
 
 import java.io.File;
@@ -23,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @RestController
@@ -53,7 +52,6 @@ public class StartService {
     }
 
 
-
     private void sendRandomPhotoFromRandomDetector() throws MalformedURLException {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -71,14 +69,15 @@ public class StartService {
         }
     }
 
-    @GetMapping("/api/camera-imitation-service/{detectorPlace}")
-    public DetectorDTO getDetector(@PathVariable String detectorPlace) {
+    @GetMapping("/{detectorPlace}")
+    public Detector getDetector(@PathVariable String detectorPlace) {
+        return detectorService.getByPlace(detectorPlace);
+    }
+    @GetMapping("/previous_detectors/{detectorPlace}")
+    public Map<String,Integer> getPreviousDetectors(@PathVariable String detectorPlace) {
         Detector detector = detectorService.getByPlace(detectorPlace);
-        DetectorDTO detectorDTO = null;
-        if (detector != null) {
-            detectorDTO = DetectorMapper.mapToDetectorDTO(detector);
-        }
-        return detectorDTO;
+        Map<String, Integer> previousDetectors = detector.getPreviousDetectorsDistance();
+        return previousDetectors;
     }
 
     private URL getRadnomUrl() throws MalformedURLException {
