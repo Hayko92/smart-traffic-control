@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     runtimeOnly group: 'com.twilio.sdk', name: 'twilio', version: '8.21.0'
     implementation group: 'com.twilio.sdk', name: 'twilio-java-sdk', version: '7.0.0-rc-10'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.5.6'

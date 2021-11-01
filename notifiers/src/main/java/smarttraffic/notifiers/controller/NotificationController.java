@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import smarttraffic.notifiers.entity.Capture;
 import smarttraffic.notifiers.util.HTMLCreator;
+import smarttraffic.notifiers.util.JwtTokenUtil;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -32,58 +30,68 @@ public class NotificationController {
     private static final String TWILIO_NUMBER = "+12075013766";
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/patrol")
-    public void sendToPatrol(@RequestBody Capture capture) throws MessagingException, URISyntaxException, MalformedURLException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
-        //TODO
-        helper.setTo("asatryanhayko92@gmail.com");
-        helper.setSubject("Unrecognized vehicle!");
-        helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s", capture.getInstant(), capture.getPlace()));
-        File file = new File(capture.getPhotoUrl().substring(5).replace("%20"," "));
-        FileSystemResource file1 = new FileSystemResource(file);
-        helper.addAttachment("car_photo1.jpg", file1);
-        mailSender.send(message);
+    public void sendToPatrol(@RequestBody Capture capture, @RequestHeader(name = "AUTHORIZATION") String token) throws MessagingException {
+       if(jwtTokenUtil.checkTokenValidation(token)) {
+           MimeMessage message = mailSender.createMimeMessage();
+           MimeMessageHelper helper = new MimeMessageHelper(message, true);
+           helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+           helper.setTo("asatryanhayko92@gmail.com");
+           helper.setSubject("Unrecognized vehicle!");
+           helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s", capture.getInstant(), capture.getPlace()));
+           File file = new File(capture.getPhotoUrl().substring(5).replace("%20"," "));
+           FileSystemResource file1 = new FileSystemResource(file);
+           helper.addAttachment("car_photo1.jpg", file1);
+           mailSender.send(message);
+       }
     }
 
-    @PostMapping("/patrol/owner")
-    public void sendToPatrolIDofOwner(@RequestBody Long ownerID) throws MessagingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, false);
-        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
-        helper.setTo("asatryanhayko92@gmail.com");
-        helper.setSubject("Driver with null points!");
-        helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
-        mailSender.send(message);
+    @GetMapping("/patrol/owner/{ownerID}")
+    public void sendToPatrolIDofOwner(@PathVariable Long ownerID,@RequestHeader(name = "AUTHORIZATION") String token) throws MessagingException {
+        if(jwtTokenUtil.checkTokenValidation(token)) {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, false);
+            helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+            helper.setTo("asatryanhayko92@gmail.com");
+            helper.setSubject("Driver with null points!");
+            helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
+            mailSender.send(message);
+        }
     }
 
     @PostMapping("/email")
-    public void sendEmail(@RequestBody Map<String, String> info) throws MessagingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
-        helper.setTo(info.get("email"));
-        helper.setSubject("YOU HAVE A NEW VIOLATION!");
-        helper.setText(HTMLCreator.createSpeedViolationBlank(info));
-        FileSystemResource file1 = new FileSystemResource(new File(info.get("photoURL1").replace("%20"," ").substring(5)));
-        helper.addAttachment("car_photo1.jpg", file1);
-        if (info.get("type").equals("SPEED")) {
-            FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2").replace("%20"," ").substring(5)));
-            helper.addAttachment("car_photo2.jpg", file2);
+    public void sendEmail(@RequestBody Map<String, String> info,@RequestHeader(name = "AUTHORIZATION") String token) throws MessagingException {
+        if(jwtTokenUtil.checkTokenValidation(token)) {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+            helper.setTo(info.get("email"));
+            helper.setSubject("YOU HAVE A NEW VIOLATION!");
+            helper.setText(HTMLCreator.createSpeedViolationBlank(info));
+            FileSystemResource file1 = new FileSystemResource(new File(info.get("photoURL1").replace("%20"," ").substring(5)));
+            helper.addAttachment("car_photo1.jpg", file1);
+            if (info.get("type").equals("SPEED")) {
+                FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2").replace("%20"," ").substring(5)));
+                helper.addAttachment("car_photo2.jpg", file2);
+            }
+            mailSender.send(message);
         }
-        mailSender.send(message);
     }
 
     @PostMapping("/sms")
-    public String sendSMS(@RequestBody Map<String, String> info) throws MessagingException {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        MessageCreator message = Message.create(ACCOUNT_SID,
-                new PhoneNumber("+37493191719"),
-                new PhoneNumber(TWILIO_NUMBER),
-                "Ճանապարհային Ոստիկանություն \n Դուք ունեք նոր իրավախախտում,\n խնդրում ենք մուտք գործել https://roadpolice.am/ և վճարել");
-       // message.execute();
-        return "Sended";
+    public String sendSMS(@RequestBody Map<String, String> info,@RequestHeader(name = "AUTHORIZATION") String token) throws MessagingException {
+       if(jwtTokenUtil.checkTokenValidation(token)) {
+           Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+           MessageCreator message = Message.create(ACCOUNT_SID,
+                   new PhoneNumber("+37493191719"),
+                   new PhoneNumber(TWILIO_NUMBER),
+                   "Ճանապարհային Ոստիկանություն \n Դուք ունեք նոր իրավախախտում,\n խնդրում ենք մուտք գործել https://roadpolice.am/ և վճարել");
+           // message.execute();
+           return "Sended";
+       }
+       return null;
     }
 }

@@ -2,18 +2,18 @@ package smarttraffic.cameraimitation.dto;
 
 import java.util.Map;
 
-public class DetectorDTO {
+public class DetectorDto {
     private int id;
     private String place;
     private Map<String, Integer> previousDetectorsDistance;
 
-    public DetectorDTO(int id, String place, Map<String, Integer> previousDetectorsDistance) {
+    public DetectorDto(int id, String place, Map<String, Integer> previousDetectorsDistance) {
         this.id = id;
         this.place = place;
         this.previousDetectorsDistance = previousDetectorsDistance;
     }
 
-    public DetectorDTO() {
+    public DetectorDto() {
     }
 
     public int getId() {

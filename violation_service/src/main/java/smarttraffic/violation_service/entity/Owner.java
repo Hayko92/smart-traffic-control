@@ -1,11 +1,12 @@
 package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "owner")
-public class Owner {
+public class Owner implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

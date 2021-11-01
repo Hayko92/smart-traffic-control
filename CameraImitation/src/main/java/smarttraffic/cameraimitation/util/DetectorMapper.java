@@ -1,6 +1,6 @@
 package smarttraffic.cameraimitation.util;
 
-import smarttraffic.cameraimitation.dto.DetectorDTO;
+import smarttraffic.cameraimitation.dto.DetectorDto;
 import smarttraffic.cameraimitation.entity.Detector;
 
 import java.util.HashMap;
@@ -10,8 +10,8 @@ public final class DetectorMapper {
     private DetectorMapper() {
     }
 
-    public static DetectorDTO mapToDetectorDTO(Detector detector) {
-        DetectorDTO detectorDTO = new DetectorDTO();
+    public static DetectorDto mapToDetectorDTO(Detector detector) {
+        DetectorDto detectorDTO = new DetectorDto();
         detectorDTO.setId(detector.getId());
         detectorDTO.setPlace(detector.getPlace());
         detectorDTO.setPreviousDetectorsDistance(previousDetectorsMapper(detector));
