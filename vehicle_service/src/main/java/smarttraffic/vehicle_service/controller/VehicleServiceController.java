@@ -7,7 +7,7 @@ import smarttraffic.vehicle_service.entity.Vehicle;
 import smarttraffic.vehicle_service.service.VehicleService;
 
 @RestController
-@RequestMapping("api/vehicle-service")
+@RequestMapping("/api/vehicle-service")
 public class VehicleServiceController {
 
     @Autowired
@@ -24,11 +24,11 @@ public class VehicleServiceController {
         return vehicleService.getByNumber(plateNumber);
     }
 
-    @PostMapping("/set-status-checked")
-    public void setStatusCheched(@RequestBody Vehicle vehicle) {
-        long id = vehicle.getId();
+    @GetMapping("/set-status-checked/{id}")
+    public String setStatusCheched(@PathVariable Long id) {
         Vehicle vehicle1 = vehicleService.getById(id);
         vehicle1.setChecked(true);
         vehicleService.update(vehicle1);
+        return null;
     }
 }

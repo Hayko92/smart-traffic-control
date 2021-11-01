@@ -18,10 +18,10 @@ public final class DetectorMapper {
         return detectorDTO;
     }
 
-    private static Map<DetectorDTO, Integer> previousDetectorsMapper(Detector detector) {
-        Map<DetectorDTO, Integer> prevDetectors = new HashMap<>();
-        for (Map.Entry<Detector, Integer> entry : detector.getPreviousDetectorsDistance().entrySet()) {
-            prevDetectors.put(mapToDetectorDTO(entry.getKey()), entry.getValue());
+    private static Map<String, Integer> previousDetectorsMapper(Detector detector) {
+        Map<String, Integer> prevDetectors = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : detector.getPreviousDetectorsDistance().entrySet()) {
+            prevDetectors.put((entry.getKey()), entry.getValue());
         }
         return prevDetectors;
     }

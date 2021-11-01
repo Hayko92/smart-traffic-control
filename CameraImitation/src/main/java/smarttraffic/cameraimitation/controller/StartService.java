@@ -10,13 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.cameraimitation.dto.DetectorDTO;
 import smarttraffic.cameraimitation.entity.Capture;
 import smarttraffic.cameraimitation.entity.Detector;
 import smarttraffic.cameraimitation.repository.DetectorRepository;
-import smarttraffic.cameraimitation.service.CaptureService;
 import smarttraffic.cameraimitation.service.DetectorService;
-import smarttraffic.cameraimitation.util.DetectorMapper;
 import smarttraffic.cameraimitation.util.NumberExtractor;
 
 import java.io.File;
@@ -24,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @RestController
@@ -32,8 +30,7 @@ public class StartService {
 
     @Autowired
     DetectorRepository detectorRepository;
-    @Autowired
-    CaptureService captureService;
+
     @Autowired
     DetectorService detectorService;
     @Value("${detectorsAnalyzer}")
@@ -54,10 +51,6 @@ public class StartService {
         }
     }
 
-    @GetMapping("/capture/{id}")
-    public void sendCapture(@PathVariable String id) {
-        Capture capture = captureService.getById(Integer.parseInt(id));
-    }
 
     private void sendRandomPhotoFromRandomDetector() throws MalformedURLException {
 
@@ -66,26 +59,25 @@ public class StartService {
         URL url = getRadnomUrl();
         String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
         String plateNumber = NumberExtractor.extract(textFromImage);
-
         Instant instant = Instant.now();
         String place = randomDetector.getPlace();
         Capture capture = new Capture(plateNumber, url.toString(), place, instant);
         HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
         restTemplate.postForLocation(detectorAnalyzerUrl, httpEntity);
         if (plateNumber == null) {
-            //todo che this method
             sendNotifocationToPatrol(capture);
         }
     }
 
-    @GetMapping("/api/camera-imitation-service/{detectorPlace}")
-    public DetectorDTO getDetector(@PathVariable String detectorPlace) {
+    @GetMapping("/{detectorPlace}")
+    public Detector getDetector(@PathVariable String detectorPlace) {
+        return detectorService.getByPlace(detectorPlace);
+    }
+    @GetMapping("/previous_detectors/{detectorPlace}")
+    public Map<String,Integer> getPreviousDetectors(@PathVariable String detectorPlace) {
         Detector detector = detectorService.getByPlace(detectorPlace);
-        DetectorDTO detectorDTO = null;
-        if (detector != null) {
-            detectorDTO = DetectorMapper.mapToDetectorDTO(detector);
-        }
-        return detectorDTO;
+        Map<String, Integer> previousDetectors = detector.getPreviousDetectorsDistance();
+        return previousDetectors;
     }
 
     private URL getRadnomUrl() throws MalformedURLException {

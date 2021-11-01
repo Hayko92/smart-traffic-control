@@ -32,15 +32,19 @@ public class Violation {
     @Column(name = "photo_url2")
     private String photoUrl2;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
     public Violation() {
+    }
+
+    public Violation(String type) {
+        this.type = type;
     }
 
     public long getId() {

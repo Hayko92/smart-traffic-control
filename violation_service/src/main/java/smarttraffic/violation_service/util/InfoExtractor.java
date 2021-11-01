@@ -19,7 +19,7 @@ public final class InfoExtractor {
         result.put("plateNumber", violation.getVehicle().getPlateNumber());
         result.put("place", violation.getPlace());
         result.put("photoURL1", violation.getPhotoUrl1());
-        result.put("time", violation.getCreationDate().truncatedTo(ChronoUnit.SECONDS).toString());
+        result.put("time", violation.getCreationDate().truncatedTo(ChronoUnit.MILLIS).toString());
         result.put("price", String.valueOf(violation.getPrice()));
         result.put("firstName", violation.getOwner().getFirstName());
         result.put("lastName", violation.getOwner().getLastName());

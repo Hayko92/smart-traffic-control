@@ -3,10 +3,7 @@ package smarttraffic.detectors_analyzer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.detectors_analyzer.entity.Capture;
 import smarttraffic.detectors_analyzer.model.Vehicle;
@@ -24,18 +21,25 @@ public class DetectorController {
     CaptureService captureService;
     @Autowired
     VehicleService vehicleService;
-    @Value("${vehicleService}")
+
+    @Value("${violationService}")
     private String violationServiceUrl;
     @Value("${notificationService}")
     private String notifierServiceUrl;
     @Value("${vehicleService}")
     private String vehicleServiceUrl;
 
+    @GetMapping("/capture/{id}")
+    public Capture sendCapture(@PathVariable String id) {
+        Capture capture = captureService.getById(Integer.parseInt(id));
+        return capture;
+    }
     @PostMapping
     public void receiveCapture(@RequestBody Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
         Capture prev = null;
         String plateNumber = capture.getPlateNumber();
+        if(plateNumber!=null) captureService.save(capture);
         Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl + "/" + plateNumber, Vehicle.class);
         if (vehicle == null) {
             sendNotificationToPatrol(capture);
@@ -63,7 +67,7 @@ public class DetectorController {
 
     private void setChecked(Vehicle vehicle) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForLocation(vehicleServiceUrl + "/set-status-checked", vehicle);
+        restTemplate.getForObject(vehicleServiceUrl + "/set-status-checked/"+vehicle.getId(), String.class);
     }
 
     private void createSpeedViolation(Capture prev, Capture current, int speed) {

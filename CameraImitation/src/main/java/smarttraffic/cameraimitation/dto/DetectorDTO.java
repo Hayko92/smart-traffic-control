@@ -5,9 +5,9 @@ import java.util.Map;
 public class DetectorDTO {
     private int id;
     private String place;
-    private Map<DetectorDTO, Integer> previousDetectorsDistance;
+    private Map<String, Integer> previousDetectorsDistance;
 
-    public DetectorDTO(int id, String place, Map<DetectorDTO, Integer> previousDetectorsDistance) {
+    public DetectorDTO(int id, String place, Map<String, Integer> previousDetectorsDistance) {
         this.id = id;
         this.place = place;
         this.previousDetectorsDistance = previousDetectorsDistance;
@@ -32,11 +32,11 @@ public class DetectorDTO {
         this.place = place;
     }
 
-    public Map<DetectorDTO, Integer> getPreviousDetectorsDistance() {
+    public Map<String, Integer> getPreviousDetectorsDistance() {
         return previousDetectorsDistance;
     }
 
-    public void setPreviousDetectorsDistance(Map<DetectorDTO, Integer> previousDetectorsDistance) {
+    public void setPreviousDetectorsDistance(Map<String, Integer> previousDetectorsDistance) {
         this.previousDetectorsDistance = previousDetectorsDistance;
     }
 }
