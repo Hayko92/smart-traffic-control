@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
-@PropertySource( "classpath:secret.properties")
+@PropertySource("classpath:secret.properties")
 public class CameraImitationApplication {
 
     public static void main(String[] args) {

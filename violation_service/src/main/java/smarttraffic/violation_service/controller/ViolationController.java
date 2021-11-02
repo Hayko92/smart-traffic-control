@@ -26,22 +26,18 @@ import java.util.Map;
 @RequestMapping("api/violation-service")
 public class ViolationController {
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
     @Value("${cameraImitationServise}")
     private String detectorImitationUrl;
-
     @Value("${vehicleService}")
     private String vehicleServiceUrl;
-
     @Value("${notificationService}")
     private String notificationServiceUrl;
-
     @Value("${detectorsAnalyzer}")
     private String detectorAnalyzerServiceUrl;
     @Autowired
     private ViolationService violationService;
-
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/speed")
     public void createSpeedViolation(@RequestBody Map<String, Integer> info, @RequestHeader(name = "AUTHORIZATION") String token) {
@@ -58,10 +54,10 @@ public class ViolationController {
             ResponseEntity<Vehicle> vehicleEnt = restTemplate.exchange(vehicleServiceUrl + "/" + captureCurrentResp.getBody().getPlateNumber(), HttpMethod.GET, httpEntity, Vehicle.class);
             Owner owner = vehicleEnt.getBody().getOwner();
             Violation violation = createSpeedViolation(price, capturePrevResp.getBody(), captureCurrentResp.getBody(), vehicleEnt.getBody());
-            checkOwnerPoints(owner,token);
+            checkOwnerPoints(owner, token);
             violationService.save(violation);
             violationService.reduceOwnerPoints(owner);
-            sendNotifications(violation,token);
+            sendNotifications(violation, token);
         }
     }
 
@@ -71,9 +67,9 @@ public class ViolationController {
         if (jwtTokenUtil.checkTokenValidation(token)) {
             RestTemplate restTemplate = new RestTemplate();
             Violation violation = checkViolationType(body, token);
-            checkOwnerPoints(violation.getOwner(),token);
+            checkOwnerPoints(violation.getOwner(), token);
             violationService.save(violation);
-            sendNotifications(violation,token);
+            sendNotifications(violation, token);
         }
     }
 

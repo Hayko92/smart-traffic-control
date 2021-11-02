@@ -1,9 +1,13 @@
 package smarttraffic.cameraimitation.service;
 
-import smarttraffic.cameraimitation.entity.Detector;
+import smarttraffic.cameraimitation.dto.DetectorDto;
+
+import java.util.List;
 
 public interface DetectorService {
-    Detector getById(long id);
+    DetectorDto getById(long id);
 
-    Detector getByPlace(String place);
+    DetectorDto getByPlace(String place);
+
+    List<DetectorDto> findAll();
 }

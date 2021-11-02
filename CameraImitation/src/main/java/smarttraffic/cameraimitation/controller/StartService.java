@@ -8,8 +8,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.cameraimitation.entity.Capture;
-import smarttraffic.cameraimitation.entity.Detector;
+import smarttraffic.cameraimitation.dto.CaptureDto;
+import smarttraffic.cameraimitation.dto.DetectorDto;
 import smarttraffic.cameraimitation.repository.DetectorRepository;
 import smarttraffic.cameraimitation.service.DetectorService;
 import smarttraffic.cameraimitation.util.JwtTokenUtil;
@@ -32,6 +32,8 @@ public class StartService {
 
     @Autowired
     DetectorService detectorService;
+    JwtTokenUtil jwtTokenUtil;
+    private final String token = jwtTokenUtil.generateToken("Smart_traffic_control");
     @Value("${detectorsAnalyzer}")
     private String detectorAnalyzerUrl;
     @Value("${notificationService}")
@@ -41,8 +43,6 @@ public class StartService {
     @Autowired
     private CloudVisionTemplate cloudVisionTemplate;
 
-    JwtTokenUtil jwtTokenUtil ;
-    private final   String token = jwtTokenUtil.generateToken("Smart_traffic_control");
     @GetMapping()
     public void sendRequest() throws MalformedURLException, InterruptedException {
 
@@ -55,15 +55,15 @@ public class StartService {
 
     private void sendRandomPhotoFromRandomDetector(String token) throws MalformedURLException {
         RestTemplate restTemplate = new RestTemplate();
-        Detector randomDetector = getRandomDetector();
+        DetectorDto randomDetector = getRandomDetector();
         URL url = getRadnomUrl();
         String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
         String plateNumber = NumberExtractor.extract(textFromImage);
         Instant instant = Instant.now();
         String place = randomDetector.getPlace();
-        Capture capture = new Capture(plateNumber, url.toString(), place, instant);
+        CaptureDto capture = new CaptureDto(plateNumber, url.toString(), place, instant);
         HttpHeaders headers = jwtTokenUtil.getHeadersWithToken(token);
-        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture, headers);
+        HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(detectorAnalyzerUrl, httpEntity);
         if (plateNumber == null) {
             sendNotifocationToPatrol(capture);
@@ -71,16 +71,16 @@ public class StartService {
     }
 
     @GetMapping("/{detectorPlace}")
-    public Detector getDetector(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
-        if (jwtTokenUtil.checkTokenValidation(token))
+    public DetectorDto getDetector(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
+        if (jwtTokenUtil.checkTokenValidation(token)) {
             return detectorService.getByPlace(detectorPlace);
-        else return null;
+        } else return null;
     }
 
     @GetMapping("/previous_detectors/{detectorPlace}")
     public Map<String, Integer> getPreviousDetectors(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
         if (jwtTokenUtil.checkTokenValidation(token)) {
-            Detector detector = detectorService.getByPlace(detectorPlace);
+            DetectorDto detector = detectorService.getByPlace(detectorPlace);
             return detector.getPreviousDetectorsDistance();
         } else return null;
     }
@@ -92,16 +92,16 @@ public class StartService {
         return file.toURI().toURL();
     }
 
-    private Detector getRandomDetector() {
+    private DetectorDto getRandomDetector() {
         Random random = new Random();
-        List<Detector> detectors = detectorRepository.findAll();
+        List<DetectorDto> detectors = detectorService.findAll();
         return detectors.get(random.nextInt(detectors.size()));
     }
 
-    private void sendNotifocationToPatrol(Capture capture) {
+    private void sendNotifocationToPatrol(CaptureDto capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = jwtTokenUtil.getHeadersWithToken(token);
-        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture, headers);
+        HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
 

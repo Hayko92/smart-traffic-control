@@ -1,13 +1,13 @@
 package smarttraffic.detectors_analyzer.service;
 
-import smarttraffic.detectors_analyzer.entity.Capture;
+import smarttraffic.detectors_analyzer.dto.CaptureDTO;
 
 public interface CaptureService {
-    Capture getByPlateNumber(String plateNumber);
+    CaptureDTO getByPlateNumber(String plateNumber);
 
-    Capture getById(int id);
+    CaptureDTO getById(int id);
 
-    void save(Capture capture);
+    void save(CaptureDTO capture);
 
-     Capture getByPlaceAndNumber(String place, String platenumber);
+    CaptureDTO getByPlaceAndNumber(String place, String platenumber);
 }

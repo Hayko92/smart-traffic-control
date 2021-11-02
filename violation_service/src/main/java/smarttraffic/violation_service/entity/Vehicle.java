@@ -1,8 +1,6 @@
 package smarttraffic.violation_service.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -46,7 +44,7 @@ public class Vehicle {
     @Column(name = "checked")
     private boolean checked;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade =CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 

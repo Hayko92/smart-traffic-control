@@ -4,14 +4,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -51,9 +47,11 @@ public class JwtTokenUtil {
         Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
+
     public boolean checkTokenValidation(String token) {
-        return validateToken(token)&&getLoginFromToken(token).equals("Smart_traffic_control") ;
+        return validateToken(token) && getLoginFromToken(token).equals("Smart_traffic_control");
     }
+
     public HttpHeaders getHeadersWithToken(String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

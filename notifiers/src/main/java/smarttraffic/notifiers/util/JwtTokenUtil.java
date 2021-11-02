@@ -46,9 +46,11 @@ public class JwtTokenUtil {
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
+
     public boolean checkTokenValidation(String token) {
-        return validateToken(token)&&getLoginFromToken(token).equals("Smart_traffic_control") ;
+        return validateToken(token) && getLoginFromToken(token).equals("Smart_traffic_control");
     }
+
     public HttpHeaders getHeadersWithToken(String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

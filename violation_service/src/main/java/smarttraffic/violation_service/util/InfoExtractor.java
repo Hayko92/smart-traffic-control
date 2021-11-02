@@ -1,7 +1,6 @@
 package smarttraffic.violation_service.util;
 
 import smarttraffic.violation_service.entity.Violation;
-import smarttraffic.violation_service.model.SpeedViolation;
 
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
