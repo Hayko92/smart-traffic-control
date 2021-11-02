@@ -32,8 +32,8 @@ public class StartService {
 
     @Autowired
     DetectorService detectorService;
-    JwtTokenUtil jwtTokenUtil;
-    private final String token = jwtTokenUtil.generateToken("Smart_traffic_control");
+
+    private final String token = JwtTokenUtil.generateToken("Smart_traffic_control");
     @Value("${detectorsAnalyzer}")
     private String detectorAnalyzerUrl;
     @Value("${notificationService}")
@@ -62,7 +62,7 @@ public class StartService {
         Instant instant = Instant.now();
         String place = randomDetector.getPlace();
         CaptureDto capture = new CaptureDto(plateNumber, url.toString(), place, instant);
-        HttpHeaders headers = jwtTokenUtil.getHeadersWithToken(token);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(detectorAnalyzerUrl, httpEntity);
         if (plateNumber == null) {
@@ -72,14 +72,14 @@ public class StartService {
 
     @GetMapping("/{detectorPlace}")
     public DetectorDto getDetector(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
-        if (jwtTokenUtil.checkTokenValidation(token)) {
+        if (JwtTokenUtil.checkTokenValidation(token)) {
             return detectorService.getByPlace(detectorPlace);
         } else return null;
     }
 
     @GetMapping("/previous_detectors/{detectorPlace}")
     public Map<String, Integer> getPreviousDetectors(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
-        if (jwtTokenUtil.checkTokenValidation(token)) {
+        if (JwtTokenUtil.checkTokenValidation(token)) {
             DetectorDto detector = detectorService.getByPlace(detectorPlace);
             return detector.getPreviousDetectorsDistance();
         } else return null;
@@ -100,7 +100,7 @@ public class StartService {
 
     private void sendNotifocationToPatrol(CaptureDto capture) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = jwtTokenUtil.getHeadersWithToken(token);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
