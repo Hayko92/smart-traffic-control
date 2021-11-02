@@ -1,6 +1,7 @@
 package smarttraffic.violation_service.service;
 
 import org.springframework.stereotype.Service;
+import smarttraffic.violation_service.dto.ViolationDTO;
 import smarttraffic.violation_service.entity.Violation;
 
 import java.util.List;

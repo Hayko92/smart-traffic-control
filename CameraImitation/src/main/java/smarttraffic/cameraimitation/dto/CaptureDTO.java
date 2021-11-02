@@ -5,15 +5,10 @@ import java.time.Instant;
 public class CaptureDTO {
 
     private int id;
-
     private String plateNumber;
-
     private String place;
-
     private Instant instant;
-
     private String photoUrl;
-
     public CaptureDTO() {
     }
 
@@ -23,7 +18,6 @@ public class CaptureDTO {
         this.place = place;
         this.instant = instant;
     }
-
 
     public String getPhotoUrl() {
         return photoUrl;
