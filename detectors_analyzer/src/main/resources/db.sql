@@ -11,7 +11,7 @@ create table capture
 create unique index capture_id_uindex
     on capture (id);
 
-create table vehicle
+create table vehicleDTO
 (
     id                          bigint      not null,
     number                      varchar(7)  not null,
@@ -29,13 +29,13 @@ create table vehicle
 
 
 create unique index vehicle_id_uindex
-    on vehicle (id);
+    on vehicleDTO (id);
 
 create unique index vehicle_number_uindex
-    on vehicle (number);
+    on vehicleDTO (number);
 
 create unique index vehicle_registration_certificate_uindex
-    on vehicle (registration_certificate);
+    on vehicleDTO (registration_certificate);
 
 create table "capture_GI_crossroad"
 (

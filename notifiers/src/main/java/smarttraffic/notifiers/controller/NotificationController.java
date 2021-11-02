@@ -10,7 +10,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
-import smarttraffic.notifiers.entity.Capture;
+import smarttraffic.notifiers.dto.CaptureDto;
 import smarttraffic.notifiers.util.HTMLCreator;
 
 import javax.mail.MessagingException;
@@ -29,7 +29,7 @@ public class NotificationController {
     private JavaMailSender mailSender;
 
     @PostMapping("/patrol")
-    public void sendToPatrol(@RequestBody Capture capture) throws MessagingException {
+    public void sendToPatrol(@RequestBody CaptureDto capture) throws MessagingException {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("SmartTrafficServiceArmenia@gmail.com");

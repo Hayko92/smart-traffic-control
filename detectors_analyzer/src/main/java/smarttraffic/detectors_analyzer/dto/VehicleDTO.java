@@ -1,32 +1,17 @@
-package smarttraffic.detectors_analyzer.model;
+package smarttraffic.detectors_analyzer.dto;
 
 import java.time.Instant;
 
-//@Entity
-//@Table(name = "vehicle")
-public class Vehicle {
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
+public class VehicleDTO {
+
     private long id;
-
-    //    @Column(name = "plate_number")
     private String plateNumber;
-
-    //    @Column(name = "insurance_expiry_date")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant insuranceExpiry;
-
-    //    @Column(name = "tech_inspection_expiry_date")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant techInspectionExpiry;
-    //
-//    @Column(name = "checked")
     private boolean checked;
 
-    public Vehicle() {
+    public VehicleDTO() {
     }
-
     public long getId() {
         return id;
     }
