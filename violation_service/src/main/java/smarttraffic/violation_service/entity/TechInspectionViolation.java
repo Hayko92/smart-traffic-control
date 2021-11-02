@@ -1,7 +1,7 @@
 package smarttraffic.violation_service.entity;
 
-public class TechinspectionViolation extends Violation {
-    public TechinspectionViolation() {
+public class TechInspectionViolation extends Violation {
+    public TechInspectionViolation() {
         super();
         this.setType("TECH");
     }

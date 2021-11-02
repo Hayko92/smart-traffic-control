@@ -1,8 +1,8 @@
 package smarttraffic.violation_service.model;
 
-import smarttraffic.violation_service.entity.Violation;
+import smarttraffic.violation_service.dto.ViolationDTO;
 
-public class SpeedViolation extends Violation {
+public class SpeedViolation extends ViolationDTO {
 
     public SpeedViolation() {
         super();

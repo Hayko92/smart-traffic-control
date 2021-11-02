@@ -3,6 +3,7 @@ package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "violation")
@@ -14,11 +15,11 @@ public class Violation {
     @Column(name = "plate_number")
     private String number;
 
-    @Column(name = "creation_date")
-    private Instant creationDate;
-
     @Column(name = "place")
     private String place;
+
+    @Column(name = "creation_date")
+    private Instant creationDate;
 
     @Column(name = "price")
     private int price;
@@ -125,5 +126,34 @@ public class Violation {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Violation violation = (Violation) o;
+        return id == violation.id && price == violation.price && number.equals(violation.number) && place.equals(violation.place) && creationDate.equals(violation.creationDate) && type.equals(violation.type) && photoUrl1.equals(violation.photoUrl1) && Objects.equals(photoUrl2, violation.photoUrl2) && owner.equals(violation.owner) && vehicle.equals(violation.vehicle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, number, place, creationDate, price, type, photoUrl1, photoUrl2, owner, vehicle);
+    }
+
+    @Override
+    public String toString() {
+        return "Violation{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", place='" + place + '\'' +
+                ", creationDate=" + creationDate +
+                ", price=" + price +
+                ", type='" + type + '\'' +
+                ", photoUrl1='" + photoUrl1 + '\'' +
+                ", photoUrl2='" + photoUrl2 + '\'' +
+                ", owner=" + owner +
+                ", vehicle=" + vehicle +
+                '}';
     }
 }
