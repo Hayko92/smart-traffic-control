@@ -5,15 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.cameraimitation.entity.Capture;
 import smarttraffic.cameraimitation.entity.Detector;
 import smarttraffic.cameraimitation.repository.DetectorRepository;
 import smarttraffic.cameraimitation.service.DetectorService;
+import smarttraffic.cameraimitation.util.JwtTokenUtil;
 import smarttraffic.cameraimitation.util.NumberExtractor;
 
 import java.io.File;
@@ -42,18 +41,19 @@ public class StartService {
     @Autowired
     private CloudVisionTemplate cloudVisionTemplate;
 
+    JwtTokenUtil jwtTokenUtil ;
+    private final   String token = jwtTokenUtil.generateToken("Smart_traffic_control");
     @GetMapping()
     public void sendRequest() throws MalformedURLException, InterruptedException {
 
         while (true) {
-            sendRandomPhotoFromRandomDetector();
-            Thread.sleep(5000);
+            sendRandomPhotoFromRandomDetector(token);
+            Thread.sleep(3000);
         }
     }
 
 
-    private void sendRandomPhotoFromRandomDetector() throws MalformedURLException {
-
+    private void sendRandomPhotoFromRandomDetector(String token) throws MalformedURLException {
         RestTemplate restTemplate = new RestTemplate();
         Detector randomDetector = getRandomDetector();
         URL url = getRadnomUrl();
@@ -62,7 +62,8 @@ public class StartService {
         Instant instant = Instant.now();
         String place = randomDetector.getPlace();
         Capture capture = new Capture(plateNumber, url.toString(), place, instant);
-        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
+        HttpHeaders headers = jwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(detectorAnalyzerUrl, httpEntity);
         if (plateNumber == null) {
             sendNotifocationToPatrol(capture);
@@ -70,14 +71,18 @@ public class StartService {
     }
 
     @GetMapping("/{detectorPlace}")
-    public Detector getDetector(@PathVariable String detectorPlace) {
-        return detectorService.getByPlace(detectorPlace);
+    public Detector getDetector(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
+        if (jwtTokenUtil.checkTokenValidation(token))
+            return detectorService.getByPlace(detectorPlace);
+        else return null;
     }
+
     @GetMapping("/previous_detectors/{detectorPlace}")
-    public Map<String,Integer> getPreviousDetectors(@PathVariable String detectorPlace) {
-        Detector detector = detectorService.getByPlace(detectorPlace);
-        Map<String, Integer> previousDetectors = detector.getPreviousDetectorsDistance();
-        return previousDetectors;
+    public Map<String, Integer> getPreviousDetectors(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
+        if (jwtTokenUtil.checkTokenValidation(token)) {
+            Detector detector = detectorService.getByPlace(detectorPlace);
+            return detector.getPreviousDetectorsDistance();
+        } else return null;
     }
 
     private URL getRadnomUrl() throws MalformedURLException {
@@ -95,7 +100,9 @@ public class StartService {
 
     private void sendNotifocationToPatrol(Capture capture) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
+        HttpHeaders headers = jwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
+
 }

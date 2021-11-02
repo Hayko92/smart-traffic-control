@@ -1,15 +1,16 @@
-package smarttraffic.cameraimitation.util;
+package smarttraffic.detectors_analyzer.util;
 
-import smarttraffic.cameraimitation.dto.CaptureDto;
-import smarttraffic.cameraimitation.entity.Capture;
+
+import smarttraffic.detectors_analyzer.dto.CaptureDTO;
+import smarttraffic.detectors_analyzer.entity.Capture;
 
 public final class CaptureMapper {
 
     private CaptureMapper() {
     }
 
-    public static CaptureDto maptoDTO(Capture capture) {
-        CaptureDto captureDTO = new CaptureDto();
+    public static CaptureDTO maptoDTO(Capture capture) {
+        CaptureDTO captureDTO = new CaptureDTO();
         captureDTO.setId(capture.getId());
         captureDTO.setInstant(capture.getInstant());
         captureDTO.setPlace(capture.getPlace());
@@ -18,7 +19,7 @@ public final class CaptureMapper {
         return captureDTO;
     }
 
-    public static Capture maptoCapture(CaptureDto captureDTO) {
+    public static Capture maptoCapture(CaptureDTO captureDTO) {
         Capture capture = new Capture();
         capture.setId(captureDTO.getId());
         capture.setInstant(captureDTO.getInstant());

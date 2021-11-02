@@ -2,7 +2,7 @@ package smarttraffic.cameraimitation.dto;
 
 import java.time.Instant;
 
-public class CaptureDTO {
+public class CaptureDto {
 
     private int id;
 
@@ -14,10 +14,10 @@ public class CaptureDTO {
 
     private String photoUrl;
 
-    public CaptureDTO() {
+    public CaptureDto() {
     }
 
-    public CaptureDTO(String plateNumber, String photoUrl, String place, Instant instant) {
+    public CaptureDto(String plateNumber, String photoUrl, String place, Instant instant) {
         this.plateNumber = plateNumber;
         this.photoUrl = photoUrl;
         this.place = place;

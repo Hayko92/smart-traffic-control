@@ -28,7 +28,7 @@ public final class InfoExtractor {
         result.put("vehicleMark", violation.getVehicle().getMark().getMarkName());
         result.put("vehicleModel", violation.getVehicle().getModel().getModelName());
         result.put("vehicleYear", String.valueOf(violation.getVehicle().getProductionYear()));
-        if (violation instanceof SpeedViolation) {
+        if (violation.getType().equals("SPEED")) {
             result.put("photoURL2", violation.getPhotoUrl2());
         }
         return result;

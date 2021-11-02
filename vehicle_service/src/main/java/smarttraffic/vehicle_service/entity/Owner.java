@@ -1,6 +1,7 @@
 package smarttraffic.vehicle_service.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class Owner {
     private String lastName;
 
     @OneToMany(mappedBy = "owner",fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonIgnore
     private Set<Vehicle> vehicles;
 
     @OneToOne

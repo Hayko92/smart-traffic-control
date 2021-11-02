@@ -1,6 +1,7 @@
 package smarttraffic.violation_service.service;
 
 import org.springframework.stereotype.Service;
+import smarttraffic.violation_service.entity.Owner;
 import smarttraffic.violation_service.entity.Violation;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface ViolationService {
     List<Violation> getAllByNumber(String number);
 
     List<Violation> getAllByOwnerID(Long ownerID);
+
+    void reduceOwnerPoints(Owner owner);
 }

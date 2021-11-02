@@ -1,10 +1,8 @@
-package smarttraffic.notifiers.entity;
+package smarttraffic.detectors_analyzer.dto;
 
-import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
 
-public class Capture  {
+public class CaptureDTO {
 
     private int id;
 
@@ -16,15 +14,16 @@ public class Capture  {
 
     private String photoUrl;
 
-    public Capture() {
+    public CaptureDTO() {
     }
 
-    public Capture(String plateNumber, String photoUrl, String place, Instant instant) {
+    public CaptureDTO(String plateNumber, String photoUrl, String place, Instant instant) {
         this.plateNumber = plateNumber;
         this.photoUrl = photoUrl;
         this.place = place;
         this.instant = instant;
     }
+
 
     public String getPhotoUrl() {
         return photoUrl;
@@ -66,26 +65,4 @@ public class Capture  {
         this.instant = instant;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Capture capture = (Capture) o;
-        return id == capture.id && Objects.equals(plateNumber, capture.plateNumber) && Objects.equals(place, capture.place) && Objects.equals(instant, capture.instant);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, plateNumber, place, instant);
-    }
-
-    @Override
-    public String toString() {
-        return "Capture{" +
-                "id=" + id +
-                ", number='" + plateNumber + '\'' +
-                ", place='" + place + '\'' +
-                ", instant=" + instant +
-                '}';
-    }
 }

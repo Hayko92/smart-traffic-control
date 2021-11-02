@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "capture")
-public class Capture implements Serializable {
+public class Capture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
