@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.detectors_analyzer.dto.CaptureDTO;
-import smarttraffic.detectors_analyzer.entity.Detector;
-import smarttraffic.detectors_analyzer.model.Vehicle;
+import smarttraffic.detectors_analyzer.dto.DetectorDto;
+import smarttraffic.detectors_analyzer.dto.VehicleDTO;
 import smarttraffic.detectors_analyzer.util.JwtTokenUtil;
 
 import java.time.Instant;
@@ -26,16 +26,16 @@ public class VehicleServiceImpl implements VehicleService {
     private String cameraImitationServiceUrl;
 
     @Override
-    public boolean checkInsurance(CaptureDTO capture, Vehicle vehicle) {
+    public boolean checkInsurance(CaptureDTO capture, VehicleDTO vehicleDTO) {
         Instant date = capture.getInstant();
-        Instant dateOfExpiringInsurance = vehicle.getInsuranceExpiry();
+        Instant dateOfExpiringInsurance = vehicleDTO.getInsuranceExpiry();
         return date.isBefore(dateOfExpiringInsurance);
     }
 
     @Override
-    public boolean checkTechInspection(CaptureDTO capture, Vehicle vehicle) {
+    public boolean checkTechInspection(CaptureDTO capture, VehicleDTO vehicleDTO) {
         Instant date = capture.getInstant();
-        Instant dateOfExpiringTechInspection = vehicle.getTechInspectionExpiry();
+        Instant dateOfExpiringTechInspection = vehicleDTO.getTechInspectionExpiry();
         return date.isBefore(dateOfExpiringTechInspection);
     }
 
@@ -45,7 +45,7 @@ public class VehicleServiceImpl implements VehicleService {
         CaptureDTO prev;
         Map<CaptureDTO, Integer> prevCaptureOverspeedMap = null;
         if (previousDet != null) {
-            long secondsFrom = 0;
+            long secondsFrom ;
             for (Map.Entry<String, Integer> prevDet : previousDet.entrySet()) {
                 int distance = prevDet.getValue();
                 prev = captureService.getByPlaceAndNumber(prevDet.getKey(), capture.getPlateNumber());
@@ -69,8 +69,8 @@ public class VehicleServiceImpl implements VehicleService {
         String place = capture.getPlace();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity httpEntity = new HttpEntity(headers);
-        ResponseEntity<Detector> response = restTemplate.exchange(cameraImitationServiceUrl + "/" + place, HttpMethod.GET,httpEntity, Detector.class);
-        Detector detector  = response.getBody();
+        ResponseEntity<DetectorDto> response = restTemplate.exchange(cameraImitationServiceUrl + "/" + place, HttpMethod.GET,httpEntity, DetectorDto.class);
+        DetectorDto detector  = response.getBody();
         if (detector != null) return detector.getPreviousDetectorsDistance();
         else return null;
     }

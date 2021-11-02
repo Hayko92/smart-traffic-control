@@ -36,7 +36,7 @@ alter table violation_service.owner
     add constraint owner_vehicle_owner_address_address_id_fk
         foreign key (address_id) references violation_service.address;
 
-create table violation_service.vehicle
+create table violation_service.vehicleDTO
 (
     mark                             varchar(30)  not null,
     model                            varchar(30)  not null,
@@ -59,7 +59,7 @@ create table violation_service.vehicle
 );
 
 create unique index vehicle_id_uindex
-    on violation_service.vehicle (id);
+    on violation_service.vehicleDTO (id);
 
 create table violation_service.violation
 (
@@ -79,6 +79,6 @@ create table violation_service.violation
     constraint violation_report_vehicle_owner_id_fk
         foreign key (owner_id) references violation_service.owner,
     constraint violation_report_vehicle_id_fk
-        foreign key (vehicle_id) references violation_service.vehicle
+        foreign key (vehicle_id) references violation_service.vehicleDTO
 );
 

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.detectors_analyzer.dto.CaptureDTO;
-import smarttraffic.detectors_analyzer.model.Vehicle;
+import smarttraffic.detectors_analyzer.dto.VehicleDTO;
 import smarttraffic.detectors_analyzer.service.CaptureService;
 import smarttraffic.detectors_analyzer.service.VehicleService;
 import smarttraffic.detectors_analyzer.util.JwtTokenUtil;
@@ -50,13 +50,13 @@ public class DetectorController {
         }
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity httpEntity = new HttpEntity(headers);
-        ResponseEntity<Vehicle> response = restTemplate.exchange(vehicleServiceUrl + "/" + plateNumber, HttpMethod.GET, httpEntity, Vehicle.class);
-        Vehicle vehicle = response.getBody();
-        if (vehicle == null) {
+        ResponseEntity<VehicleDTO> response = restTemplate.exchange(vehicleServiceUrl + "/" + plateNumber, HttpMethod.GET, httpEntity, VehicleDTO.class);
+        VehicleDTO vehicleDTO = response.getBody();
+        if (vehicleDTO == null) {
             sendNotificationToPatrol(capture, token);
             return;
         }
-        if (vehicle.isChecked()) {
+        if (vehicleDTO.isChecked()) {
             int speed = 0;
             Map<CaptureDTO, Integer> prevCaptureOverspeed = vehicleService.checkSpeed(capture, token);
             if (prevCaptureOverspeed != null) {
@@ -67,21 +67,21 @@ public class DetectorController {
                 createSpeedViolation(prev, capture, speed, token);
             }
         } else {
-            boolean hasValidInsurance = vehicleService.checkInsurance(capture, vehicle);
-            boolean hasValidTechInspection = vehicleService.checkTechInspection(capture, vehicle);
+            boolean hasValidInsurance = vehicleService.checkInsurance(capture, vehicleDTO);
+            boolean hasValidTechInspection = vehicleService.checkTechInspection(capture, vehicleDTO);
             if (!hasValidInsurance) createViolation(capture, "INS", token);
             if (!hasValidTechInspection) createViolation(capture, "TECH", token);
-            setChecked(vehicle, token);
+            setChecked(vehicleDTO, token);
         }
         captureService.save(capture);
     }
 
 
-    private void setChecked(Vehicle vehicle, String token) {
+    private void setChecked(VehicleDTO vehicleDTO, String token) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity httpEntity = new HttpEntity(headers);
-        restTemplate.exchange(vehicleServiceUrl + "/set-status-checked/" + vehicle.getId(), HttpMethod.GET, httpEntity, String.class);
+        restTemplate.exchange(vehicleServiceUrl + "/set-status-checked/" + vehicleDTO.getId(), HttpMethod.GET, httpEntity, String.class);
     }
 
     private void createSpeedViolation(CaptureDTO prev, CaptureDTO current, int speed, String token) {
