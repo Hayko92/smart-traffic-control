@@ -1,5 +1,7 @@
 package smarttraffic.cameraimitation.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -10,6 +12,7 @@ public class Capture implements Serializable {
     private int id;
     private String plateNumber;
     private String place;
+    @JsonFormat(timezone = "Asia/Yerevan")
     private Instant instant;
     private String photoUrl;
 

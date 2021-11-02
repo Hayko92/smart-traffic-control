@@ -1,5 +1,6 @@
 package smarttraffic.cameraimitation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;

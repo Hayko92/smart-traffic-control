@@ -21,5 +21,5 @@ public interface ViolationService {
 
     List<Violation> getAllByOwnerID(Long ownerID);
 
-    void reduceOwnerPoints(Owner owner);
+    void reduceOwnerPoints(Owner owner,String token);
 }

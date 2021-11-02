@@ -1,5 +1,7 @@
 package smarttraffic.detectors_analyzer.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.Instant;
 
 public class CaptureDTO {
@@ -9,7 +11,7 @@ public class CaptureDTO {
     private String plateNumber;
 
     private String place;
-
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private Instant instant;
 
     private String photoUrl;

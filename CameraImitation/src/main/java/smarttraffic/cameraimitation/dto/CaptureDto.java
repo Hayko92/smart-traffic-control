@@ -1,6 +1,10 @@
 package smarttraffic.cameraimitation.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.Instant;
+import java.util.TimeZone;
 
 public class CaptureDto {
 
@@ -9,7 +13,7 @@ public class CaptureDto {
     private String plateNumber;
 
     private String place;
-
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private Instant instant;
 
     private String photoUrl;

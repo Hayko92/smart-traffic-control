@@ -11,7 +11,6 @@ public class VehicleServiceImpl implements VehicleService {
     @Autowired
     VehicleRepository vehicleRepository;
 
-
     @Override
     public Vehicle getByNumber(String number) {
         return vehicleRepository.getByPlateNumber(number);
@@ -20,9 +19,7 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void create(Vehicle vehicle) {
         vehicleRepository.save(vehicle);
-
     }
-
     @Override
     public void delete(Vehicle vehicle) {
         vehicleRepository.delete(vehicle);

@@ -1,5 +1,9 @@
 package smarttraffic.violation_service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import java.time.Instant;
 
 public class CaptureDTO {
@@ -10,6 +14,7 @@ public class CaptureDTO {
 
     private String place;
 
+    @JsonFormat(timezone = "Asia/Yerevan")
     private Instant instant;
 
     private String photoUrl;

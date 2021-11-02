@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import smarttraffic.violation_service.entity.Owner;
 import smarttraffic.violation_service.entity.Violation;
 import smarttraffic.violation_service.repository.ViolationRepository;
+import smarttraffic.violation_service.util.JwtTokenUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,16 +57,19 @@ public class ViolationServiceImpl implements ViolationService {
     }
 
     @Override
-    public void reduceOwnerPoints(Owner owner) {
+    public void reduceOwnerPoints(Owner owner, String token) {
         RestTemplate restTemplate = new RestTemplate();
         if (owner != null) {
-            owner.getRedusedPoint();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
             HttpEntity<Owner> httpEntity = new HttpEntity<>(owner, headers);
+            HttpEntity  httpEntity1 = new HttpEntity(  headers);
             restTemplate.exchange(vehicleServiceUrl + "/owner/" + owner.getId(), HttpMethod.POST, httpEntity, Owner.class);
-            if (owner.getPoints() == 0)
-                restTemplate.getForObject(notificationServiceUrl + "/patrol/owner/" + owner.getId(), Void.class);
+            if (owner.getPoints() == 1) {
+                owner.getRedusedPoint();
+                restTemplate.exchange(notificationServiceUrl + "/patrol/owner/" + owner.getId(),HttpMethod.GET,httpEntity1, Void.class);
+            }
         }
+
     }
 }
