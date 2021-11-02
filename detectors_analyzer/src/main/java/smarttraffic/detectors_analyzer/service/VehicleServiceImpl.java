@@ -2,11 +2,16 @@ package smarttraffic.detectors_analyzer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.detectors_analyzer.dto.CaptureDTO;
 import smarttraffic.detectors_analyzer.entity.Detector;
 import smarttraffic.detectors_analyzer.model.Vehicle;
+import smarttraffic.detectors_analyzer.util.JwtTokenUtil;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -35,8 +40,8 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Map<CaptureDTO, Integer> checkSpeed(CaptureDTO capture) {
-        Map<String, Integer> previousDet = getPreviousDetectors(capture);
+    public Map<CaptureDTO, Integer> checkSpeed(CaptureDTO capture,String token) {
+        Map<String, Integer> previousDet = getPreviousDetectors(capture,token);
         CaptureDTO prev;
         Map<CaptureDTO, Integer> prevCaptureOverspeedMap = null;
         if (previousDet != null) {
@@ -59,10 +64,13 @@ public class VehicleServiceImpl implements VehicleService {
         return prevCaptureOverspeedMap;
     }
 
-    private Map<String, Integer> getPreviousDetectors(CaptureDTO capture) {
+    private Map<String, Integer> getPreviousDetectors(CaptureDTO capture,String token) {
         RestTemplate restTemplate = new RestTemplate();
         String place = capture.getPlace();
-        Detector detector = restTemplate.getForObject(cameraImitationServiceUrl + "/" + place, Detector.class);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<Detector> response = restTemplate.exchange(cameraImitationServiceUrl + "/" + place, HttpMethod.GET,httpEntity, Detector.class);
+        Detector detector  = response.getBody();
         if (detector != null) return detector.getPreviousDetectorsDistance();
         else return null;
     }

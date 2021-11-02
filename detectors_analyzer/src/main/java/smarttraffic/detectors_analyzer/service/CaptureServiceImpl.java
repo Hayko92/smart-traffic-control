@@ -34,11 +34,13 @@ public class CaptureServiceImpl implements CaptureService {
     }
 
     @Override
-    public void save(CaptureDTO captureDTO) {
+    public int save(CaptureDTO captureDTO) {
         if (captureDTO != null) {
             Capture capture = CaptureMapper.maptoCapture(captureDTO);
             captureRepository.save(capture);
+            return capture.getId();
         }
-
+        return 0;
     }
+
 }

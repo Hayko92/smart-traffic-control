@@ -1,5 +1,7 @@
 package smarttraffic.notifiers.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.Instant;
 import java.util.Objects;
 
@@ -10,7 +12,7 @@ public class Capture {
     private String plateNumber;
 
     private String place;
-
+    @JsonFormat(timezone = "Asia/Yerevan")
     private Instant instant;
 
     private String photoUrl;

@@ -12,7 +12,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 import smarttraffic.notifiers.entity.Capture;
 import smarttraffic.notifiers.util.HTMLCreator;
-import smarttraffic.notifiers.util.JwtTokenUtil;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -25,14 +24,12 @@ public class NotificationController {
     private static final String ACCOUNT_SID = "ACf8751052d983ad03251129ce8f0c7e98";
     private static final String AUTH_TOKEN = "c05e8d9b613cc613c533ad9d1000720e";
     private static final String TWILIO_NUMBER = "+12075013766";
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
+
     @Autowired
     private JavaMailSender mailSender;
 
     @PostMapping("/patrol")
-    public void sendToPatrol(@RequestBody Capture capture, @RequestHeader(name = "AUTHORIZATION") String token) throws MessagingException {
-        if (jwtTokenUtil.checkTokenValidation(token)) {
+    public void sendToPatrol(@RequestBody Capture capture) throws MessagingException {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
@@ -43,12 +40,10 @@ public class NotificationController {
             FileSystemResource file1 = new FileSystemResource(file);
             helper.addAttachment("car_photo1.jpg", file1);
             mailSender.send(message);
-        }
     }
 
     @GetMapping("/patrol/owner/{ownerID}")
-    public void sendToPatrolIDofOwner(@PathVariable Long ownerID, @RequestHeader(name = "AUTHORIZATION") String token) throws MessagingException {
-        if (jwtTokenUtil.checkTokenValidation(token)) {
+    public void sendToPatrolIDofOwner(@PathVariable Long ownerID) throws MessagingException {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, false);
             helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
@@ -56,12 +51,10 @@ public class NotificationController {
             helper.setSubject("Driver with null points!");
             helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
             mailSender.send(message);
-        }
     }
 
     @PostMapping("/email")
-    public void sendEmail(@RequestBody Map<String, String> info, @RequestHeader(name = "AUTHORIZATION") String token) throws MessagingException {
-        if (jwtTokenUtil.checkTokenValidation(token)) {
+    public void sendEmail(@RequestBody Map<String, String> info) throws MessagingException {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
@@ -75,12 +68,10 @@ public class NotificationController {
                 helper.addAttachment("car_photo2.jpg", file2);
             }
             mailSender.send(message);
-        }
     }
 
     @PostMapping("/sms")
-    public String sendSMS(@RequestBody Map<String, String> info, @RequestHeader(name = "AUTHORIZATION") String token) throws MessagingException {
-        if (jwtTokenUtil.checkTokenValidation(token)) {
+    public String sendSMS(@RequestBody Map<String, String> info) throws MessagingException {
             Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
             MessageCreator message = Message.create(ACCOUNT_SID,
                     new PhoneNumber("+37493191719"),
@@ -89,6 +80,6 @@ public class NotificationController {
             // message.execute();
             return "Sended";
         }
-        return null;
+
     }
-}
+

@@ -1,5 +1,7 @@
 package smarttraffic.violation_service.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;

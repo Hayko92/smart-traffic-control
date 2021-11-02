@@ -7,7 +7,7 @@ public interface CaptureService {
 
     CaptureDTO getById(int id);
 
-    void save(CaptureDTO capture);
+    int save(CaptureDTO capture);
 
     CaptureDTO getByPlaceAndNumber(String place, String platenumber);
 }

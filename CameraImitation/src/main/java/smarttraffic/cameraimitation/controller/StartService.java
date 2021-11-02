@@ -19,6 +19,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -59,7 +60,7 @@ public class StartService {
         URL url = getRadnomUrl();
         String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
         String plateNumber = NumberExtractor.extract(textFromImage);
-        Instant instant = Instant.now();
+        Instant instant = Instant.now().plus(4, ChronoUnit.HOURS);
         String place = randomDetector.getPlace();
         CaptureDto capture = new CaptureDto(plateNumber, url.toString(), place, instant);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
@@ -72,17 +73,13 @@ public class StartService {
 
     @GetMapping("/{detectorPlace}")
     public DetectorDto getDetector(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
-        if (JwtTokenUtil.checkTokenValidation(token)) {
             return detectorService.getByPlace(detectorPlace);
-        } else return null;
     }
 
     @GetMapping("/previous_detectors/{detectorPlace}")
     public Map<String, Integer> getPreviousDetectors(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
-        if (JwtTokenUtil.checkTokenValidation(token)) {
             DetectorDto detector = detectorService.getByPlace(detectorPlace);
             return detector.getPreviousDetectorsDistance();
-        } else return null;
     }
 
     private URL getRadnomUrl() throws MalformedURLException {
