@@ -13,13 +13,11 @@ import smarttraffic.vehicle_service.util.JwtTokenUtil;
 public class VehicleServiceController {
 
     @Autowired
+    JwtTokenUtil jwtTokenUtil;
+    @Autowired
     private VehicleService vehicleService;
-
     @Autowired
     private OwnerService ownerService;
-
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/vehicle/owner/{plateNumber}")
     public Owner sendOwnerByPlateNumber(@PathVariable String plateNumber, @RequestHeader(name = "AUTHORIZATION") String token) {

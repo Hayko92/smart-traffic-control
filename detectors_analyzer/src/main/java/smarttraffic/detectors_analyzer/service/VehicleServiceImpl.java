@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.detectors_analyzer.entity.Capture;
+import smarttraffic.detectors_analyzer.dto.CaptureDTO;
 import smarttraffic.detectors_analyzer.entity.Detector;
 import smarttraffic.detectors_analyzer.model.Vehicle;
 
@@ -21,24 +21,24 @@ public class VehicleServiceImpl implements VehicleService {
     private String cameraImitationServiceUrl;
 
     @Override
-    public boolean checkInsurance(Capture capture, Vehicle vehicle) {
+    public boolean checkInsurance(CaptureDTO capture, Vehicle vehicle) {
         Instant date = capture.getInstant();
         Instant dateOfExpiringInsurance = vehicle.getInsuranceExpiry();
         return date.isBefore(dateOfExpiringInsurance);
     }
 
     @Override
-    public boolean checkTechInspection(Capture capture, Vehicle vehicle) {
+    public boolean checkTechInspection(CaptureDTO capture, Vehicle vehicle) {
         Instant date = capture.getInstant();
         Instant dateOfExpiringTechInspection = vehicle.getTechInspectionExpiry();
         return date.isBefore(dateOfExpiringTechInspection);
     }
 
     @Override
-    public Map<Capture, Integer> checkSpeed(Capture capture) {
+    public Map<CaptureDTO, Integer> checkSpeed(CaptureDTO capture) {
         Map<String, Integer> previousDet = getPreviousDetectors(capture);
-        Capture prev;
-        Map<Capture, Integer> prevCaptureOverspeedMap = null;
+        CaptureDTO prev;
+        Map<CaptureDTO, Integer> prevCaptureOverspeedMap = null;
         if (previousDet != null) {
             long secondsFrom = 0;
             for (Map.Entry<String, Integer> prevDet : previousDet.entrySet()) {
@@ -47,7 +47,7 @@ public class VehicleServiceImpl implements VehicleService {
                 if (prev == null) continue;
                 secondsFrom = prev.getInstant().getEpochSecond();
                 long secondsTo = capture.getInstant().getEpochSecond();
-                long duration = secondsTo - secondsFrom+1;
+                long duration = secondsTo - secondsFrom + 1;
                 int speedKMH = (int) ((distance / duration) * 3.6);
                 if (speedKMH > 70) {
                     prevCaptureOverspeedMap = new HashMap<>();
@@ -59,7 +59,7 @@ public class VehicleServiceImpl implements VehicleService {
         return prevCaptureOverspeedMap;
     }
 
-    private Map<String, Integer> getPreviousDetectors(Capture capture) {
+    private Map<String, Integer> getPreviousDetectors(CaptureDTO capture) {
         RestTemplate restTemplate = new RestTemplate();
         String place = capture.getPlace();
         Detector detector = restTemplate.getForObject(cameraImitationServiceUrl + "/" + place, Detector.class);

@@ -2,8 +2,10 @@ package smarttraffic.detectors_analyzer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import smarttraffic.detectors_analyzer.dto.CaptureDTO;
 import smarttraffic.detectors_analyzer.entity.Capture;
 import smarttraffic.detectors_analyzer.repository.CaptureRepository;
+import smarttraffic.detectors_analyzer.util.CaptureMapper;
 
 @Service
 public class CaptureServiceImpl implements CaptureService {
@@ -11,22 +13,32 @@ public class CaptureServiceImpl implements CaptureService {
     CaptureRepository captureRepository;
 
     @Override
-    public Capture getByPlateNumber(String plateNumber) {
-        return captureRepository.findFirstByPlateNumberOrderByIdDesc(plateNumber);
+    public CaptureDTO getByPlateNumber(String plateNumber) {
+        Capture capture = captureRepository.findFirstByPlateNumberOrderByIdDesc(plateNumber);
+        if (capture != null) return CaptureMapper.maptoDTO(capture);
+        else return null;
     }
 
     @Override
-    public Capture getByPlaceAndNumber(String place, String platenumber) {
-        return captureRepository.findFirstByPlaceAndPlateNumberOrderByIdDesc(place, platenumber);
+    public CaptureDTO getByPlaceAndNumber(String place, String platenumber) {
+        Capture capture = captureRepository.findFirstByPlaceAndPlateNumberOrderByIdDesc(place, platenumber);
+        if (capture != null) return CaptureMapper.maptoDTO(capture);
+        else return null;
     }
 
     @Override
-    public Capture getById(int id) {
-        return captureRepository.getById(id);
+    public CaptureDTO getById(int id) {
+        Capture capture = captureRepository.getById(id);
+        if (capture != null) return CaptureMapper.maptoDTO(capture);
+        else return null;
     }
 
     @Override
-    public void save(Capture capture) {
-        captureRepository.save(capture);
+    public void save(CaptureDTO captureDTO) {
+        if (captureDTO != null) {
+            Capture capture = CaptureMapper.maptoCapture(captureDTO);
+            captureRepository.save(capture);
+        }
+
     }
 }

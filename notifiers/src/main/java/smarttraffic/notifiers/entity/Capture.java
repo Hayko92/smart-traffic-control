@@ -1,10 +1,9 @@
 package smarttraffic.notifiers.entity;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-public class Capture  {
+public class Capture {
 
     private int id;
 

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import smarttraffic.vehicle_service.entity.Owner;
 import smarttraffic.vehicle_service.repository.OwnerRepository;
+
 @Service
 public class OwnerServiceImpl implements OwnerService {
 
@@ -17,7 +18,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner save(Owner owner) {
-     return   ownerRepository.save(owner);
+        return ownerRepository.save(owner);
     }
 
     @Override

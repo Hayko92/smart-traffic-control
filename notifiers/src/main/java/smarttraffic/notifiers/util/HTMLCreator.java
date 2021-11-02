@@ -10,16 +10,16 @@ public final class HTMLCreator {
         return String.format("Dear Mr/Mrs %s, You have a you violation\n" +
                         "Violation ID: %s\n" +
                         "Violation type: %s,\n" +
-                        "Vehicle platenumber: %s\n"+
-                        "Violation place: %s\n"+
-                        "Violation time: %s\n"+
-                        "Vehicle mark: %s\n"+
-                        "Vehicle model: %s\n"+
-                        "Vehicle year: %s\n"+
-                        "Violation price: %s\n"+
-                        "Vehicle owner firstname: %s\n"+
-                        "Vehicle owner lastname: %s\n"+
-                        "Phone: %s\n"+
+                        "Vehicle platenumber: %s\n" +
+                        "Violation place: %s\n" +
+                        "Violation time: %s\n" +
+                        "Vehicle mark: %s\n" +
+                        "Vehicle model: %s\n" +
+                        "Vehicle year: %s\n" +
+                        "Violation price: %s\n" +
+                        "Vehicle owner firstname: %s\n" +
+                        "Vehicle owner lastname: %s\n" +
+                        "Phone: %s\n" +
                         "Email: %s\n",
                 info.get("lastName"),
                 info.get("id"),

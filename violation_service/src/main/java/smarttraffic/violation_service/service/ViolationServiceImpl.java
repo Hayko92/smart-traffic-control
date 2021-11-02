@@ -57,15 +57,15 @@ public class ViolationServiceImpl implements ViolationService {
 
     @Override
     public void reduceOwnerPoints(Owner owner) {
-        RestTemplate restTemplate  =new RestTemplate();
-        if(owner!=null) {
+        RestTemplate restTemplate = new RestTemplate();
+        if (owner != null) {
             owner.getRedusedPoint();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Owner> httpEntity =new HttpEntity<>(owner, headers);
-            restTemplate.exchange(vehicleServiceUrl+"/owner/"+owner.getId(), HttpMethod.POST,httpEntity,Owner.class);
+            HttpEntity<Owner> httpEntity = new HttpEntity<>(owner, headers);
+            restTemplate.exchange(vehicleServiceUrl + "/owner/" + owner.getId(), HttpMethod.POST, httpEntity, Owner.class);
             if (owner.getPoints() == 0)
-                restTemplate.getForObject(notificationServiceUrl + "/patrol/owner/"+ owner.getId(),Void.class);
+                restTemplate.getForObject(notificationServiceUrl + "/patrol/owner/" + owner.getId(), Void.class);
         }
     }
 }
