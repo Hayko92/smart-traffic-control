@@ -1,9 +1,5 @@
 package smarttraffic.vehicle_service.dto;
 
-import smarttraffic.violation_service.entity.Owner;
-import smarttraffic.violation_service.entity.VehicleMark;
-import smarttraffic.violation_service.entity.VehicleModel;
-
 import java.time.Instant;
 
 public class VehicleDTO {
@@ -12,19 +8,19 @@ public class VehicleDTO {
     private String plateNumber;
     private int horsePower;
     private String Color;
-    private VehicleMark mark;
-    private VehicleModel model;
+    private VehicleMarkDTO mark;
+    private VehicleModelDTO model;
     private int productionYear;
     private Instant insuranceExpiry;
     private Instant techInspectionExpiry;
     private boolean checked;
-    private Owner owner;
+    private OwnerDTO owner;
 
     public VehicleDTO() {
     }
 
-    public VehicleDTO(String vinNumber, String plateNumber, int horsePower, String color, VehicleMark mark, VehicleModel model,
-                      int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, Owner owner) {
+    public VehicleDTO(String vinNumber, String plateNumber, int horsePower, String color, VehicleMarkDTO mark, VehicleModelDTO model,
+                      int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, OwnerDTO owner) {
         this.vinNumber = vinNumber;
         this.plateNumber = plateNumber;
         this.horsePower = horsePower;
@@ -78,19 +74,19 @@ public class VehicleDTO {
         Color = color;
     }
 
-    public VehicleMark getMark() {
+    public VehicleMarkDTO getMark() {
         return mark;
     }
 
-    public void setMark(VehicleMark mark) {
+    public void setMark(VehicleMarkDTO mark) {
         this.mark = mark;
     }
 
-    public VehicleModel getModel() {
+    public VehicleModelDTO getModel() {
         return model;
     }
 
-    public void setModel(VehicleModel model) {
+    public void setModel(VehicleModelDTO model) {
         this.model = model;
     }
 
@@ -126,11 +122,11 @@ public class VehicleDTO {
         this.checked = checked;
     }
 
-    public Owner getOwner() {
+    public OwnerDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(OwnerDTO owner) {
         this.owner = owner;
     }
 }

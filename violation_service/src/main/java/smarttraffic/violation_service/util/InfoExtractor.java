@@ -1,8 +1,6 @@
 package smarttraffic.violation_service.util;
 
 import smarttraffic.violation_service.dto.ViolationDTO;
-import smarttraffic.violation_service.entity.Violation;
-import smarttraffic.violation_service.model.SpeedViolation;
 
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -24,12 +22,12 @@ public final class InfoExtractor {
         result.put("price", String.valueOf(violationDTO.getPrice()));
         result.put("firstName", violationDTO.getOwner().getFirstName());
         result.put("lastName", violationDTO.getOwner().getLastName());
-        result.put("phone", violationDTO.getOwner().getOwnerContact().getPhoneNumber());
-        result.put("email", violationDTO.getOwner().getOwnerContact().getEmailAddress());
+        result.put("phone", violationDTO.getOwner().getOwnerContactDTO().getPhoneNumber());
+        result.put("email", violationDTO.getOwner().getOwnerContactDTO().getEmailAddress());
         result.put("vehicleMark", violationDTO.getVehicle().getMark().getMarkName());
         result.put("vehicleModel", violationDTO.getVehicle().getModel().getModelName());
         result.put("vehicleYear", String.valueOf(violationDTO.getVehicle().getProductionYear()));
-        if (violationDTO instanceof SpeedViolation) {
+        if (violationDTO.getType().equals("SPEED")) {
             result.put("photoURL2", violationDTO.getPhotoUrl2());
         }
         return result;

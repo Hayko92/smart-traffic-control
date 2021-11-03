@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.detectors_analyzer.dto.CaptureDTO;
-import smarttraffic.detectors_analyzer.dto.DetectorDto;
+import smarttraffic.detectors_analyzer.dto.DetectorDTO;
 import smarttraffic.detectors_analyzer.dto.VehicleDTO;
 import smarttraffic.detectors_analyzer.util.JwtTokenUtil;
 
@@ -40,12 +40,12 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Map<CaptureDTO, Integer> checkSpeed(CaptureDTO capture,String token) {
-        Map<String, Integer> previousDet = getPreviousDetectors(capture,token);
+    public Map<CaptureDTO, Integer> checkSpeed(CaptureDTO capture, String token) {
+        Map<String, Integer> previousDet = getPreviousDetectors(capture, token);
         CaptureDTO prev;
         Map<CaptureDTO, Integer> prevCaptureOverspeedMap = null;
         if (previousDet != null) {
-            long secondsFrom ;
+            long secondsFrom;
             for (Map.Entry<String, Integer> prevDet : previousDet.entrySet()) {
                 int distance = prevDet.getValue();
                 prev = captureService.getByPlaceAndNumber(prevDet.getKey(), capture.getPlateNumber());
@@ -64,13 +64,13 @@ public class VehicleServiceImpl implements VehicleService {
         return prevCaptureOverspeedMap;
     }
 
-    private Map<String, Integer> getPreviousDetectors(CaptureDTO capture,String token) {
+    private Map<String, Integer> getPreviousDetectors(CaptureDTO capture, String token) {
         RestTemplate restTemplate = new RestTemplate();
         String place = capture.getPlace();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity httpEntity = new HttpEntity(headers);
-        ResponseEntity<DetectorDto> response = restTemplate.exchange(cameraImitationServiceUrl + "/" + place, HttpMethod.GET,httpEntity, DetectorDto.class);
-        DetectorDto detector  = response.getBody();
+        ResponseEntity<DetectorDTO> response = restTemplate.exchange(cameraImitationServiceUrl + "/" + place, HttpMethod.GET, httpEntity, DetectorDTO.class);
+        DetectorDTO detector = response.getBody();
         if (detector != null) return detector.getPreviousDetectorsDistance();
         else return null;
     }

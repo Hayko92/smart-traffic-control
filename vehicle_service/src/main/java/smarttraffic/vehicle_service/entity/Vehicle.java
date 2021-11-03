@@ -144,6 +144,14 @@ public class Vehicle {
         this.techInspectionExpiry = techInspectionExpiry;
     }
 
+    public int getHorsePower() {
+        return horsePower;
+    }
+
+    public void setHorsePower(int horsePower) {
+        this.horsePower = horsePower;
+    }
+
     public boolean isChecked() {
         return checked;
     }

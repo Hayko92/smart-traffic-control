@@ -1,7 +1,6 @@
 package smarttraffic.vehicle_service.dto;
 
 
-
 public class OwnerContactDTO {
     private long id;
     private String emailAddress;

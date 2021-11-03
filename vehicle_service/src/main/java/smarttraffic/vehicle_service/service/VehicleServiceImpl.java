@@ -2,7 +2,9 @@ package smarttraffic.vehicle_service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import smarttraffic.vehicle_service.dto.VehicleDTO;
 import smarttraffic.vehicle_service.entity.Vehicle;
+import smarttraffic.vehicle_service.mapper.VehicleMapper;
 import smarttraffic.vehicle_service.repository.VehicleRepository;
 
 
@@ -12,22 +14,28 @@ public class VehicleServiceImpl implements VehicleService {
     VehicleRepository vehicleRepository;
 
     @Override
-    public Vehicle getByNumber(String number) {
-        return vehicleRepository.getByPlateNumber(number);
+    public VehicleDTO getByNumber(String number) {
+        Vehicle vehicle = vehicleRepository.getByPlateNumber(number);
+        if (vehicle != null) return VehicleMapper.mapToDto(vehicle);
+        else return null;
     }
 
     @Override
-    public void create(Vehicle vehicle) {
-        vehicleRepository.save(vehicle);
-    }
-    @Override
-    public void delete(Vehicle vehicle) {
-        vehicleRepository.delete(vehicle);
+    public void create(VehicleDTO vehicle) {
+        Vehicle vehicle1 = VehicleMapper.mapToEntity(vehicle);
+        vehicleRepository.save(vehicle1);
     }
 
     @Override
-    public void update(Vehicle vehicle) {
-        vehicleRepository.save(vehicle);
+    public void delete(VehicleDTO vehicle) {
+        Vehicle vehicleEn = VehicleMapper.mapToEntity(vehicle);
+        vehicleRepository.delete(vehicleEn);
+    }
+
+    @Override
+    public void update(VehicleDTO vehicle) {
+        Vehicle vehicleEn = VehicleMapper.mapToEntity(vehicle);
+        vehicleRepository.save(vehicleEn);
     }
 
     @Override
@@ -36,13 +44,17 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public Vehicle getById(long id) {
-        return vehicleRepository.getById(id);
+    public VehicleDTO getById(long id) {
+        Vehicle vehicle = vehicleRepository.getById(id);
+        VehicleDTO vehicleDTO;
+        vehicleDTO = VehicleMapper.mapToDto(vehicle);
+        return vehicleDTO;
     }
 
     @Override
-    public void save(Vehicle vehicle1) {
-        vehicleRepository.save(vehicle1);
+    public void save(VehicleDTO vehicle1) {
+        Vehicle vehicle = VehicleMapper.mapToEntity(vehicle1);
+        vehicleRepository.save(vehicle);
     }
 
 }

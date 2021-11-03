@@ -1,21 +1,19 @@
 package smarttraffic.violation_service.dto;
 
-import smarttraffic.violation_service.entity.Address;
 
 public class OwnerContactDTO {
     private long id;
     private String emailAddress;
     private String phoneNumber;
-    private Address address;
+    private AddressDTO addressDTO;
 
     public OwnerContactDTO() {
 
     }
 
-    public OwnerContactDTO(String emailAddress, String phoneNumber, Address address) {
+    public OwnerContactDTO(String emailAddress, String phoneNumber) {
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
-        this.address = address;
     }
 
     public long getId() {
@@ -42,11 +40,11 @@ public class OwnerContactDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public Address getAddress() {
-        return address;
+    public AddressDTO getAddressDTO() {
+        return addressDTO;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressDTO(AddressDTO addressDTO) {
+        this.addressDTO = addressDTO;
     }
 }

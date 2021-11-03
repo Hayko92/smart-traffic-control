@@ -2,8 +2,8 @@ package smarttraffic.vehicle_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import smarttraffic.vehicle_service.entity.Owner;
-import smarttraffic.vehicle_service.entity.Vehicle;
+import smarttraffic.vehicle_service.dto.OwnerDTO;
+import smarttraffic.vehicle_service.dto.VehicleDTO;
 import smarttraffic.vehicle_service.service.OwnerService;
 import smarttraffic.vehicle_service.service.VehicleService;
 
@@ -17,33 +17,34 @@ public class VehicleServiceController {
     private OwnerService ownerService;
 
     @GetMapping("/vehicle/owner/{plateNumber}")
-    public Owner sendOwnerByPlateNumber(@PathVariable String plateNumber) {
-        Vehicle vehicle = vehicleService.getByNumber(plateNumber);
-        return vehicle.getOwner();
+    public OwnerDTO sendOwnerByPlateNumber(@PathVariable String plateNumber) {
+        VehicleDTO vehicle = vehicleService.getByNumber(plateNumber);
+        if (vehicle != null) return vehicle.getOwner();
+        else return null;
     }
 
 
     @GetMapping("/{plateNumber}")
-    public Vehicle sendVehicleByPlateNumber(@PathVariable String plateNumber) {
+    public VehicleDTO sendVehicleByPlateNumber(@PathVariable String plateNumber) {
         return vehicleService.getByNumber(plateNumber);
     }
 
     @GetMapping("/set-status-checked/{id}")
     public String setStatusCheched(@PathVariable Long id) {
-        Vehicle vehicle1 = vehicleService.getById(id);
+        VehicleDTO vehicle1 = vehicleService.getById(id);
         vehicle1.setChecked(true);
         vehicleService.update(vehicle1);
         return null;
     }
 
     @GetMapping("/owner/{id}")
-    public Owner sendOwnerByid(@PathVariable String id) {
-        Owner owner = ownerService.getById(Long.parseLong(id));
+    public OwnerDTO sendOwnerByid(@PathVariable String id) {
+        OwnerDTO owner = ownerService.getById(Long.parseLong(id));
         return owner;
     }
 
     @PostMapping("/owner/{id}")
-    public Owner updateOwnerByid(@PathVariable long id, @RequestBody Owner owner) {
+    public long updateOwnerByid(@PathVariable long id, @RequestBody OwnerDTO owner) {
         return ownerService.save(owner);
     }
 

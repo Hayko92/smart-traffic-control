@@ -1,10 +1,8 @@
 package smarttraffic.cameraimitation.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
-import java.util.TimeZone;
 
 public class CaptureDto {
 

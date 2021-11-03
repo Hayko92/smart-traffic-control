@@ -1,16 +1,14 @@
 package smarttraffic.vehicle_service.dto;
 
-import smarttraffic.violation_service.entity.VehicleMark;
-
 public class VehicleModelDTO {
     private int id;
     private String modelName;
-    private VehicleMark vehicleMark;
+    private VehicleMarkDTO vehicleMark;
 
     public VehicleModelDTO() {
     }
 
-    public VehicleModelDTO(String modelName, VehicleMark vehicleMark) {
+    public VehicleModelDTO(String modelName, VehicleMarkDTO vehicleMark) {
         this.modelName = modelName;
         this.vehicleMark = vehicleMark;
     }
@@ -31,11 +29,11 @@ public class VehicleModelDTO {
         this.modelName = modelName;
     }
 
-    public VehicleMark getVehicleMark() {
+    public VehicleMarkDTO getVehicleMark() {
         return vehicleMark;
     }
 
-    public void setVehicleMark(VehicleMark vehicleMark) {
+    public void setVehicleMark(VehicleMarkDTO vehicleMark) {
         this.vehicleMark = vehicleMark;
     }
 }

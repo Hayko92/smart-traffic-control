@@ -15,6 +15,9 @@ public class OwnerContact {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     public Address getAddress() {
         return address;
@@ -23,10 +26,6 @@ public class OwnerContact {
     public void setAddress(Address address) {
         this.address = address;
     }
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "address_id")
-    private Address address;
 
     public long getId() {
         return id;

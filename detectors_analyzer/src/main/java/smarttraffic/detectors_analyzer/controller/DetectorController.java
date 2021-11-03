@@ -45,8 +45,8 @@ public class DetectorController {
         CaptureDTO prev = null;
         String plateNumber = capture.getPlateNumber();
         if (plateNumber != null) {
-           int id = captureService.save(capture);
-           capture.setId(id);
+            int id = captureService.save(capture);
+            capture.setId(id);
         }
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity httpEntity = new HttpEntity(headers);

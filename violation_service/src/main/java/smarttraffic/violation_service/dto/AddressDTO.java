@@ -1,7 +1,5 @@
 package smarttraffic.violation_service.dto;
 
-import smarttraffic.violation_service.entity.OwnerContact;
-
 import java.util.Set;
 
 public class AddressDTO {
@@ -12,9 +10,9 @@ public class AddressDTO {
     private String building;
     private String apartment;
     private int zipCode;
-    private Set<OwnerContact> owners;
+    private Set<OwnerContactDTO> owners;
 
-    public AddressDTO(String country, String city, String street, String building, String apartment, int zipCode, Set<OwnerContact> owners) {
+    public AddressDTO(String country, String city, String street, String building, String apartment, int zipCode, Set<OwnerContactDTO> owners) {
         this.country = country;
         this.city = city;
         this.street = street;
@@ -84,11 +82,11 @@ public class AddressDTO {
         this.zipCode = zipCode;
     }
 
-    public Set<OwnerContact> getOwners() {
+    public Set<OwnerContactDTO> getOwners() {
         return owners;
     }
 
-    public void setOwners(Set<OwnerContact> owners) {
+    public void setOwners(Set<OwnerContactDTO> owners) {
         this.owners = owners;
     }
 }
