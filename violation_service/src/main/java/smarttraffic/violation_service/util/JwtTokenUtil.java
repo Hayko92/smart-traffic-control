@@ -53,7 +53,6 @@ public final class JwtTokenUtil {
 
     public static HttpHeaders getHeadersWithToken(String token) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(AUTHORIZATION, token);
         return headers;
     }

@@ -27,7 +27,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         if (token != null && JwtTokenUtil.checkTokenValidation(token)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            ((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_FOUND);
         }
     }
 

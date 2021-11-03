@@ -26,7 +26,8 @@ public class VehicleServiceController {
 
     @GetMapping("/{plateNumber}")
     public VehicleDTO sendVehicleByPlateNumber(@PathVariable String plateNumber) {
-        return vehicleService.getByNumber(plateNumber);
+       VehicleDTO vehicleDTO =  vehicleService.getByNumber(plateNumber);
+       return vehicleDTO;
     }
 
     @GetMapping("/set-status-checked/{id}")

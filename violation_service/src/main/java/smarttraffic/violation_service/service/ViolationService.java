@@ -9,7 +9,7 @@ import java.util.List;
 public interface ViolationService {
     List<ViolationDTO> getAllViolations();
 
-    void save(ViolationDTO violation);
+    long save(ViolationDTO violation);
 
     ViolationDTO getByNumber(String number);
 
