@@ -1,4 +1,4 @@
-package smart_traffic.authentication.config;
+package smart_traffic.authentication.config.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

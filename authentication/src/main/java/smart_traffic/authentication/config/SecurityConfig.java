@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import smart_traffic.authentication.config.jwt.JwtFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,8 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/admin/*").hasRole("ADMIN")
-                        .antMatchers("/user/*").hasRole("USER").
-                antMatchers("/register", "/auth").permitAll().and().
+                .antMatchers("/user/*").hasRole("USER").
+                antMatchers("/auth").permitAll().and().
                 addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         super.configure(http);
     }

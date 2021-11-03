@@ -13,6 +13,7 @@ public class UserEntity {
     private Long id;
 
     @Column
+
     private String login;
     @Column
     private String password;

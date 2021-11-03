@@ -8,14 +8,14 @@ import smart_traffic.authentication.entity.UserEntity;
 import smart_traffic.authentication.service.UserService;
 
 @Component
-public class CustomUserDetailService implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
 
     @Autowired
     private UserService userService;
 
     @Override
-    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userService.findByLogin(username);
-        return CustomUserDetails.fromUserEntityToCustomUserDetails(userEntity);
+        return UserDetails.fromUserEntityToCustomUserDetails(userEntity);
     }
 }
