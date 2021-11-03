@@ -13,5 +13,5 @@ public interface VehicleService {
 
     boolean checkTechInspection(CaptureDTO capture, VehicleDTO vehicleDTO);
 
-    Map<CaptureDTO, Integer> checkSpeed(CaptureDTO capture,String token);
+    Map<CaptureDTO, Integer> checkSpeed(CaptureDTO capture, String token);
 }

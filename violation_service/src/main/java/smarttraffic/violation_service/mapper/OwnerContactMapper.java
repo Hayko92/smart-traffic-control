@@ -1,7 +1,7 @@
-package smarttraffic.vehicle_service.mapper;
+package smarttraffic.violation_service.mapper;
 
-import smarttraffic.vehicle_service.dto.OwnerContactDTO;
-import smarttraffic.vehicle_service.entity.OwnerContact;
+import smarttraffic.violation_service.dto.OwnerContactDTO;
+import smarttraffic.violation_service.entity.OwnerContact;
 
 public final class OwnerContactMapper {
     private OwnerContactMapper() {

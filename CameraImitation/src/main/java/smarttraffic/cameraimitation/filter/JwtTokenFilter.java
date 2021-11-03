@@ -17,16 +17,17 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends GenericFilterBean {
     public static final String AUTHORIZATION = "Authorization";
+
     public JwtTokenFilter() {
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
-        if (token!=null&& JwtTokenUtil.checkTokenValidation(token)) {
+        if (token != null && JwtTokenUtil.checkTokenValidation(token)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            (( HttpServletResponse)servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ((HttpServletResponse) servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
 

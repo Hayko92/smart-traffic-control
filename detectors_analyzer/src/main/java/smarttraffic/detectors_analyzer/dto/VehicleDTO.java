@@ -12,6 +12,7 @@ public class VehicleDTO {
 
     public VehicleDTO() {
     }
+
     public long getId() {
         return id;
     }

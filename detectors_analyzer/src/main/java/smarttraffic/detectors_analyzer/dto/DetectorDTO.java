@@ -2,18 +2,18 @@ package smarttraffic.detectors_analyzer.dto;
 
 import java.util.Map;
 
-public class DetectorDto {
+public class DetectorDTO {
     private int id;
     private String place;
     private Map<String, Integer> previousDetectorsDistance;
 
-    public DetectorDto(int id, String place, Map<String, Integer> previousDetectorsDistance) {
+    public DetectorDTO(int id, String place, Map<String, Integer> previousDetectorsDistance) {
         this.id = id;
         this.place = place;
         this.previousDetectorsDistance = previousDetectorsDistance;
     }
 
-    public DetectorDto() {
+    public DetectorDTO() {
     }
 
     public int getId() {

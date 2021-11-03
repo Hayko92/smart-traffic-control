@@ -1,7 +1,7 @@
-package smarttraffic.vehicle_service.mapper;
+package smarttraffic.violation_service.mapper;
 
-import smarttraffic.vehicle_service.dto.AddressDTO;
-import smarttraffic.vehicle_service.entity.Address;
+import smarttraffic.violation_service.dto.AddressDTO;
+import smarttraffic.violation_service.entity.Address;
 
 public final class AddresMapper {
     private AddresMapper() {

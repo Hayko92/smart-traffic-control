@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import smarttraffic.violation_service.dto.ViolationDTO;
 import smarttraffic.violation_service.entity.Violation;
+import smarttraffic.violation_service.mapper.ViolationMapper;
 import smarttraffic.violation_service.repository.ViolationRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ViolationServiceImpl implements ViolationService {
@@ -16,32 +18,46 @@ public class ViolationServiceImpl implements ViolationService {
     private ViolationRepository violationRepository;
 
     @Override
-    public List<Violation> getAllViolations() {
-        return violationRepository.findAll();
+    public List<ViolationDTO> getAllViolations() {
+        List<Violation> violations = violationRepository.findAll();
+        return violations.stream()
+                .map(ViolationMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void save(Violation violation) {
-        violationRepository.save(violation);
+    public void save(ViolationDTO violation) {
+        Violation violation1 = ViolationMapper.mapToEntity(violation);
+        violationRepository.save(violation1);
     }
 
     @Override
-    public Optional<Violation> getByNumber(String number) {
-        return violationRepository.findById(number);
+    public ViolationDTO getByNumber(String number) {
+        Optional<Violation> violation = violationRepository.findById(number);
+        return violation.map(ViolationMapper::mapToDto).orElse(null);
     }
 
     @Override
-    public void delete(Violation violation) {
+    public void delete(ViolationDTO violationDTO) {
+        Violation violation = ViolationMapper.mapToEntity(violationDTO);
         violationRepository.delete(violation);
     }
 
     @Override
-    public List<Violation> getAllByNumber(String number) {
-        return violationRepository.getAllByNumber(number);
+    public List<ViolationDTO> getAllByNumber(String number) {
+        List<Violation> violationList = violationRepository.getAllByNumber(number);
+        return violationList
+                .stream()
+                .map(ViolationMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Violation> getAllByOwnerID(Long ownerID) {
-        return violationRepository.getAllByOwnerId(ownerID);
+    public List<ViolationDTO> getAllByOwnerID(Long ownerID) {
+        List<Violation> violationList = violationRepository.getAllByOwnerId(ownerID);
+        return violationList
+                .stream()
+                .map(ViolationMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 }

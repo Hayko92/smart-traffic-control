@@ -3,11 +3,9 @@ package smarttraffic.cameraimitation.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -20,7 +18,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public final class JwtTokenUtil {
 
 
-   static final String secretKey = "smart_traffic_control";
+    static final String secretKey = "smart_traffic_control";
 
     private JwtTokenUtil() {
     }
@@ -35,7 +33,7 @@ public final class JwtTokenUtil {
                 .compact();
     }
 
-    public  static boolean validateToken(String token) {
+    public static boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;

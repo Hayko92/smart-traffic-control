@@ -1,8 +1,8 @@
-package smarttraffic.violation_service.dto;
+package smarttraffic.vehicle_service.dto;
 
 import java.time.Instant;
 
-public class VehicleDTO {
+public class VehicleSimpleDTO {
     private long id;
     private String vinNumber;
     private String plateNumber;
@@ -14,13 +14,13 @@ public class VehicleDTO {
     private Instant insuranceExpiry;
     private Instant techInspectionExpiry;
     private boolean checked;
-    private OwnerDTO owner;
 
-    public VehicleDTO() {
+
+    public VehicleSimpleDTO() {
     }
 
-    public VehicleDTO(String vinNumber, String plateNumber, int horsePower, String color, VehicleMarkDTO mark, VehicleModelDTO model,
-                      int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, OwnerDTO owner) {
+    public VehicleSimpleDTO(String vinNumber, String plateNumber, int horsePower, String color, VehicleMarkDTO mark, VehicleModelDTO model,
+                            int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, OwnerDTO owner) {
         this.vinNumber = vinNumber;
         this.plateNumber = plateNumber;
         this.horsePower = horsePower;
@@ -31,7 +31,7 @@ public class VehicleDTO {
         this.insuranceExpiry = insuranceExpiry;
         this.techInspectionExpiry = techInspectionExpiry;
         this.checked = checked;
-        this.owner = owner;
+
     }
 
     public long getId() {
@@ -122,11 +122,4 @@ public class VehicleDTO {
         this.checked = checked;
     }
 
-    public OwnerDTO getOwner() {
-        return owner;
-    }
-
-    public void setOwner(OwnerDTO owner) {
-        this.owner = owner;
-    }
 }

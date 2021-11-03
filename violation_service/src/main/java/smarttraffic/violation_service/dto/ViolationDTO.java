@@ -1,8 +1,5 @@
 package smarttraffic.violation_service.dto;
 
-import smarttraffic.violation_service.entity.Owner;
-import smarttraffic.violation_service.entity.Vehicle;
-
 import java.time.Instant;
 
 public class ViolationDTO implements Cloneable {
@@ -14,13 +11,13 @@ public class ViolationDTO implements Cloneable {
     private String type;
     private String photoUrl1;
     private String photoUrl2;
-    private Owner owner;
-    private Vehicle vehicle;
+    private OwnerDTO owner;
+    private VehicleDTO vehicle;
 
     public ViolationDTO() {
     }
 
-    public ViolationDTO(String number, String place, Instant creationDate, int price, String type, String photoUrl1, String photoUrl2, Owner owner, Vehicle vehicle) {
+    public ViolationDTO(String number, String place, Instant creationDate, int price, String type, String photoUrl1, String photoUrl2, OwnerDTO owner, VehicleDTO vehicle) {
         this.number = number;
         this.place = place;
         this.creationDate = creationDate;
@@ -30,6 +27,10 @@ public class ViolationDTO implements Cloneable {
         this.photoUrl2 = photoUrl2;
         this.owner = owner;
         this.vehicle = vehicle;
+    }
+
+    public ViolationDTO(String type) {
+        this.type = type;
     }
 
     public long getId() {
@@ -96,21 +97,22 @@ public class ViolationDTO implements Cloneable {
         this.photoUrl2 = photoUrl2;
     }
 
-    public Owner getOwner() {
+    public OwnerDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(OwnerDTO owner) {
         this.owner = owner;
     }
 
-    public Vehicle getVehicle() {
+    public VehicleDTO getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
+    public void setVehicle(VehicleDTO vehicle) {
         this.vehicle = vehicle;
     }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

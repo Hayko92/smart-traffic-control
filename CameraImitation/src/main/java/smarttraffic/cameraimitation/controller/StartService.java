@@ -28,13 +28,11 @@ import java.util.Random;
 @RequestMapping("/api/detector-imitation-service")
 public class StartService {
 
+    private final String token = JwtTokenUtil.generateToken("Smart_traffic_control");
     @Autowired
     DetectorRepository detectorRepository;
-
     @Autowired
     DetectorService detectorService;
-
-    private final String token = JwtTokenUtil.generateToken("Smart_traffic_control");
     @Value("${detectorsAnalyzer}")
     private String detectorAnalyzerUrl;
     @Value("${notificationService}")
@@ -73,13 +71,13 @@ public class StartService {
 
     @GetMapping("/{detectorPlace}")
     public DetectorDto getDetector(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
-            return detectorService.getByPlace(detectorPlace);
+        return detectorService.getByPlace(detectorPlace);
     }
 
     @GetMapping("/previous_detectors/{detectorPlace}")
     public Map<String, Integer> getPreviousDetectors(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
-            DetectorDto detector = detectorService.getByPlace(detectorPlace);
-            return detector.getPreviousDetectorsDistance();
+        DetectorDto detector = detectorService.getByPlace(detectorPlace);
+        return detector.getPreviousDetectorsDistance();
     }
 
     private URL getRadnomUrl() throws MalformedURLException {

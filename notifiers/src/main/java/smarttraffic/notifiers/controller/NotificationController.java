@@ -30,56 +30,56 @@ public class NotificationController {
 
     @PostMapping("/patrol")
     public void sendToPatrol(@RequestBody CaptureDto capture) throws MessagingException {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
-            helper.setTo("asatryanhayko92@gmail.com");
-            helper.setSubject("Unrecognized vehicle!");
-            helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s", capture.getInstant(), capture.getPlace()));
-            File file = new File(capture.getPhotoUrl().substring(5).replace("%20", " "));
-            FileSystemResource file1 = new FileSystemResource(file);
-            helper.addAttachment("car_photo1.jpg", file1);
-            mailSender.send(message);
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+        helper.setTo("asatryanhayko92@gmail.com");
+        helper.setSubject("Unrecognized vehicle!");
+        helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s", capture.getInstant(), capture.getPlace()));
+        File file = new File(capture.getPhotoUrl().substring(5).replace("%20", " "));
+        FileSystemResource file1 = new FileSystemResource(file);
+        helper.addAttachment("car_photo1.jpg", file1);
+        mailSender.send(message);
     }
 
     @GetMapping("/patrol/owner/{ownerID}")
     public void sendToPatrolIDofOwner(@PathVariable Long ownerID) throws MessagingException {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, false);
-            helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
-            helper.setTo("asatryanhayko92@gmail.com");
-            helper.setSubject("Driver with null points!");
-            helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
-            mailSender.send(message);
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, false);
+        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+        helper.setTo("asatryanhayko92@gmail.com");
+        helper.setSubject("Driver with null points!");
+        helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
+        mailSender.send(message);
     }
 
     @PostMapping("/email")
     public void sendEmail(@RequestBody Map<String, String> info) throws MessagingException {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
-            helper.setTo(info.get("email"));
-            helper.setSubject("YOU HAVE A NEW VIOLATION!");
-            helper.setText(HTMLCreator.createSpeedViolationBlank(info));
-            FileSystemResource file1 = new FileSystemResource(new File(info.get("photoURL1").replace("%20", " ").substring(5)));
-            helper.addAttachment("car_photo1.jpg", file1);
-            if (info.get("type").equals("SPEED")) {
-                FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2").replace("%20", " ").substring(5)));
-                helper.addAttachment("car_photo2.jpg", file2);
-            }
-            mailSender.send(message);
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+        helper.setTo(info.get("email"));
+        helper.setSubject("YOU HAVE A NEW VIOLATION!");
+        helper.setText(HTMLCreator.createSpeedViolationBlank(info));
+        FileSystemResource file1 = new FileSystemResource(new File(info.get("photoURL1").replace("%20", " ").substring(5)));
+        helper.addAttachment("car_photo1.jpg", file1);
+        if (info.get("type").equals("SPEED")) {
+            FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2").replace("%20", " ").substring(5)));
+            helper.addAttachment("car_photo2.jpg", file2);
+        }
+        mailSender.send(message);
     }
 
     @PostMapping("/sms")
     public String sendSMS(@RequestBody Map<String, String> info) throws MessagingException {
-            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-            MessageCreator message = Message.create(ACCOUNT_SID,
-                    new PhoneNumber("+37493191719"),
-                    new PhoneNumber(TWILIO_NUMBER),
-                    "Ճանապարհային Ոստիկանություն \n Դուք ունեք նոր իրավախախտում,\n խնդրում ենք մուտք գործել https://roadpolice.am/ և վճարել");
-            // message.execute();
-            return "Sended";
-        }
-
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        MessageCreator message = Message.create(ACCOUNT_SID,
+                new PhoneNumber("+37493191719"),
+                new PhoneNumber(TWILIO_NUMBER),
+                "Ճանապարհային Ոստիկանություն \n Դուք ունեք նոր իրավախախտում,\n խնդրում ենք մուտք գործել https://roadpolice.am/ և վճարել");
+        // message.execute();
+        return "Sended";
     }
+
+}
 

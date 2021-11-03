@@ -1,5 +1,7 @@
 package smarttraffic.vehicle_service.dto;
 
+import java.util.Set;
+
 public class OwnerDTO {
 
     private long id;
@@ -8,6 +10,8 @@ public class OwnerDTO {
     private String firstName;
     private String lastName;
     private int points;
+    private OwnerContactDTO ownerContactDTO;
+    private Set<VehicleDTO> vehicleDTOSet;
 
     public OwnerDTO() {
     }
@@ -67,4 +71,21 @@ public class OwnerDTO {
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public OwnerContactDTO getOwnerContactDTO() {
+        return ownerContactDTO;
+    }
+
+    public void setOwnerContactDTO(OwnerContactDTO ownerContactDTO) {
+        this.ownerContactDTO = ownerContactDTO;
+    }
+
+    public Set<VehicleDTO> getVehicleDTOSet() {
+        return vehicleDTOSet;
+    }
+
+    public void setVehicleDTOSet(Set<VehicleDTO> vehicleDTOSet) {
+        this.vehicleDTOSet = vehicleDTOSet;
+    }
+
 }
