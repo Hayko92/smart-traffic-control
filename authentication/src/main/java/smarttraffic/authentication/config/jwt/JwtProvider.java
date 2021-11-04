@@ -1,4 +1,4 @@
-package smart_traffic.authentication.config.jwt;
+package smarttraffic.authentication.config.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -20,7 +20,11 @@ public class JwtProvider {
 
     public String generateToken(String login) {
         Date date = Date.from(LocalDate.now().plusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return Jwts.builder().setSubject(login).setExpiration(date).signWith(SignatureAlgorithm.HS512, jwtSecret)
+        return Jwts.builder()
+                .claim("type", "EXT")
+                .setSubject(login)
+                .setExpiration(date)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
@@ -37,5 +41,14 @@ public class JwtProvider {
     public String getLoginFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         return claims.getSubject();
+    }
+
+    public String getRequestType(String token) {
+        String type = (String) Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody().get("type");
+        return type;
+
     }
 }

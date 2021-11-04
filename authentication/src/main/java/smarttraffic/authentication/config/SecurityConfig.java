@@ -1,4 +1,4 @@
-package smart_traffic.authentication.config;
+package smarttraffic.authentication.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import smart_traffic.authentication.config.jwt.JwtFilter;
+import smarttraffic.authentication.config.jwt.JwtFilter;
 
 @Configuration
 @EnableWebSecurity

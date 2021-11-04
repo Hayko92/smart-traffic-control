@@ -1,10 +1,9 @@
-package smart_traffic.authentication.repository;
+package smarttraffic.authentication.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import smart_traffic.authentication.entity.UserEntity;
+import smarttraffic.authentication.entity.User;
 
-public interface UserEntityRepository extends JpaRepository<UserEntity, Integer> {
+public interface UserEntityRepository extends JpaRepository<User, Integer> {
 
-
-    UserEntity findByLogin(String login);
+    User findByLogin(String login);
 }

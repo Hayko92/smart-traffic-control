@@ -1,14 +1,18 @@
-package smart_traffic.authentication.controller;
+package smarttraffic.authentication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import smart_traffic.authentication.config.jwt.JwtProvider;
-import smart_traffic.authentication.entity.UserEntity;
-import smart_traffic.authentication.service.UserService;
+import smarttraffic.authentication.config.jwt.JwtProvider;
+import smarttraffic.authentication.entity.User;
+import smarttraffic.authentication.model.AuthRequest;
+import smarttraffic.authentication.model.AuthResponse;
+import smarttraffic.authentication.service.UserService;
 
 @RestController
+@RequestMapping("/api/authentication-service")
 public class AuthController {
 
     @Autowired
@@ -18,7 +22,7 @@ public class AuthController {
 
     @PostMapping("/auth")
     public AuthResponse auth(@RequestBody AuthRequest request) {
-        UserEntity userEntity = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
+        User userEntity = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
         String token = jwtProvider.generateToken(userEntity.getLogin());
         return new AuthResponse(token);
     }
