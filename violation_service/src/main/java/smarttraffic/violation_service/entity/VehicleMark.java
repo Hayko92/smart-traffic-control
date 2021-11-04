@@ -1,6 +1,7 @@
 package smarttraffic.violation_service.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -14,7 +15,7 @@ public class VehicleMark {
     @Column(name = "mark_name")
     private String markName;
 
-    @OneToMany(mappedBy = "vehicleMark",cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "vehicleMark", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<VehicleModel> models;
 
     public Set<VehicleModel> getModels() {
@@ -40,4 +41,27 @@ public class VehicleMark {
     public void setMarkName(String markName) {
         this.markName = markName;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VehicleMark that = (VehicleMark) o;
+        return id == that.id && Objects.equals(markName, that.markName) && Objects.equals(models, that.models);
+    }
+
+    @Override
+    public String toString() {
+        return "VehicleMark{" +
+                "id=" + id +
+                ", markName='" + markName + '\'' +
+                ", models=" + models +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, markName, models);
+    }
+
 }

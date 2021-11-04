@@ -20,12 +20,12 @@ public class Detector {
     private String place;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private Map<Detector, Integer> previousDetectorsDistance;
+    private Map<String, Integer> previousDetectorsDistance;
 
     public Detector() {
     }
 
-    public Detector(int id, String place, Map<Detector, Integer> previousDetectors, Detector nextCamId) {
+    public Detector(int id, String place, Map<String, Integer> previousDetectors, Detector nextCamId) {
         this.id = id;
         this.place = place;
         this.previousDetectorsDistance = previousDetectors;
@@ -47,11 +47,11 @@ public class Detector {
         this.place = place;
     }
 
-    public Map<Detector, Integer> getPreviousDetectorsDistance() {
+    public Map<String, Integer> getPreviousDetectorsDistance() {
         return previousDetectorsDistance;
     }
 
-    public void setPreviousDetectorsDistance(Map<Detector, Integer> previousDetectors) {
+    public void setPreviousDetectorsDistance(Map<String, Integer> previousDetectors) {
         this.previousDetectorsDistance = previousDetectors;
     }
 

@@ -8,5 +8,7 @@ public interface CaptureRepository extends JpaRepository<Capture, Integer> {
 
     Capture findFirstByPlaceOrderByIdDesc(String place);
 
+    Capture findFirstByPlaceAndPlateNumberOrderByIdDesc(String place, String plateNumber);
+
     Capture getById(int id);
 }

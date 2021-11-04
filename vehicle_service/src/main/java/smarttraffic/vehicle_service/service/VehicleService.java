@@ -1,20 +1,21 @@
 package smarttraffic.vehicle_service.service;
 
 import org.springframework.stereotype.Service;
-import smarttraffic.vehicle_service.entity.Vehicle;
+import smarttraffic.vehicle_service.dto.VehicleDTO;
 
 @Service
 public interface VehicleService {
-    Vehicle getByNumber(String number);
+    VehicleDTO getByNumber(String number);
 
-    Vehicle getByOwnerId(long ownerId);
+    void create(VehicleDTO vehicle);
 
-    void create(Vehicle vehicle);
+    void delete(VehicleDTO vehicle);
 
-    void update(Vehicle vehicle);
+    void update(VehicleDTO vehicle);
 
     void delete(long id);
 
-    Vehicle getById(long id);
+    VehicleDTO getById(long id);
 
+    void save(VehicleDTO vehicle1);
 }

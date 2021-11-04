@@ -3,15 +3,16 @@ package smarttraffic.detectors_analyzer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.detectors_analyzer.entity.Capture;
-import smarttraffic.detectors_analyzer.model.Vehicle;
+import smarttraffic.detectors_analyzer.dto.CaptureDTO;
+import smarttraffic.detectors_analyzer.dto.VehicleDTO;
 import smarttraffic.detectors_analyzer.service.CaptureService;
 import smarttraffic.detectors_analyzer.service.VehicleService;
+import smarttraffic.detectors_analyzer.util.JwtTokenUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,77 +21,94 @@ import java.util.Map;
 @RequestMapping("/api/detector-analyzer")
 public class DetectorController {
 
-    @Value("${vehicleService}")
-    private String violationServiceUrl;
-
-    @Value( "${notificationService}")
-    private String notifierServiceUrl;
-
-    @Value( "${vehicleService}")
-    private String vehicleServiceUrl;
-
     @Autowired
     CaptureService captureService;
-
     @Autowired
     VehicleService vehicleService;
 
+    @Value("${violationService}")
+    private String violationServiceUrl;
+    @Value("${notificationService}")
+    private String notifierServiceUrl;
+    @Value("${vehicleService}")
+    private String vehicleServiceUrl;
+
+    @GetMapping("/capture/{id}")
+    public CaptureDTO sendCapture(@PathVariable String id) {
+        CaptureDTO capture = captureService.getById(Integer.parseInt(id));
+        return capture;
+    }
+
     @PostMapping
-    public void receiveCapture(@RequestBody Capture capture) {
+    public void receiveCapture(@RequestBody CaptureDTO capture, @RequestHeader(name = "AUTHORIZATION") String token) {
         RestTemplate restTemplate = new RestTemplate();
-        Capture prev = null;
+        CaptureDTO prev = null;
         String plateNumber = capture.getPlateNumber();
-        Vehicle vehicle = restTemplate.getForObject(vehicleServiceUrl+"/"+plateNumber,Vehicle.class);
-        if (vehicle == null) {
-            sendNotificationToPatrol(capture);
+        if (plateNumber != null) {
+            int id = captureService.save(capture);
+            capture.setId(id);
+        }
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<VehicleDTO> response = restTemplate.exchange(vehicleServiceUrl + "/" + plateNumber, HttpMethod.GET, httpEntity, VehicleDTO.class);
+        VehicleDTO vehicleDTO = response.getBody();
+        if (vehicleDTO == null) {
+            sendNotificationToPatrol(capture, token);
             return;
         }
-        if (vehicle.isChecked()) {
+        if (vehicleDTO.isChecked()) {
             int speed = 0;
-            Map<Capture, Integer> prevCaptureOverspeed = vehicleService.checkSpeed(capture);
+            Map<CaptureDTO, Integer> prevCaptureOverspeed = vehicleService.checkSpeed(capture, token);
             if (prevCaptureOverspeed != null) {
-                for (Map.Entry<Capture, Integer> entry : prevCaptureOverspeed.entrySet()) {
+                for (Map.Entry<CaptureDTO, Integer> entry : prevCaptureOverspeed.entrySet()) {
                     prev = entry.getKey();
                     speed = entry.getValue();
                 }
-                createSpeedViolation(prev, capture, speed);
+                createSpeedViolation(prev, capture, speed, token);
             }
         } else {
-            boolean hasValidInsurance = vehicleService.checkInsurance(capture, vehicle);
-            boolean hasValidTechInspection = vehicleService.checkTechInspection(capture, vehicle);
-            if (!hasValidInsurance) createViolation(capture, "INS");
-            if (!hasValidTechInspection) createViolation(capture, "TECH");
-            setChecked(vehicle);
+            boolean hasValidInsurance = vehicleService.checkInsurance(capture, vehicleDTO);
+            boolean hasValidTechInspection = vehicleService.checkTechInspection(capture, vehicleDTO);
+            if (!hasValidInsurance) createViolation(capture, "INS", token);
+            if (!hasValidTechInspection) createViolation(capture, "TECH", token);
+            setChecked(vehicleDTO, token);
         }
-       captureService.save(capture);
+        captureService.save(capture);
     }
 
-    private void setChecked(Vehicle vehicle) {
+
+    private void setChecked(VehicleDTO vehicleDTO, String token) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForLocation(vehicleServiceUrl+"/set-status-checked",vehicle);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity httpEntity = new HttpEntity(headers);
+        restTemplate.exchange(vehicleServiceUrl + "/set-status-checked/" + vehicleDTO.getId(), HttpMethod.GET, httpEntity, String.class);
     }
 
-    private void createSpeedViolation(Capture prev, Capture current, int speed) {
+    private void createSpeedViolation(CaptureDTO prev, CaptureDTO current, int speed, String token) {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Integer> info = new HashMap<>();
         info.put("previousCapture", prev.getId());
         info.put("currentCapture", current.getId());
         info.put("speed", speed);
-        HttpEntity<Map<String, Integer>> httpEntity = new HttpEntity<>(info);
-        restTemplate.postForLocation(violationServiceUrl+"/speed", httpEntity);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity<Map<String, Integer>> httpEntity = new HttpEntity<>(info, headers);
+        restTemplate.postForLocation(violationServiceUrl + "/speed", httpEntity);
     }
 
-    public void createViolation(Capture capture, String type) {
+    public void createViolation(CaptureDTO capture, String type, String token) {
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, Capture> body = new HashMap<>();
+        Map<String, CaptureDTO> body = new HashMap<>();
         body.put(type, capture);
-        HttpEntity<Map<String, Capture>> httpEntity = new HttpEntity<>(body);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity<Map<String, CaptureDTO>> httpEntity = new HttpEntity<>(body, headers);
         restTemplate.postForLocation(violationServiceUrl, httpEntity);
     }
 
-    private void sendNotificationToPatrol(Capture capture) {
+    private void sendNotificationToPatrol(CaptureDTO capture, String token) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        restTemplate.postForLocation(notifierServiceUrl+"/patrol", httpEntity);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity<CaptureDTO> httpEntity = new HttpEntity<>(capture, headers);
+        restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
+
 }

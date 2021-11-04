@@ -1,27 +1,39 @@
 package smarttraffic.vehicle_service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import smarttraffic.vehicle_service.dto.OwnerDTO;
 import smarttraffic.vehicle_service.entity.Owner;
+import smarttraffic.vehicle_service.mapper.OwnerMapper;
 import smarttraffic.vehicle_service.repository.OwnerRepository;
 
+@Service
 public class OwnerServiceImpl implements OwnerService {
 
     @Autowired
     OwnerRepository ownerRepository;
 
     @Override
-    public Owner getById(long id) {
-        return ownerRepository.getById(id);
+    public OwnerDTO getById(long id) {
+        Owner owner = ownerRepository.getById(id);
+        return OwnerMapper.mapToDto(owner);
     }
 
     @Override
-    public void create(Owner owner) {
-        ownerRepository.save(owner);
+    public long save(OwnerDTO owner) {
+        return ownerRepository.save(OwnerMapper.mapToEntity(owner)).getId();
     }
 
     @Override
-    public void update(Owner owner) {
-        ownerRepository.save(owner);
+    public void delete(OwnerDTO owner) {
+        Owner owner1 = OwnerMapper.mapToEntity(owner);
+        ownerRepository.delete(owner1);
+    }
+
+    @Override
+    public void update(OwnerDTO owner) {
+        Owner owner1 = OwnerMapper.mapToEntity(owner);
+        ownerRepository.save(owner1);
     }
 
     @Override

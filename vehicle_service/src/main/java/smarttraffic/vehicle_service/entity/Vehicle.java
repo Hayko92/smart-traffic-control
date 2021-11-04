@@ -1,7 +1,7 @@
 package smarttraffic.vehicle_service.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -28,28 +28,29 @@ public class Vehicle {
 
     @ManyToOne
     @JoinColumn(name = "mark_id")
+    @JsonManagedReference
     private VehicleMark mark;
 
     @ManyToOne
     @JoinColumn(name = "model_id")
+    @JsonManagedReference
     private VehicleModel model;
 
     @Column(name = "production_year")
     private int productionYear;
 
     @Column(name = "insurance_expiry_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant insuranceExpiry;
 
     @Column(name = "tech_inspection_expiry_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant techInspectionExpiry;
 
     @Column(name = "checked")
     private boolean checked;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
+    @JsonManagedReference
     private Owner owner;
 
     public Vehicle() {
@@ -137,6 +138,14 @@ public class Vehicle {
 
     public void setTechInspectionExpiry(Instant techInspectionExpiry) {
         this.techInspectionExpiry = techInspectionExpiry;
+    }
+
+    public int getHorsePower() {
+        return horsePower;
+    }
+
+    public void setHorsePower(int horsePower) {
+        this.horsePower = horsePower;
     }
 
     public boolean isChecked() {

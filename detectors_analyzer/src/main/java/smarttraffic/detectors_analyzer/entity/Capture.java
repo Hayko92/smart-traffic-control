@@ -1,15 +1,12 @@
 package smarttraffic.detectors_analyzer.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "capture")
-public class Capture implements Serializable {
+public class Capture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

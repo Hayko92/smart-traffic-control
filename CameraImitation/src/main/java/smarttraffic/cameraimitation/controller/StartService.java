@@ -5,43 +5,38 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import smarttraffic.cameraimitation.dto.DetectorDTO;
-import smarttraffic.cameraimitation.entity.Capture;
-import smarttraffic.cameraimitation.entity.Detector;
+import smarttraffic.cameraimitation.dto.CaptureDto;
+import smarttraffic.cameraimitation.dto.DetectorDto;
 import smarttraffic.cameraimitation.repository.DetectorRepository;
-import smarttraffic.cameraimitation.service.CaptureService;
 import smarttraffic.cameraimitation.service.DetectorService;
-import smarttraffic.cameraimitation.util.DetectorMapper;
+import smarttraffic.cameraimitation.util.JwtTokenUtil;
 import smarttraffic.cameraimitation.util.NumberExtractor;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @RestController
 @RequestMapping("/api/detector-imitation-service")
 public class StartService {
 
-    @Value( "${detectorsAnalyzer}")
-    private String detectorAnalyzerUrl;
-
-    @Value( "${notificationService}")
-    private String notifierServiceUrl;
-
+    private final String token = JwtTokenUtil.generateToken("Smart_traffic_control");
     @Autowired
     DetectorRepository detectorRepository;
     @Autowired
-    CaptureService captureService;
-    @Autowired
     DetectorService detectorService;
+    @Value("${detectorsAnalyzer}")
+    private String detectorAnalyzerUrl;
+    @Value("${notificationService}")
+    private String notifierServiceUrl;
     @Autowired
     private ResourceLoader resourceLoader;
     @Autowired
@@ -51,43 +46,38 @@ public class StartService {
     public void sendRequest() throws MalformedURLException, InterruptedException {
 
         while (true) {
-            sendRandomPhotoFromRandomDetector();
-            Thread.sleep(5000);
+            sendRandomPhotoFromRandomDetector(token);
+            Thread.sleep(3000);
         }
     }
 
-    @GetMapping("/capture/{id}")
-    public void sendCapture(@PathVariable String id) {
-        Capture capture = captureService.getById(Integer.parseInt(id));
-    }
 
-    private void sendRandomPhotoFromRandomDetector() throws MalformedURLException {
-
+    private void sendRandomPhotoFromRandomDetector(String token) throws MalformedURLException {
         RestTemplate restTemplate = new RestTemplate();
-        Detector randomDetector = getRandomDetector();
+        DetectorDto randomDetector = getRandomDetector();
         URL url = getRadnomUrl();
         String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
         String plateNumber = NumberExtractor.extract(textFromImage);
-
-        Instant instant = Instant.now();
+        Instant instant = Instant.now().plus(4, ChronoUnit.HOURS);
         String place = randomDetector.getPlace();
-        Capture capture = new Capture(plateNumber, url.toString(), place, instant);
-        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
+        CaptureDto capture = new CaptureDto(plateNumber, url.toString(), place, instant);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(detectorAnalyzerUrl, httpEntity);
         if (plateNumber == null) {
-            //todo che this method
             sendNotifocationToPatrol(capture);
         }
     }
 
-    @GetMapping("/api/camera-imitation-service/{detectorPlace}")
-    public DetectorDTO getDetector(@PathVariable String detectorPlace) {
-        Detector detector = detectorService.getByPlace(detectorPlace);
-        DetectorDTO detectorDTO = null;
-        if (detector != null) {
-            detectorDTO = DetectorMapper.mapToDetectorDTO(detector);
-        }
-        return detectorDTO;
+    @GetMapping("/{detectorPlace}")
+    public DetectorDto getDetector(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
+        return detectorService.getByPlace(detectorPlace);
+    }
+
+    @GetMapping("/previous_detectors/{detectorPlace}")
+    public Map<String, Integer> getPreviousDetectors(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
+        DetectorDto detector = detectorService.getByPlace(detectorPlace);
+        return detector.getPreviousDetectorsDistance();
     }
 
     private URL getRadnomUrl() throws MalformedURLException {
@@ -97,15 +87,17 @@ public class StartService {
         return file.toURI().toURL();
     }
 
-    private Detector getRandomDetector() {
+    private DetectorDto getRandomDetector() {
         Random random = new Random();
-        List<Detector> detectors = detectorRepository.findAll();
+        List<DetectorDto> detectors = detectorService.findAll();
         return detectors.get(random.nextInt(detectors.size()));
     }
 
-    private void sendNotifocationToPatrol(Capture capture) {
+    private void sendNotifocationToPatrol(CaptureDto capture) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Capture> httpEntity = new HttpEntity<>(capture);
-        restTemplate.postForLocation(notifierServiceUrl+"/patrol", httpEntity);
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
+        restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
+
 }

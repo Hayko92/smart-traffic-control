@@ -1,10 +1,9 @@
 package smarttraffic.violation_service.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Objects;
 
 
 @Entity
@@ -26,11 +25,11 @@ public class Vehicle {
     @Column(name = "color")
     private String Color;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "mark_id")
     private VehicleMark mark;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "model_id")
     private VehicleModel model;
 
@@ -38,17 +37,15 @@ public class Vehicle {
     private int productionYear;
 
     @Column(name = "insurance_expiry_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant insuranceExpiry;
 
     @Column(name = "tech_inspection_expiry_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Asia/Yerevan")
     private Instant techInspectionExpiry;
 
     @Column(name = "checked")
     private boolean checked;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
@@ -143,11 +140,50 @@ public class Vehicle {
         this.techInspectionExpiry = techInspectionExpiry;
     }
 
+    public int getHorsePower() {
+        return horsePower;
+    }
+
+    public void setHorsePower(int horsePower) {
+        this.horsePower = horsePower;
+    }
+
     public boolean isChecked() {
         return checked;
     }
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vehicle vehicle = (Vehicle) o;
+        return id == vehicle.id && horsePower == vehicle.horsePower && productionYear == vehicle.productionYear && checked == vehicle.checked && vinNumber.equals(vehicle.vinNumber) && Objects.equals(plateNumber, vehicle.plateNumber) && Objects.equals(Color, vehicle.Color) && Objects.equals(mark, vehicle.mark) && Objects.equals(model, vehicle.model) && Objects.equals(insuranceExpiry, vehicle.insuranceExpiry) && Objects.equals(techInspectionExpiry, vehicle.techInspectionExpiry) && Objects.equals(owner, vehicle.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, vinNumber, plateNumber, horsePower, Color, mark, model, productionYear, insuranceExpiry, techInspectionExpiry, checked, owner);
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id=" + id +
+                ", vinNumber='" + vinNumber + '\'' +
+                ", plateNumber='" + plateNumber + '\'' +
+                ", horsePower=" + horsePower +
+                ", Color='" + Color + '\'' +
+                ", mark=" + mark +
+                ", model=" + model +
+                ", productionYear=" + productionYear +
+                ", insuranceExpiry=" + insuranceExpiry +
+                ", techInspectionExpiry=" + techInspectionExpiry +
+                ", checked=" + checked +
+                ", owner=" + owner +
+                '}';
     }
 }
