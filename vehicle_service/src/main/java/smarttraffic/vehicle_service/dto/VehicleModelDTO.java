@@ -1,23 +1,23 @@
 package smarttraffic.vehicle_service.dto;
 
 public class VehicleModelDTO {
-    private int id;
+    private long id;
     private String modelName;
-    private VehicleMarkDTO vehicleMark;
+
 
     public VehicleModelDTO() {
     }
 
-    public VehicleModelDTO(String modelName, VehicleMarkDTO vehicleMark) {
+    public VehicleModelDTO(String modelName) {
         this.modelName = modelName;
-        this.vehicleMark = vehicleMark;
+
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -29,11 +29,4 @@ public class VehicleModelDTO {
         this.modelName = modelName;
     }
 
-    public VehicleMarkDTO getVehicleMark() {
-        return vehicleMark;
-    }
-
-    public void setVehicleMark(VehicleMarkDTO vehicleMark) {
-        this.vehicleMark = vehicleMark;
-    }
 }

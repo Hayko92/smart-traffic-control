@@ -18,7 +18,7 @@ public final class MarkMapper {
     public static VehicleMark mapToEntity(VehicleMarkDTO mark) {
         VehicleMark vehicleMark = new VehicleMark();
         vehicleMark.setId(mark.getId());
-        vehicleMark.setMarkName(vehicleMark.getMarkName());
+        vehicleMark.setMarkName(mark.getMarkName());
         return vehicleMark;
     }
 }

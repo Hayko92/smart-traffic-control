@@ -1,6 +1,5 @@
 package smarttraffic.vehicle_service.filter;
 
-
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;

@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -53,7 +52,6 @@ public final class JwtTokenUtil {
 
     public static HttpHeaders getHeadersWithToken(String token) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(AUTHORIZATION, token);
         return headers;
     }

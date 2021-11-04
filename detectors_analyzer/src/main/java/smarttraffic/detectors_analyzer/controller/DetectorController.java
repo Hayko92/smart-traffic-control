@@ -35,8 +35,7 @@ public class DetectorController {
 
     @GetMapping("/capture/{id}")
     public CaptureDTO sendCapture(@PathVariable String id) {
-        CaptureDTO capture = captureService.getById(Integer.parseInt(id));
-        return capture;
+        return captureService.getById(Integer.parseInt(id));
     }
 
     @PostMapping
@@ -81,7 +80,7 @@ public class DetectorController {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity httpEntity = new HttpEntity(headers);
-        restTemplate.exchange(vehicleServiceUrl + "/set-status-checked/" + vehicleDTO.getId(), HttpMethod.GET, httpEntity, String.class);
+        restTemplate.exchange(vehicleServiceUrl + "/set-status-checked/" + vehicleDTO.getId(), HttpMethod.GET, httpEntity, Void.class);
     }
 
     private void createSpeedViolation(CaptureDTO prev, CaptureDTO current, int speed, String token) {
@@ -92,7 +91,7 @@ public class DetectorController {
         info.put("speed", speed);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<Map<String, Integer>> httpEntity = new HttpEntity<>(info, headers);
-        restTemplate.postForLocation(violationServiceUrl + "/speed", httpEntity);
+        restTemplate.exchange(violationServiceUrl + "/speed", HttpMethod.POST, httpEntity, Void.class);
     }
 
     public void createViolation(CaptureDTO capture, String type, String token) {
@@ -101,7 +100,7 @@ public class DetectorController {
         body.put(type, capture);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<Map<String, CaptureDTO>> httpEntity = new HttpEntity<>(body, headers);
-        restTemplate.postForLocation(violationServiceUrl, httpEntity);
+        restTemplate.exchange(violationServiceUrl, HttpMethod.POST, httpEntity, Void.class);
     }
 
     private void sendNotificationToPatrol(CaptureDTO capture, String token) {

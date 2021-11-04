@@ -21,7 +21,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public long save(OwnerDTO owner) {
-        return ownerRepository.save(OwnerMapper.mapToEntity(owner)).getId();
+        return ownerRepository.save(OwnerMapper.mapToEntityWithoutVehicles(owner)).getId();
     }
 
     @Override

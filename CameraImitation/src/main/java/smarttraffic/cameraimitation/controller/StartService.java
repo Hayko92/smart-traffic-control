@@ -6,6 +6,7 @@ import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.cameraimitation.dto.CaptureDto;
@@ -63,7 +64,7 @@ public class StartService {
         CaptureDto capture = new CaptureDto(plateNumber, url.toString(), place, instant);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
-        restTemplate.postForLocation(detectorAnalyzerUrl, httpEntity);
+        restTemplate.exchange(detectorAnalyzerUrl, HttpMethod.POST, httpEntity, Void.class);
         if (plateNumber == null) {
             sendNotifocationToPatrol(capture);
         }

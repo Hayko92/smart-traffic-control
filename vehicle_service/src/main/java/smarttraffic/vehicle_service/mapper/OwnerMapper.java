@@ -18,7 +18,6 @@ public final class OwnerMapper {
         ownerDTO.setPoints(owner.getPoints());
         ownerDTO.setLicenseNumber(owner.getLicenseNumber());
         ownerDTO.setOwnerContactDTO(OwnerContactMapper.mapToDTO(owner.getOwnerContact()));
-        //todo
         ownerDTO.setVehicleDTOSet(owner.getVehicles()
                 .stream()
                 .map(VehicleMapper::mapToSimpleDto)
@@ -39,6 +38,18 @@ public final class OwnerMapper {
                 .stream()
                 .map(VehicleMapper::mapToEntity)
                 .collect(Collectors.toSet()));
+        return owner;
+    }
+
+    public static Owner mapToEntityWithoutVehicles(OwnerDTO owner1) {
+        Owner owner = new Owner();
+        owner.setId(owner1.getId());
+        owner.setIdNumber(owner1.getIdNumber());
+        owner.setFirstName(owner1.getFirstName());
+        owner.setLastName(owner1.getLastName());
+        owner.setPoints(owner1.getPoints());
+        owner.setLicenseNumber(owner1.getLicenseNumber());
+        owner.setOwnerContact(OwnerContactMapper.mapToEntity(owner1.getOwnerContactDTO()));
         return owner;
     }
 }

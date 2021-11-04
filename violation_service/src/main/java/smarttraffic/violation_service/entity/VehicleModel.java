@@ -1,5 +1,8 @@
 package smarttraffic.violation_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -14,8 +17,11 @@ public class VehicleModel {
     @Column(name = "model_name")
     private String modelName;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+
+    @ManyToOne()
     @JoinColumn(name = "mark_id")
+    @JsonIgnore
+    @JsonBackReference
     private VehicleMark vehicleMark;
 
     public int getId() {
