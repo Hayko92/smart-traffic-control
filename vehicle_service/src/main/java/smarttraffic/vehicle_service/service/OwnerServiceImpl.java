@@ -15,13 +15,8 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void save(Owner owner) {
+    public void create(Owner owner) {
         ownerRepository.save(owner);
-    }
-
-    @Override
-    public void delete(Owner owner) {
-        ownerRepository.delete(owner);
     }
 
     @Override

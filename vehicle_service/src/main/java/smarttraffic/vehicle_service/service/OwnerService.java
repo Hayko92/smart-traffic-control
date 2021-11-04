@@ -7,9 +7,7 @@ import smarttraffic.vehicle_service.entity.Owner;
 public interface OwnerService {
     Owner getById(long id);
 
-    void save(Owner owner);
-
-    void delete(Owner owner);
+    void create(Owner owner);
 
     void update(Owner owner);
 

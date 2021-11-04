@@ -37,7 +37,4 @@ public class VehicleModel {
         return vehicleMark;
     }
 
-    public void setVehicleMark(VehicleMark vehicleMark) {
-        this.vehicleMark = vehicleMark;
-    }
 }

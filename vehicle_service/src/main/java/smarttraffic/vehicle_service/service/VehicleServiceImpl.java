@@ -18,14 +18,14 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public void create(Vehicle vehicle) {
-        vehicleRepository.save(vehicle);
-
+    public Vehicle getByOwnerId(long ownerId) {
+        return vehicleRepository.getByOwnerId(ownerId);
     }
 
     @Override
-    public void delete(Vehicle vehicle) {
-        vehicleRepository.delete(vehicle);
+    public void create(Vehicle vehicle) {
+        vehicleRepository.save(vehicle);
+
     }
 
     @Override
@@ -43,9 +43,6 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleRepository.getById(id);
     }
 
-    @Override
-    public void save(Vehicle vehicle1) {
-        vehicleRepository.save(vehicle1);
-    }
+
 
 }

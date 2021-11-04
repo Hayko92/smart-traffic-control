@@ -107,10 +107,6 @@ public class Vehicle {
         return mark;
     }
 
-    public void setMark(VehicleMark mark) {
-        this.mark = mark;
-    }
-
     public VehicleModel getModel() {
         return model;
     }

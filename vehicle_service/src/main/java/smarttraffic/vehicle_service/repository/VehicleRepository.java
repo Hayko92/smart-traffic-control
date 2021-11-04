@@ -6,4 +6,6 @@ import smarttraffic.vehicle_service.entity.Vehicle;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Vehicle getByPlateNumber(String plateNumber);
+
+    Vehicle getByOwnerId(long ownerId);
 }
