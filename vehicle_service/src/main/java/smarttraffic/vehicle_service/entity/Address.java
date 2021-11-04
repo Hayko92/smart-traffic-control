@@ -1,9 +1,12 @@
 package smarttraffic.vehicle_service.entity;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@DynamicUpdate
 @Table(name = "address")
 public class Address {
 

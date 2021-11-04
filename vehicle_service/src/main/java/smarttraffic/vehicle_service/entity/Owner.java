@@ -1,11 +1,12 @@
 package smarttraffic.vehicle_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@DynamicUpdate
 @Table(name = "owner")
 public class Owner {
     @Id
@@ -24,8 +25,7 @@ public class Owner {
     @Column(name = "lastname")
     private String lastName;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Vehicle> vehicles;
 
     @OneToOne

@@ -3,6 +3,7 @@ package smarttraffic.violations_analyzer_service.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+
 @Document("vehicle")
 public class VehicleDTO {
     private long id;

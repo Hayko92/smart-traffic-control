@@ -59,13 +59,14 @@ public class ViolationController {
         ViolationDTO violationDTO = createSpeedViolation(price, capturePrev, captureCurrent, vehicle);
         checkOwnerPoints(owner, token);
         long id = violationService.save(violationDTO);
+
         violationDTO.setId(id);
         sendNotifications(violationDTO, token);
     }
 
 
     @PostMapping
-    public void createViolation(@RequestBody Map<String, CaptureDTO> body,  @RequestHeader(name = "AUTHORIZATION") String token) {
+    public void createViolation(@RequestBody Map<String, CaptureDTO> body, @RequestHeader(name = "AUTHORIZATION") String token) {
         RestTemplate restTemplate = new RestTemplate();
         CaptureDTO capture = getCapture(body);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
@@ -123,6 +124,7 @@ public class ViolationController {
         violationDTO.setPlace(captureCurrent.getPlace());
         violationDTO.setOwner(vehicle.getOwner());
         violationDTO.setVehicle(vehicle);
+        violationDTO.setNumber(captureCurrent.getPlateNumber());
         return violationDTO;
     }
 
@@ -133,7 +135,12 @@ public class ViolationController {
             HttpEntity httpEntity = new HttpEntity(headers);
             if (owner.getRedusedPoint() < 0)
                 restTemplate.exchange(notificationServiceUrl + "/patrol/owner/" + owner.getId(), HttpMethod.GET, httpEntity, Void.class);
+            else {
+                HttpEntity<OwnerDTO> httpEntityWithOwner = new HttpEntity<>(owner, headers);
+                restTemplate.exchange(vehicleServiceUrl + "/owner/" + owner.getId(), HttpMethod.PUT, httpEntityWithOwner, Void.class);
+            }
         }
+
     }
 
     private void sendNotifications(ViolationDTO violationDTO, String token) {

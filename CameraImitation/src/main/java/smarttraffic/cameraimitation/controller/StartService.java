@@ -64,7 +64,7 @@ public class StartService {
         CaptureDto capture = new CaptureDto(plateNumber, url.toString(), place, instant);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
-        restTemplate.exchange(detectorAnalyzerUrl, HttpMethod.POST, httpEntity,Void.class);
+        restTemplate.exchange(detectorAnalyzerUrl, HttpMethod.POST, httpEntity, Void.class);
         if (plateNumber == null) {
             sendNotifocationToPatrol(capture);
         }
