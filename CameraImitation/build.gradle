@@ -18,12 +18,12 @@ repositories {
 dependencies {
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.5'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.5'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.6'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-vision', version: '1.2.8.RELEASE'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-dependencies', version: '1.2.8.RELEASE', ext: 'pom'
-    runtimeOnly 'org.postgresql:postgresql:42.2.24.jre7'
+    runtimeOnly 'org.postgresql:postgresql:42.3.1'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.5.5'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.5'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.6'
     implementation group: 'com.vladmihalcea', name: 'hibernate-types-55', version: '2.13.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.6'
 

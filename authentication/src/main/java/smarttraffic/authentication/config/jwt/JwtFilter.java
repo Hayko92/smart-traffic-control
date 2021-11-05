@@ -1,4 +1,4 @@
-package smart_traffic.authentication.config.jwt;
+package smarttraffic.authentication.config.jwt;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,8 +6,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-import smart_traffic.authentication.config.UserDetailService;
-import smart_traffic.authentication.config.UserDetails;
+import smarttraffic.authentication.config.CustomUserDetails;
+import smarttraffic.authentication.config.UserDetailService;
+import smarttraffic.authentication.entity.Authority;
+import smarttraffic.authentication.entity.Role;
+import smarttraffic.authentication.entity.User;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,6 +18,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Set;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -38,11 +42,23 @@ public class JwtFilter extends GenericFilterBean {
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && jwtProvider.validateToken(token)) {
             String userLogin = jwtProvider.getLoginFromToken(token);
-            UserDetails userDetails = userDetailService.loadUserByUsername(userLogin);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities()
-            );
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            String requestType = jwtProvider.getRequestType(token);
+            if (requestType.equals("EXT")) {
+                CustomUserDetails userDetails = userDetailService.loadUserByUsername(userLogin);
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            } else if (requestType.equals("INT")) {
+                User user = new User("trafficControlSystem");
+                user.setEnabled(true);
+                Role role = new Role("SMART_TRAFFIC_CONTROL");
+                role.setAuthorities(Set.of(new Authority("CAN_READ"), new Authority("CAN_WRITE")));
+                user.setRole(role);
+                CustomUserDetails customUserDetails = new CustomUserDetails(user);
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
+                        = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

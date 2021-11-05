@@ -1,4 +1,4 @@
-package smart_traffic.authentication.controller;
+package smarttraffic.authentication.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
