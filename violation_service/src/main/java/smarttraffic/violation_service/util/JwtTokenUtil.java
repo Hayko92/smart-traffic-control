@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -29,6 +30,7 @@ public final class JwtTokenUtil {
                 .setSubject(login)
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
+                .claim("type","INT")
                 .compact();
     }
 
@@ -47,11 +49,17 @@ public final class JwtTokenUtil {
     }
 
     public static boolean checkTokenValidation(String token) {
-        return validateToken(token) && getLoginFromToken(token).equals("Smart_traffic_control");
+        return validateToken(token) && getLoginFromToken(token).equals("Smart_traffic_control")&& getType(token).equals("INT");
+    }
+
+    public static String getType(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return (String) claims.get("type");
     }
 
     public static HttpHeaders getHeadersWithToken(String token) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(AUTHORIZATION, token);
         return headers;
     }

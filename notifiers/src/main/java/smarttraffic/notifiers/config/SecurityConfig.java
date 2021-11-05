@@ -1,4 +1,4 @@
-package smarttraffic.cameraimitation.config;
+package smarttraffic.notifiers.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import smarttraffic.cameraimitation.filter.JwtTokenFilter;
+import smarttraffic.detectors_analyzer.filter.JwtTokenFilter;
 
 @Configuration
 @EnableWebSecurity
