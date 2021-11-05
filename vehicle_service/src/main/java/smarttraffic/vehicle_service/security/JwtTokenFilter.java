@@ -31,18 +31,26 @@ public class JwtTokenFilter extends GenericFilterBean {
         logger.info("do filter");
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && JwtTokenUtil.validateToken(token)) {
-            String userLogin = JwtTokenUtil.getLoginFromToken(token);
             String requestType = JwtTokenUtil.getType(token);
-            if (requestType.equals("INT") && userLogin.equals("${username}")) {
-                User user = new User("trafficControlSystem");
-                user.setEnabled(true);
-                Role role = new Role("SMART_TRAFFIC_CONTROL");
-                role.setAuthorities(Set.of(new Authority("CAN_READ"), new Authority("CAN_WRITE")));
-                user.addRole(role);
-                CustomUserDetails customUserDetails = new CustomUserDetails(user);
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                        = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+            if (requestType.equals("EXT")) {
+                Set<Role> roles = JwtTokenUtil.getRoles(token);
+                String userLogin = JwtTokenUtil.getLoginFromToken(token);
+                CustomUserDetails customUserDetails = new CustomUserDetails(userLogin, roles);
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        customUserDetails, null, customUserDetails.getGrantedAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            } else if (requestType.equals("INT")) {
+                String userLogin = JwtTokenUtil.getLoginFromToken(token);
+                if (userLogin.equals("${username}")) {
+                    User user = new User("trafficControlSystem");
+                    user.setEnabled(true);
+                    Role role = new Role("SYSTEM");
+                    user.addRole(role);
+                    CustomUserDetails customUserDetails = new CustomUserDetails(user);
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
+                            = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                }
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
@@ -52,7 +60,6 @@ public class JwtTokenFilter extends GenericFilterBean {
         String bearer = request.getHeader(AUTHORIZATION);
         if (hasText(bearer) && bearer.startsWith("Bearer ")) {
             return bearer.substring(7);
-        }
-        return null;
+        } else return bearer;
     }
 }

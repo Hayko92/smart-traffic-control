@@ -20,10 +20,15 @@ public class AuthController {
     @Autowired
     private JwtProvider jwtProvider;
 
-    @PostMapping("/auth")
-    public AuthResponse auth(@RequestBody AuthRequest request) {
+    @PostMapping("/login")
+    public AuthResponse login(@RequestBody AuthRequest request) {
         User userEntity = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
-        String token = jwtProvider.generateToken(userEntity.getLogin());
+        String token = jwtProvider.generateToken(userEntity.getLogin(), userEntity.getRoles());
         return new AuthResponse(token);
+    }
+    @PostMapping("/register")
+    public User register(@RequestBody AuthRequest request) {
+        User user =new User(request.getLogin(),request.getPassword());
+        return userService.saveUser(user);
     }
 }

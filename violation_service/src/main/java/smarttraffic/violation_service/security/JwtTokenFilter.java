@@ -1,11 +1,11 @@
-package smarttraffic.cameraimitation.security;
+package smarttraffic.violation_service.security;
 
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-import smarttraffic.cameraimitation.util.JwtTokenUtil;
+import smarttraffic.violation_service.util.JwtTokenUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

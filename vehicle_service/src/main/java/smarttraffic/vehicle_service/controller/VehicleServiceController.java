@@ -94,10 +94,10 @@ public class VehicleServiceController {
     }
 
     @GetMapping("/user/violations")
-    public List<ViolationDTO> getViolationsOfConcretUser(@RequestParam String plateNumber, @RequestParam String vinNumber, @RequestHeader String token) {
+    public List<ViolationDTO> getViolationsOfConcreteUser(@RequestParam String plateNumber, @RequestParam String vinNumber, @RequestHeader String token) {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
         List<ViolationDTO> violationDTOS = new ArrayList<>();
-        String email = customUserDetails.getEmail();
+        String email = customUserDetails.getLogin();
         OwnerDTO ownerDTO = ownerService.getOwnerByMail(email);
         if (ownerDTO != null) {
             Set<VehicleDTO> vehicleDTOSet = ownerDTO.getVehicleDTOSet();

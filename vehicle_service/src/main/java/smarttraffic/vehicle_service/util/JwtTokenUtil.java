@@ -6,10 +6,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import smarttraffic.vehicle_service.security.Role;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Set;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -55,6 +57,11 @@ public final class JwtTokenUtil {
     public static String getType(String token) {
         Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
         return (String) claims.get("type");
+    }
+
+    public static Set<Role> getRoles(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return (Set<Role>) claims.get("roles");
     }
 
     public static HttpHeaders getHeadersWithToken(String token) {

@@ -3,7 +3,6 @@ package smarttraffic.vehicle_service.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,17 +19,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-                .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers("/api/**").hasAnyRole("SMART_TRAFFIC_CONTROL", "ADMIN")
-                .and().
-                addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        super.configure(http);
+                .antMatchers("/*").hasRole("SMART_TRAFFIC_CONTROL")
+                .antMatchers("/api/vehicle-service/user/violations").hasAnyAuthority("USER", "SYSTEM")
+                .antMatchers("/api/vehicle-service/violations").permitAll()
+                .and()
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

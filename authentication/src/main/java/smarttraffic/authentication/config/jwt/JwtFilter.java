@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import smarttraffic.authentication.config.CustomUserDetails;
 import smarttraffic.authentication.config.UserDetailService;
-import smarttraffic.authentication.entity.Authority;
 import smarttraffic.authentication.entity.Role;
 import smarttraffic.authentication.entity.User;
 
@@ -18,7 +17,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Set;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -51,9 +49,8 @@ public class JwtFilter extends GenericFilterBean {
             } else if (requestType.equals("INT")) {
                 User user = new User("trafficControlSystem");
                 user.setEnabled(true);
-                Role role = new Role("SMART_TRAFFIC_CONTROL");
-                role.setAuthorities(Set.of(new Authority("CAN_READ"), new Authority("CAN_WRITE")));
-                user.setRole(role);
+                Role role = new Role("SYSTEM");
+                user.addRole(role);
                 CustomUserDetails customUserDetails = new CustomUserDetails(user);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                         = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());

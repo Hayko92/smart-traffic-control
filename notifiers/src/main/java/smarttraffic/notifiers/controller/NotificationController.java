@@ -39,7 +39,7 @@ public class NotificationController {
         File file = new File(capture.getPhotoUrl().substring(5).replace("%20", " "));
         FileSystemResource file1 = new FileSystemResource(file);
         helper.addAttachment("car_photo1.jpg", file1);
-        //mailSender.send(message);
+        mailSender.send(message);
     }
 
     @GetMapping("/patrol/owner/{ownerID}")
@@ -50,7 +50,7 @@ public class NotificationController {
         helper.setTo("asatryanhayko92@gmail.com");
         helper.setSubject("Driver with null points!");
         helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
-        //mailSender.send(message);
+        mailSender.send(message);
     }
 
     @PostMapping("/email")
@@ -67,7 +67,7 @@ public class NotificationController {
             FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2").replace("%20", " ").substring(5)));
             helper.addAttachment("car_photo2.jpg", file2);
         }
-        //mailSender.send(message);
+        mailSender.send(message);
     }
 
     @PostMapping("/sms")

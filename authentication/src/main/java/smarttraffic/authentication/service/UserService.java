@@ -20,7 +20,7 @@ public class UserService {
 
     public User saveUser(User userEntity) {
         Role userRole = roleEntityRepository.findByAuthority("ROLE_USER");
-        userEntity.setRole(userRole);
+        userEntity.addRole(userRole);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         return userEntityRepository.save(userEntity);
     }

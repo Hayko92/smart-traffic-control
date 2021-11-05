@@ -13,7 +13,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Set;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -36,8 +35,7 @@ public class JwtTokenFilter extends GenericFilterBean {
             if (requestType.equals("INT") && userLogin.equals("${username}")) {
                 User user = new User("trafficControlSystem");
                 user.setEnabled(true);
-                Role role = new Role("SMART_TRAFFIC_CONTROL");
-                role.setAuthorities(Set.of(new Authority("CAN_READ"), new Authority("CAN_WRITE")));
+                Role role = new Role("SYSTEM");
                 user.addRole(role);
                 CustomUserDetails customUserDetails = new CustomUserDetails(user);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
@@ -52,7 +50,6 @@ public class JwtTokenFilter extends GenericFilterBean {
         String bearer = request.getHeader(AUTHORIZATION);
         if (hasText(bearer) && bearer.startsWith("Bearer ")) {
             return bearer.substring(7);
-        }
-        return null;
+        } else return bearer;
     }
 }
