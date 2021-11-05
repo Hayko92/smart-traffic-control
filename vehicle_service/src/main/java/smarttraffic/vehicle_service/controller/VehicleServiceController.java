@@ -26,22 +26,24 @@ public class VehicleServiceController {
 
     @GetMapping("/{plateNumber}")
     public VehicleDTO sendVehicleByPlateNumber(@PathVariable String plateNumber) {
-       VehicleDTO vehicleDTO =  vehicleService.getByNumber(plateNumber);
-       return vehicleDTO;
+        return vehicleService.getByNumber(plateNumber);
     }
 
     @GetMapping("/set-status-checked/{id}")
-    public String setStatusCheched(@PathVariable Long id) {
+    public void setStatusCheched(@PathVariable Long id) {
         VehicleDTO vehicle1 = vehicleService.getById(id);
         vehicle1.setChecked(true);
         vehicleService.update(vehicle1);
-        return null;
     }
 
     @GetMapping("/owner/{id}")
     public OwnerDTO sendOwnerByid(@PathVariable String id) {
-        OwnerDTO owner = ownerService.getById(Long.parseLong(id));
-        return owner;
+        return ownerService.getById(Long.parseLong(id));
+    }
+
+    @PutMapping("/owner/{id}")
+    public void updateOwner(@PathVariable long id, @RequestBody OwnerDTO ownerDTO) {
+        ownerService.save(ownerDTO);
     }
 
     @PostMapping("/owner/{id}")

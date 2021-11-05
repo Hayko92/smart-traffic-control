@@ -9,7 +9,7 @@ public final class MarkMapper {
 
     public static VehicleMarkDTO mapToDto(VehicleMark vehicleMark) {
         VehicleMarkDTO vehicleMarkDTO = new VehicleMarkDTO();
-        vehicleMarkDTO.setId(vehicleMarkDTO.getId());
+        vehicleMarkDTO.setId(vehicleMark.getId());
         vehicleMarkDTO.setMarkName(vehicleMark.getMarkName());
         return vehicleMarkDTO;
     }
@@ -17,7 +17,7 @@ public final class MarkMapper {
     public static VehicleMark mapToEntity(VehicleMarkDTO mark) {
         VehicleMark vehicleMark = new VehicleMark();
         vehicleMark.setId(mark.getId());
-        vehicleMark.setMarkName(vehicleMark.getMarkName());
+        vehicleMark.setMarkName(mark.getMarkName());
         return vehicleMark;
     }
 }

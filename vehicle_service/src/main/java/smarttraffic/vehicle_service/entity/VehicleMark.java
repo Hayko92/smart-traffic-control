@@ -1,23 +1,27 @@
 package smarttraffic.vehicle_service.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@DynamicUpdate
 @Table(name = "vehicle_mark")
 public class VehicleMark {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "mark_name")
     private String markName;
 
-    @OneToMany(mappedBy = "vehicleMark")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "vehicleMark", cascade = CascadeType.ALL)
     @JsonBackReference
+    @JsonIgnore
     private Set<VehicleModel> models;
 
     public Set<VehicleModel> getModels() {
@@ -28,11 +32,11 @@ public class VehicleMark {
         this.models = models;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

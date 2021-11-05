@@ -1,5 +1,7 @@
 package smarttraffic.violation_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -16,6 +18,7 @@ public class VehicleMark {
     private String markName;
 
     @OneToMany(mappedBy = "vehicleMark", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JsonIgnore
     private Set<VehicleModel> models;
 
     public Set<VehicleModel> getModels() {

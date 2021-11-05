@@ -9,7 +9,7 @@ public final class ModelMapper {
 
     public static VehicleModelDTO mapToDto(VehicleModel vehicleModel) {
         VehicleModelDTO vehicleModelDTO = new VehicleModelDTO();
-        vehicleModelDTO.setId(vehicleModelDTO.getId());
+        vehicleModelDTO.setId(vehicleModel.getId());
         vehicleModelDTO.setModelName(vehicleModel.getModelName());
         return vehicleModelDTO;
     }
