@@ -1,4 +1,4 @@
-package smarttraffic.notifiers.config;
+package smarttraffic.detectors_analyzer.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import smarttraffic.detectors_analyzer.filter.JwtTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers("/*").hasAnyRole("SMART_TRAFFIC_CONTROL","ADMIN")
+                .antMatchers("/*").hasAnyRole("SMART_TRAFFIC_CONTROL", "ADMIN")
                 .and().
                 addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         super.configure(http);

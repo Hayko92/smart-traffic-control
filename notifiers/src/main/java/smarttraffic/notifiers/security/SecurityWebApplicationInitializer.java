@@ -1,4 +1,4 @@
-package smarttraffic.detectors_analyzer.config;
+package smarttraffic.notifiers.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

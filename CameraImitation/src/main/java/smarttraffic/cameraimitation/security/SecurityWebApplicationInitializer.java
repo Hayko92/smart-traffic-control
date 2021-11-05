@@ -1,4 +1,4 @@
-package smarttraffic.vehicle_service.config;
+package smarttraffic.cameraimitation.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

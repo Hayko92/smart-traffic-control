@@ -1,4 +1,4 @@
-package smarttraffic.vehicle_service.config;
+package smarttraffic.vehicle_service.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import smarttraffic.vehicle_service.filter.JwtTokenFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
                 .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers("/api/**").hasAnyRole("SMART_TRAFFIC_CONTROL","ADMIN")
+                .antMatchers("/api/**").hasAnyRole("SMART_TRAFFIC_CONTROL", "ADMIN")
                 .and().
                 addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         super.configure(http);

@@ -1,4 +1,4 @@
-package smarttraffic.cameraimitation.entity;
+package smarttraffic.notifiers.security;
 
 import javax.persistence.*;
 import java.util.Collection;

@@ -18,6 +18,8 @@ public class User {
 
     @Column
     private String password;
+
+    private String email;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -33,7 +35,19 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled = true;
 
+    public User() {
+
+    }
+
     public User(String login) {
         this.login = login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

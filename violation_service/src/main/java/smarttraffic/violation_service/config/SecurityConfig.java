@@ -23,7 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/api/*").hasAnyRole("SMART_TRAFFIC_CONTROL","ADMIN")
+                .antMatchers("/api/*").hasAnyRole("SMART_TRAFFIC_CONTROL", "ADMIN")
+                .antMatchers("/api/vehicle-service/violations").permitAll()
+                .antMatchers("/api/vehicle-service/user/violations").hasAnyRole("SMART_TRAFFIC_CONTROL", "ADMIN", "USER")
                 .and().
                 addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         super.configure(http);

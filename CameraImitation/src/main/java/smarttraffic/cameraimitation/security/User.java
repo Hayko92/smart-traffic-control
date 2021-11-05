@@ -1,4 +1,4 @@
-package smarttraffic.cameraimitation.entity;
+package smarttraffic.cameraimitation.security;
 
 
 import javax.persistence.*;
@@ -63,7 +63,7 @@ public class User {
     }
 
     public void addRole(Role role) {
-        if(roles==null) roles = new HashSet<>();
+        if (roles == null) roles = new HashSet<>();
         roles.add(role);
     }
 

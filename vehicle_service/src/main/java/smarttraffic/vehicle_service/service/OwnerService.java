@@ -14,4 +14,6 @@ public interface OwnerService {
     void update(OwnerDTO owner);
 
     void delete(long id);
+
+    OwnerDTO getOwnerByMail(String email);
 }
