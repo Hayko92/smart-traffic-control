@@ -26,9 +26,10 @@ public class ViolationServiceImpl implements ViolationService {
     }
 
     @Override
-    public void save(ViolationDTO violation) {
+    public long save(ViolationDTO violation) {
         Violation violation1 = ViolationMapper.mapToEntity(violation);
         violationRepository.save(violation1);
+        return violation1.getId();
     }
 
     @Override

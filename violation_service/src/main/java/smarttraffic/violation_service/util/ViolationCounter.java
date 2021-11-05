@@ -13,7 +13,6 @@ public final class ViolationCounter {
         else if (overSpeed > 50 && overSpeed <= 80) result = 29000;
         else if (overSpeed > 80) {
             result = 200000;
-//            veryBadDriver = true;   if we try to change violation prise calculation logic
         }
         return result;
     }

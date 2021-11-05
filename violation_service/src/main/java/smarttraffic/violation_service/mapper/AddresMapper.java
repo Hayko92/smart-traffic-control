@@ -7,8 +7,6 @@ public final class AddresMapper {
     private AddresMapper() {
     }
 
-    ;
-
     public static AddressDTO mapToDTO(Address address) {
         AddressDTO addressDTO = new AddressDTO();
         addressDTO.setId(address.getId());

@@ -3,14 +3,13 @@ package smarttraffic.violation_service.dto;
 public class VehicleModelDTO {
     private int id;
     private String modelName;
-    private VehicleMarkDTO vehicleMark;
+
 
     public VehicleModelDTO() {
     }
 
-    public VehicleModelDTO(String modelName, VehicleMarkDTO vehicleMark) {
+    public VehicleModelDTO(String modelName) {
         this.modelName = modelName;
-        this.vehicleMark = vehicleMark;
     }
 
     public int getId() {
@@ -29,11 +28,4 @@ public class VehicleModelDTO {
         this.modelName = modelName;
     }
 
-    public VehicleMarkDTO getVehicleMark() {
-        return vehicleMark;
-    }
-
-    public void setVehicleMark(VehicleMarkDTO vehicleMark) {
-        this.vehicleMark = vehicleMark;
-    }
 }

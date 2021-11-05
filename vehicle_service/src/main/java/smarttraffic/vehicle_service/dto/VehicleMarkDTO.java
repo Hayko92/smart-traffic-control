@@ -1,25 +1,23 @@
 package smarttraffic.vehicle_service.dto;
 
-import java.util.Set;
-
 public class VehicleMarkDTO {
-    private int id;
+    private long id;
     private String markName;
-    private Set<VehicleModelDTO> models;
+
 
     public VehicleMarkDTO() {
     }
 
-    public VehicleMarkDTO(String markName, Set<VehicleModelDTO> models) {
+    public VehicleMarkDTO(String markName) {
         this.markName = markName;
-        this.models = models;
+
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -31,11 +29,4 @@ public class VehicleMarkDTO {
         this.markName = markName;
     }
 
-    public Set<VehicleModelDTO> getModels() {
-        return models;
-    }
-
-    public void setModels(Set<VehicleModelDTO> models) {
-        this.models = models;
-    }
 }

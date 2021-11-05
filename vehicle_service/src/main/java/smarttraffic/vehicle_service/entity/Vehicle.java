@@ -2,12 +2,14 @@ package smarttraffic.vehicle_service.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.Instant;
 
 
 @Entity
+@DynamicUpdate
 @Table(name = "vehicle")
 public class Vehicle {
     @Id
@@ -26,12 +28,12 @@ public class Vehicle {
     @Column(name = "color")
     private String Color;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "mark_id")
     @JsonManagedReference
     private VehicleMark mark;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "model_id")
     @JsonManagedReference
     private VehicleModel model;

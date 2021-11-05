@@ -30,6 +30,7 @@ public final class JwtTokenUtil {
                 .setSubject(login)
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
+                .claim("type","INT")
                 .compact();
     }
 

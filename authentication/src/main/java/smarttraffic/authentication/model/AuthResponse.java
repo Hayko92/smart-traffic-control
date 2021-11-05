@@ -1,4 +1,4 @@
-package smart_traffic.authentication.controller;
+package smarttraffic.authentication.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,6 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AuthResponse {
-
     private String token;
 }

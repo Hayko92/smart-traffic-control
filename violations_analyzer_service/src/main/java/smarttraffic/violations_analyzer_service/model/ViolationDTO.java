@@ -3,6 +3,7 @@ package smarttraffic.violations_analyzer_service.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+
 @Document("violation")
 public class ViolationDTO implements Cloneable {
     private long id;

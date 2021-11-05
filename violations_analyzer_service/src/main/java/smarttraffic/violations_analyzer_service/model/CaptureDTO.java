@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+
 @Document("capture")
 public class CaptureDTO {
 
