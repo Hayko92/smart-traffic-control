@@ -49,7 +49,12 @@ public final class JwtTokenUtil {
     }
 
     public static boolean checkTokenValidation(String token) {
-        return validateToken(token) && getLoginFromToken(token).equals("Smart_traffic_control");
+        return validateToken(token) && getLoginFromToken(token).equals("Smart_traffic_control")&& getType(token).equals("INT");
+    }
+
+    public static String getType(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return (String) claims.get("type");
     }
 
     public static HttpHeaders getHeadersWithToken(String token) {

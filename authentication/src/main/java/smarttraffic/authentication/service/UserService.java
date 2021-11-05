@@ -3,6 +3,7 @@ package smarttraffic.authentication.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import smarttraffic.authentication.entity.Role;
 import smarttraffic.authentication.entity.User;
 import smarttraffic.authentication.repository.RoleEntityRepository;
 import smarttraffic.authentication.repository.UserEntityRepository;
@@ -18,8 +19,8 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User saveUser(User userEntity) {
-        RoleEntity userRole = roleEntityRepository.findByName("ROLE_USER");
-        userEntity.setRoleEntity(userRole);
+        Role userRole = roleEntityRepository.findByAuthority("ROLE_USER");
+        userEntity.setRole(userRole);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         return userEntityRepository.save(userEntity);
     }
