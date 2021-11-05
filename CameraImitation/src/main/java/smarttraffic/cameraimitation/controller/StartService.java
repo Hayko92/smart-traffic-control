@@ -29,7 +29,7 @@ import java.util.Random;
 @RequestMapping("/api/detector-imitation-service")
 public class StartService {
 
-    private final String token = JwtTokenUtil.generateToken("Smart_traffic_control");
+    private final String token = JwtTokenUtil.generateToken("${username}");
     @Autowired
     DetectorRepository detectorRepository;
     @Autowired
@@ -45,11 +45,12 @@ public class StartService {
 
     @GetMapping()
     public void sendRequest() throws MalformedURLException, InterruptedException {
-
-        while (true) {
-            sendRandomPhotoFromRandomDetector(token);
-            Thread.sleep(3000);
-        }
+//
+//        while (true) {
+//            sendRandomPhotoFromRandomDetector(token);
+//            Thread.sleep(3000);
+//        }
+        testing();
     }
 
 
@@ -99,6 +100,17 @@ public class StartService {
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
+    }
+    private void testing() {
+        CaptureDto captureDto =new CaptureDto();
+        captureDto.setPlace("PARONYAN");
+        captureDto.setInstant(Instant.now().plus(4,ChronoUnit.HOURS));
+        captureDto.setPlateNumber("37FA299");
+        captureDto.setPhotoUrl("URL");
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
+        HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(captureDto, headers);
+        restTemplate.exchange(detectorAnalyzerUrl, HttpMethod.POST, httpEntity,Void.class);
     }
 
 }
