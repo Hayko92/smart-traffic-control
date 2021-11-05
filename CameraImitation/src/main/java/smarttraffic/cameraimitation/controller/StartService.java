@@ -101,16 +101,17 @@ public class StartService {
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
+
     private void testing() {
-        CaptureDto captureDto =new CaptureDto();
+        CaptureDto captureDto = new CaptureDto();
         captureDto.setPlace("PARONYAN");
-        captureDto.setInstant(Instant.now().plus(4,ChronoUnit.HOURS));
+        captureDto.setInstant(Instant.now().plus(4, ChronoUnit.HOURS));
         captureDto.setPlateNumber("37FA299");
         captureDto.setPhotoUrl("URL");
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(captureDto, headers);
-        restTemplate.exchange(detectorAnalyzerUrl, HttpMethod.POST, httpEntity,Void.class);
+        restTemplate.exchange(detectorAnalyzerUrl, HttpMethod.POST, httpEntity, Void.class);
     }
 
 }

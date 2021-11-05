@@ -1,4 +1,4 @@
-package smarttraffic.cameraimitation.security;
+package smarttraffic.vehicle_service.security;
 
 
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +13,7 @@ public class CustomUserDetails implements UserDetails {
     private User user;
     private String login;
     private String password;
+    private String email;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
     public CustomUserDetails() {
@@ -27,6 +28,7 @@ public class CustomUserDetails implements UserDetails {
         userDetails.login = userEntity.getLogin();
         userDetails.password = userEntity.getPassword();
         userDetails.grantedAuthorities = userDetails.getAuthorities();
+        userDetails.email = userEntity.getEmail();
         return userDetails;
     }
 
@@ -41,6 +43,14 @@ public class CustomUserDetails implements UserDetails {
                     .forEach(authorities::add);
         }
         return authorities;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

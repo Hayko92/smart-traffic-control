@@ -1,4 +1,4 @@
-package smarttraffic.cameraimitation.entity;
+package smarttraffic.detectors_analyzer.security;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -7,4 +7,6 @@ import smarttraffic.vehicle_service.entity.Owner;
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
     Owner getById(long id);
 
+    Owner getByOwnerContact_EmailAddress(String email);
+
 }

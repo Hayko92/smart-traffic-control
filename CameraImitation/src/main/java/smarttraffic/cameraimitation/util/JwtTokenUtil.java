@@ -30,7 +30,7 @@ public final class JwtTokenUtil {
                 .setSubject(login)
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
-                .claim("type","INT")
+                .claim("type", "INT")
                 .compact();
     }
 
@@ -49,7 +49,7 @@ public final class JwtTokenUtil {
     }
 
     public static boolean checkTokenValidation(String token) {
-        return validateToken(token) && getLoginFromToken(token).equals("Smart_traffic_control")&& getType(token).equals("INT");
+        return validateToken(token) && getLoginFromToken(token).equals("${username}") && getType(token).equals("INT");
     }
 
     public static String getType(String token) {

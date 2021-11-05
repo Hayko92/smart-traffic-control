@@ -40,4 +40,12 @@ public class OwnerServiceImpl implements OwnerService {
     public void delete(long id) {
         ownerRepository.getById(id);
     }
+
+    @Override
+    public OwnerDTO getOwnerByMail(String email) {
+        Owner owner = ownerRepository.getByOwnerContact_EmailAddress(email);
+        OwnerDTO ownerDTO = null;
+        if (owner != null) ownerDTO = OwnerMapper.mapToDto(owner);
+        return ownerDTO;
+    }
 }

@@ -1,15 +1,10 @@
-package smarttraffic.cameraimitation.filter;
+package smarttraffic.cameraimitation.security;
 
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
-import smarttraffic.cameraimitation.entity.Authority;
-import smarttraffic.cameraimitation.entity.Role;
-import smarttraffic.cameraimitation.entity.User;
-import smarttraffic.cameraimitation.security.CustomUserDetails;
 import smarttraffic.cameraimitation.util.JwtTokenUtil;
 
 import javax.servlet.FilterChain;
@@ -38,7 +33,7 @@ public class JwtTokenFilter extends GenericFilterBean {
         if (token != null && JwtTokenUtil.validateToken(token)) {
             String userLogin = JwtTokenUtil.getLoginFromToken(token);
             String requestType = JwtTokenUtil.getType(token);
-          if (requestType.equals("INT")&& userLogin.equals("${username}")) {
+            if (requestType.equals("INT") && userLogin.equals("${username}")) {
                 User user = new User("trafficControlSystem");
                 user.setEnabled(true);
                 Role role = new Role("SMART_TRAFFIC_CONTROL");

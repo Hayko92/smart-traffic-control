@@ -18,4 +18,5 @@ public interface VehicleService {
     VehicleDTO getById(long id);
 
     void save(VehicleDTO vehicle1);
+
 }
