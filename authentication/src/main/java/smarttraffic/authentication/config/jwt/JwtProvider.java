@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @Log
@@ -21,10 +22,14 @@ public class JwtProvider {
     private String jwtSecret;
 
     public String generateToken(String login, Set<Role> roles) {
+        String authorities = roles.stream()
+                .map(e -> e.getAuthority().toString())
+                .collect(Collectors.joining(","));
+
         Date date = Date.from(LocalDate.now().plusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
                 .claim("type", "EXT")
-                .claim("roles", roles)
+                .claim("roles", authorities)
                 .setSubject(login)
                 .setExpiration(date)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

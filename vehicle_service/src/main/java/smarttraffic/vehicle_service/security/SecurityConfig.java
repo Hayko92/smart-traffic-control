@@ -25,11 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/*").hasRole("SMART_TRAFFIC_CONTROL")
-                .antMatchers("/api/vehicle-service/user/violations").hasAnyAuthority("USER", "SYSTEM")
                 .antMatchers("/api/vehicle-service/violations").permitAll()
+                .antMatchers("/api/vehicle-service/user/violations").hasAnyAuthority("ROLE_USER")
+                .anyRequest().hasAnyAuthority("SYSTEM")
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean

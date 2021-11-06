@@ -1,5 +1,7 @@
 package smarttraffic.vehicle_service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.Instant;
 
 public class ViolationDTO implements Cloneable {
@@ -11,6 +13,7 @@ public class ViolationDTO implements Cloneable {
     private String type;
     private String photoUrl1;
     private String photoUrl2;
+    @JsonIgnore
     private OwnerDTO owner;
     private VehicleDTO vehicle;
 

@@ -20,12 +20,6 @@ public class User {
 
     @Column
     private String password;
-
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
-
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_role",
@@ -34,9 +28,13 @@ public class User {
     )
     @JsonIgnore
     private Set<Role> roles;
-
     @Column(name = "enabled")
     private boolean enabled = true;
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 
     public User() {
 

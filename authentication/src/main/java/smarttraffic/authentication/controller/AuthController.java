@@ -26,9 +26,10 @@ public class AuthController {
         String token = jwtProvider.generateToken(userEntity.getLogin(), userEntity.getRoles());
         return new AuthResponse(token);
     }
+
     @PostMapping("/register")
     public User register(@RequestBody AuthRequest request) {
-        User user =new User(request.getLogin(),request.getPassword());
+        User user = new User(request.getLogin(), request.getPassword());
         return userService.saveUser(user);
     }
 }

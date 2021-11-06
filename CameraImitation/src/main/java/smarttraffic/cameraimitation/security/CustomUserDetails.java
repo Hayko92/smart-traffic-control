@@ -21,10 +21,10 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(User user) {
         this.user = user;
-        this.login  = user.getLogin();
-        this.grantedAuthorities =user.getRoles()
+        this.login = user.getLogin();
+        this.grantedAuthorities = user.getRoles()
                 .stream()
-                .map(e->new SimpleGrantedAuthority(e.getAuthority()))
+                .map(e -> new SimpleGrantedAuthority(e.getAuthority()))
                 .collect(Collectors.toSet());
     }
 

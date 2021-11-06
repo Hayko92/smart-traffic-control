@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class CustomUserDetails implements UserDetails {
@@ -25,12 +23,16 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
-    public CustomUserDetails(String login, Set<Role> roleSet) {
+    //    public CustomUserDetails(String login, Collection<Role> roleSet) {
+//        this.login = login;
+//        this.grantedAuthorities = roleSet
+//                .stream()
+//                .map(e -> new SimpleGrantedAuthority(e.getAuthority()))
+//                .collect(Collectors.toSet());
+//    }
+    public CustomUserDetails(String login, Collection<GrantedAuthority> roleSet) {
         this.login = login;
-        this.grantedAuthorities = roleSet
-                .stream()
-                .map(e -> new SimpleGrantedAuthority(e.getAuthority()))
-                .collect(Collectors.toSet());
+        this.grantedAuthorities = roleSet;
     }
 
     public static CustomUserDetails fromUserEntityToCustomUserDetails(User userEntity) {
