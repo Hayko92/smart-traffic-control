@@ -1,11 +1,11 @@
-package smarttraffic.detectors_analyzer.security;
+package smarttraffic.violation_service.security;
 
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import smarttraffic.detectors_analyzer.util.JwtTokenUtil;
+import smarttraffic.violation_service.util.JwtTokenUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                  HttpServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         logger.info("do filter");
-        String token = getTokenFromRequest(servletRequest);
+        String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && JwtTokenUtil.validateToken(token)) {
             String userLogin = JwtTokenUtil.getLoginFromToken(token);
             String requestType = JwtTokenUtil.getType(token);

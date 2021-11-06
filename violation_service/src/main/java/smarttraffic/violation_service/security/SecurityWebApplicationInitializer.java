@@ -1,4 +1,4 @@
-package smarttraffic.violation_service.config;
+package smarttraffic.violation_service.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

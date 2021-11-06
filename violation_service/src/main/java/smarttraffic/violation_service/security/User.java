@@ -1,4 +1,4 @@
-package smarttraffic.cameraimitation.security;
+package smarttraffic.violation_service.security;
 
 
 import java.util.HashSet;
