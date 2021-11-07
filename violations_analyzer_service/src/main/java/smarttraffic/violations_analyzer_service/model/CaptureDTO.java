@@ -9,14 +9,9 @@ import java.time.Instant;
 public class CaptureDTO {
 
     private int id;
-
     private String plateNumber;
-
     private String place;
-
-    @JsonFormat(timezone = "Asia/Yerevan")
     private Instant instant;
-
     private String photoUrl;
 
     public CaptureDTO() {

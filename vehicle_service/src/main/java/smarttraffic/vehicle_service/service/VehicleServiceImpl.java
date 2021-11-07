@@ -7,6 +7,9 @@ import smarttraffic.vehicle_service.entity.Vehicle;
 import smarttraffic.vehicle_service.mapper.VehicleMapper;
 import smarttraffic.vehicle_service.repository.VehicleRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -55,6 +58,15 @@ public class VehicleServiceImpl implements VehicleService {
     public void save(VehicleDTO vehicle1) {
         Vehicle vehicle = VehicleMapper.mapToEntity(vehicle1);
         vehicleRepository.save(vehicle);
+    }
+
+    @Override
+    public List<VehicleDTO> getAllVehicles() {
+      List<Vehicle>  vehicles = vehicleRepository.getAll();
+      return  vehicles
+              .stream()
+              .map(VehicleMapper::mapToDto)
+              .collect(Collectors.toList());
     }
 
 }
