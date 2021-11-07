@@ -16,6 +16,12 @@ import smarttraffic.notifiers.util.HTMLCreator;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.util.Map;
 
 @RestController
@@ -29,14 +35,14 @@ public class NotificationController {
     private JavaMailSender mailSender;
 
     @PostMapping("/patrol")
-    public void sendToPatrol(@RequestBody CaptureDto capture) throws MessagingException {
+    public void sendToPatrol(@RequestBody CaptureDto capture) throws MessagingException, IOException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
         helper.setTo("asatryanhayko92@gmail.com");
         helper.setSubject("Unrecognized vehicle!");
         helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s", capture.getInstant(), capture.getPlace()));
-        File file = new File(capture.getPhotoUrl().substring(5).replace("%20", " "));
+        File file = getFileFromURL(capture.getPhotoUrl());
         FileSystemResource file1 = new FileSystemResource(file);
         helper.addAttachment("car_photo1.jpg", file1);
         mailSender.send(message);
@@ -54,18 +60,20 @@ public class NotificationController {
     }
 
     @PostMapping("/email")
-    public void sendEmail(@RequestBody Map<String, String> info) throws MessagingException {
+    public void sendEmail(@RequestBody Map<String, String> info) throws MessagingException, IOException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
         helper.setTo(info.get("email"));
         helper.setSubject("YOU HAVE A NEW VIOLATION!");
         helper.setText(HTMLCreator.createSpeedViolationBlank(info));
-        FileSystemResource file1 = new FileSystemResource(new File(info.get("photoURL1").replace("%20", " ").substring(5)));
-        helper.addAttachment("car_photo1.jpg", file1);
+        File file1 = getFileFromURL(info.get("photoURL1"));
+        FileSystemResource fileSystemResource1 = new FileSystemResource(file1);
+        helper.addAttachment("car_photo1.jpg", fileSystemResource1);
         if (info.get("type").equals("SPEED")) {
-            FileSystemResource file2 = new FileSystemResource(new File(info.get("photoURL2").replace("%20", " ").substring(5)));
-            helper.addAttachment("car_photo2.jpg", file2);
+            File file2 = getFileFromURL(info.get("photoURL2"));
+            FileSystemResource fileSystemResource2 = new FileSystemResource(file2);
+            helper.addAttachment("car_photo2.jpg", fileSystemResource2);
         }
         mailSender.send(message);
     }
@@ -81,5 +89,14 @@ public class NotificationController {
         return "Sended";
     }
 
+    private File getFileFromURL(String photoUrl) throws IOException {
+        URL uRl = new URL(photoUrl);
+        ReadableByteChannel readableByteChannel = Channels.newChannel(uRl.openStream());
+        FileOutputStream fileOutputStream = new FileOutputStream("photo.jpg");
+        FileChannel fileChannel = fileOutputStream.getChannel();
+        fileOutputStream.getChannel()
+                .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+        return new File("photo.jpg");
+    }
 }
 
