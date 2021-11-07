@@ -1,5 +1,7 @@
 package smarttraffic.cameraimitation.controller;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
@@ -18,7 +20,9 @@ import smarttraffic.cameraimitation.util.NumberExtractor;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -43,8 +47,14 @@ public class StartService {
     @Autowired
     private CloudVisionTemplate cloudVisionTemplate;
 
+    @Autowired
+    private AmazonS3 amazonS3;
+
+    @Value("${s3.bucket.name}")
+    private String s3BucketName;
+
     @GetMapping()
-    public void sendRequest() throws MalformedURLException, InterruptedException {
+    public void sendRequest() throws MalformedURLException, InterruptedException, URISyntaxException {
 
         while (true) {
             sendRandomPhotoFromRandomDetector(token);
@@ -53,16 +63,16 @@ public class StartService {
 
     }
 
-
-    private void sendRandomPhotoFromRandomDetector(String token) throws MalformedURLException {
+    private void sendRandomPhotoFromRandomDetector(String token) throws MalformedURLException, URISyntaxException {
         RestTemplate restTemplate = new RestTemplate();
         DetectorDto randomDetector = getRandomDetector();
-        URL url = getRadnomUrl();
-        String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(url)));
+        URL urlLocalFile = getRadnomUrl();
+        URL uploadedfile = uploadPhotoAndgetURLback(urlLocalFile, randomDetector.getPlace());
+        String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(uploadedfile)));
         String plateNumber = NumberExtractor.extract(textFromImage);
         Instant instant = Instant.now().plus(4, ChronoUnit.HOURS);
         String place = randomDetector.getPlace();
-        CaptureDto capture = new CaptureDto(plateNumber, url.toString(), place, instant);
+        CaptureDto capture = new CaptureDto(plateNumber, uploadedfile.toString(), place, instant);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.exchange(detectorAnalyzerUrl, HttpMethod.POST, httpEntity, Void.class);
@@ -84,7 +94,7 @@ public class StartService {
 
     private URL getRadnomUrl() throws MalformedURLException {
         Random random = new Random();
-        String path = String.format("C:\\Users\\asatr\\OneDrive\\Рабочий стол\\SMART-TRAFFIC-CONTROL\\CameraImitation\\src\\main\\resources\\CAR_numbers\\%s.jpg", random.nextInt(30));
+        String path = String.format("C:\\Users\\asatr\\OneDrive\\Рабочий стол\\smart_traffic_control_\\CameraImitation\\src\\main\\resources\\CAR_numbers\\%s.jpg", random.nextInt(30));
         File file = new File(path);
         return file.toURI().toURL();
     }
@@ -100,6 +110,15 @@ public class StartService {
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
+    }
+
+    private URL uploadPhotoAndgetURLback(URL url, String place) throws URISyntaxException {
+        File file = Paths.get(url.toURI()).toFile();
+        String fileName = place + "-" + Instant.now().plus(4, ChronoUnit.HOURS).truncatedTo(ChronoUnit.MILLIS) + ".jpg";
+        final PutObjectRequest putObjectRequest = new PutObjectRequest(s3BucketName, fileName, file);
+        amazonS3.putObject(putObjectRequest);
+        URL s3Url = amazonS3.getUrl(s3BucketName, fileName);
+        return s3Url;
     }
 
 }
