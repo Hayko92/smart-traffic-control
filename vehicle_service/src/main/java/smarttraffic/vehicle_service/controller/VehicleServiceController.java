@@ -38,6 +38,11 @@ public class VehicleServiceController {
         else return null;
     }
 
+    @GetMapping("/all")
+    public List<VehicleDTO> sendAllVehicled( @RequestHeader(name = "AUTHORIZATION") String token) {
+        return vehicleService.getAllVehicles();
+
+    }
 
     @GetMapping("/{plateNumber}")
     public VehicleDTO sendVehicleByPlateNumber(@PathVariable String plateNumber) {
