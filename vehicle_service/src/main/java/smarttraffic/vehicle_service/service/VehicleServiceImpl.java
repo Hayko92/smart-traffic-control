@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import smarttraffic.vehicle_service.dto.VehicleDTO;
 import smarttraffic.vehicle_service.entity.OwnerContact;
+import smarttraffic.vehicle_service.entity.Vehicle;
 import smarttraffic.vehicle_service.mapper.VehicleMapper;
 import smarttraffic.vehicle_service.repository.VehicleRepository;
 
@@ -18,7 +19,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDTO getByNumber(String number) {
-        OwnerContact vehicle = vehicleRepository.getByPlateNumber(number);
+        Vehicle vehicle = vehicleRepository.getByPlateNumber(number);
         if (vehicle != null) return VehicleMapper.mapToDto(vehicle);
         else return null;
     }
