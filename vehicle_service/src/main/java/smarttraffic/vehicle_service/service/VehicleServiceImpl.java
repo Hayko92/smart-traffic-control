@@ -23,6 +23,7 @@ public class VehicleServiceImpl implements VehicleService {
         else return null;
     }
 
+
     @Override
     public void create(VehicleDTO vehicle) {
         OwnerContact vehicle1 = VehicleMapper.mapToEntity(vehicle);
