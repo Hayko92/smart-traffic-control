@@ -3,6 +3,7 @@ package smarttraffic.vehicle_service.entity;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -14,24 +15,29 @@ public class Owner {
     private long id;
 
     @Column(name = "id_number")
+    @NotNull
     private String idNumber;
 
     @Column(name = "license_number")
+    @NotNull
     private String licenseNumber;
 
     @Column(name = "firstname")
+    @NotNull
     private String firstName;
 
     @Column(name = "lastname")
+    @NotNull
     private String lastName;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Vehicle> vehicles;
+    private Set<OwnerContact> vehicles;
 
     @OneToOne
     @JoinColumn(name = "contact_id")
     private OwnerContact ownerContact;
 
+    @Column(name = "points")
     private int points;
 
     public String getIdNumber() {
@@ -50,11 +56,11 @@ public class Owner {
         this.points = points;
     }
 
-    public Set<Vehicle> getVehicles() {
+    public Set<OwnerContact> getVehicles() {
         return vehicles;
     }
 
-    public void setVehicles(Set<Vehicle> vehicleSet) {
+    public void setVehicles(Set<OwnerContact> vehicleSet) {
         this.vehicles = vehicleSet;
     }
 

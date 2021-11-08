@@ -35,10 +35,6 @@ public class CustomUserDetails implements UserDetails {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
-            role.getAuthorities()
-                    .stream()
-                    .map(e -> new SimpleGrantedAuthority(e.getName()))
-                    .forEach(authorities::add);
         }
         return authorities;
     }

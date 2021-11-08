@@ -3,7 +3,7 @@ package smarttraffic.authentication.entity;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Collection;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -14,7 +14,8 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role")
+    @Column(name = "authority")
+    @NotNull
     private String authority;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -25,14 +26,6 @@ public class Role implements GrantedAuthority {
     )
     private Set<User> users;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "roles_authority",
-            joinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "authority_id", referencedColumnName = "id"))
-    private Collection<Authority> authorities;
 
     public Role(String authority) {
         this.authority = authority;
@@ -66,11 +59,4 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
-    public Collection<Authority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Collection<Authority> authorities) {
-        this.authorities = authorities;
-    }
 }

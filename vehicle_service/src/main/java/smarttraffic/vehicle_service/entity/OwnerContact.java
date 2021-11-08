@@ -3,6 +3,8 @@ package smarttraffic.vehicle_service.entity;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @DynamicUpdate
@@ -13,9 +15,11 @@ public class OwnerContact {
     private long id;
 
     @Column(name = "email_address")
+    @Email
     private String emailAddress;
 
     @Column(name = "phone_number")
+    @NotNull
     private String phoneNumber;
 
     @ManyToOne

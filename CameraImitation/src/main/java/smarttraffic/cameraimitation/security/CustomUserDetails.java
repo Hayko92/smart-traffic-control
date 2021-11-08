@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 
 public class CustomUserDetails implements UserDetails {
@@ -20,6 +21,11 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(User user) {
         this.user = user;
+        this.login = user.getLogin();
+        this.grantedAuthorities = user.getRoles()
+                .stream()
+                .map(e -> new SimpleGrantedAuthority(e.getAuthority()))
+                .collect(Collectors.toSet());
     }
 
     public static CustomUserDetails fromUserEntityToCustomUserDetails(User userEntity) {
@@ -35,10 +41,6 @@ public class CustomUserDetails implements UserDetails {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
-            role.getAuthorities()
-                    .stream()
-                    .map(e -> new SimpleGrantedAuthority(e.getName()))
-                    .forEach(authorities::add);
         }
         return authorities;
     }

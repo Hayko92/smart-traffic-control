@@ -1,6 +1,8 @@
 package smarttraffic.violation_service.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Objects;
@@ -47,6 +49,7 @@ public class Vehicle {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
+    @JsonIgnore
     private Owner owner;
 
     public Vehicle() {

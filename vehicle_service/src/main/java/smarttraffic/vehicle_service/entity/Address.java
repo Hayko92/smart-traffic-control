@@ -3,6 +3,8 @@ package smarttraffic.vehicle_service.entity;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @DynamicUpdate
@@ -14,21 +16,30 @@ public class Address {
     private long id;
 
     @Column(name = "country")
+    @NotNull
     private String country;
 
     @Column(name = "city")
+    @NotNull
     private String city;
 
     @Column(name = "street")
+    @NotNull
     private String street;
 
     @Column(name = "building")
+    @NotNull
     private String building;
 
     @Column(name = "zip_code")
+    @NotNull
     private int zipCode;
 
-    public Address() { }
+    @OneToMany(mappedBy = "address")
+    private Set<OwnerContact> owners;
+
+    public Address() {
+    }
 
     public long getId() {
         return id;
@@ -78,5 +89,11 @@ public class Address {
         this.zipCode = zipCode;
     }
 
+    public Set<OwnerContact> getOwners() {
+        return owners;
+    }
 
+    public void setOwners(Set<OwnerContact> owners) {
+        this.owners = owners;
+    }
 }

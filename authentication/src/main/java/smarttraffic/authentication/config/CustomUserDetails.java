@@ -9,13 +9,14 @@ import smarttraffic.authentication.entity.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class CustomUserDetails implements UserDetails {
     private User user;
     private String login;
     private String password;
-    private String email;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
     public CustomUserDetails() {
@@ -25,12 +26,19 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
+    public CustomUserDetails(String login, Set<Role> roleSet) {
+        this.login = login;
+        this.grantedAuthorities = roleSet
+                .stream()
+                .map(e -> new SimpleGrantedAuthority(e.getAuthority()))
+                .collect(Collectors.toSet());
+    }
+
     public static CustomUserDetails fromUserEntityToCustomUserDetails(User userEntity) {
         CustomUserDetails userDetails = new CustomUserDetails();
         userDetails.login = userEntity.getLogin();
         userDetails.password = userEntity.getPassword();
         userDetails.grantedAuthorities = userEntity.getRoles();
-        userDetails.email = userEntity.getEmail();
         return userDetails;
     }
 
@@ -39,20 +47,8 @@ public class CustomUserDetails implements UserDetails {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
-            role.getAuthorities()
-                    .stream()
-                    .map(e -> new SimpleGrantedAuthority(e.getName()))
-                    .forEach(authorities::add);
         }
         return authorities;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @Override

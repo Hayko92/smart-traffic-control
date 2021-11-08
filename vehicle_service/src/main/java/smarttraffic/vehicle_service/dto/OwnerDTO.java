@@ -1,5 +1,7 @@
 package smarttraffic.vehicle_service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Set;
 
 public class OwnerDTO {
@@ -11,6 +13,7 @@ public class OwnerDTO {
     private String lastName;
     private int points;
     private OwnerContactDTO ownerContactDTO;
+    @JsonIgnore
     private Set<VehicleDTO> vehicleDTOSet;
 
     public OwnerDTO() {

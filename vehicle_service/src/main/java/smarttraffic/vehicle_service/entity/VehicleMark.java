@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -17,6 +18,7 @@ public class VehicleMark {
     private long id;
 
     @Column(name = "mark_name")
+    @NotNull
     private String markName;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "vehicleMark", cascade = CascadeType.ALL)

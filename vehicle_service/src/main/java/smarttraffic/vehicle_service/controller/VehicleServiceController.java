@@ -2,24 +2,22 @@ package smarttraffic.vehicle_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.vehicle_service.dto.OwnerDTO;
 import smarttraffic.vehicle_service.dto.VehicleDTO;
 import smarttraffic.vehicle_service.dto.ViolationDTO;
-import smarttraffic.vehicle_service.security.CustomUserDetails;
 import smarttraffic.vehicle_service.service.OwnerService;
 import smarttraffic.vehicle_service.service.VehicleService;
 import smarttraffic.vehicle_service.util.JwtTokenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @RestController
@@ -40,6 +38,11 @@ public class VehicleServiceController {
         else return null;
     }
 
+    @GetMapping("/all")
+    public List<VehicleDTO> sendAllVehicled(@RequestHeader(name = "AUTHORIZATION") String token) {
+        return vehicleService.getAllVehicles();
+
+    }
 
     @GetMapping("/{plateNumber}")
     public VehicleDTO sendVehicleByPlateNumber(@PathVariable String plateNumber) {
@@ -69,11 +72,11 @@ public class VehicleServiceController {
     }
 
     @GetMapping("/violations")
-    public List<ViolationDTO> getViolations(@RequestParam String plateNumber, @RequestParam String vinNumber, @RequestHeader String token) {
+    public List<ViolationDTO> getViolations(@RequestParam String plateNumber, @RequestParam String vinNumber, @RequestHeader String Authorization) {
         VehicleDTO vehicleDTO = vehicleService.getByNumber(plateNumber);
         List<ViolationDTO> result = new ArrayList<>();
         if (vehicleDTO.getVinNumber().equals(vinNumber)) {
-            result = getViolationsOfVehicle(token, vehicleDTO);
+            result = getViolationsOfVehicle(Authorization, vehicleDTO);
         }
         return result;
     }
@@ -83,26 +86,27 @@ public class VehicleServiceController {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity entity = new HttpEntity(httpHeaders);
-        ResponseEntity<List> violationDTOS = restTemplate.exchange(violationServiceUrl + "/platenumber/" + vehicleDTO.getPlateNumber(), HttpMethod.GET, entity, List.class);
+        ResponseEntity<List<ViolationDTO>> violationDTOS = restTemplate.exchange(violationServiceUrl + "/platenumber/" + vehicleDTO.getPlateNumber(), HttpMethod.GET, entity, new ParameterizedTypeReference<List<ViolationDTO>>() {
+        });
         if (violationDTOS.hasBody()) {
-            for (Object o : Objects.requireNonNull(violationDTOS.getBody())) {
-                ViolationDTO violationDTO = (ViolationDTO) o;
-                result.add(violationDTO);
+            for (ViolationDTO o : violationDTOS.getBody()) {
+                ;
+                result.add(o);
             }
         }
         return result;
     }
 
+    //todo
     @GetMapping("/user/violations")
-    public List<ViolationDTO> getViolationsOfConcretUser(@RequestParam String plateNumber, @RequestParam String vinNumber, @RequestHeader String token) {
-        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+    public List<ViolationDTO> getViolationsOfConcreteUser(@RequestHeader String authorization) {
         List<ViolationDTO> violationDTOS = new ArrayList<>();
-        String email = customUserDetails.getEmail();
+        String email = JwtTokenUtil.getLoginFromToken(authorization);
         OwnerDTO ownerDTO = ownerService.getOwnerByMail(email);
         if (ownerDTO != null) {
             Set<VehicleDTO> vehicleDTOSet = ownerDTO.getVehicleDTOSet();
             for (VehicleDTO vehicleDTO : vehicleDTOSet) {
-                List<ViolationDTO> violationList = getViolationsOfVehicle(token, vehicleDTO);
+                List<ViolationDTO> violationList = getViolationsOfVehicle(authorization, vehicleDTO);
                 violationDTOS.addAll(violationList);
             }
         }

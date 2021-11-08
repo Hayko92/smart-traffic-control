@@ -1,12 +1,15 @@
 package smarttraffic.vehicle_service.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import smarttraffic.vehicle_service.entity.Vehicle;
+import org.springframework.data.jpa.repository.Query;
+import smarttraffic.vehicle_service.entity.OwnerContact;
 
-@Repository
-public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
-    Vehicle getByPlateNumber(String plateNumber);
+import java.util.List;
 
-    Vehicle getByOwnerId(long ownerId);
+
+public interface VehicleRepository extends JpaRepository<OwnerContact, Long> {
+    OwnerContact getByPlateNumber(String plateNumber);
+
+    @Query("from OwnerContact as v")
+    List<OwnerContact> getAll();
 }

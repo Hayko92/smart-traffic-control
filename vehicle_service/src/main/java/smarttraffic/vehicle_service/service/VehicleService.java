@@ -3,6 +3,8 @@ package smarttraffic.vehicle_service.service;
 import org.springframework.stereotype.Service;
 import smarttraffic.vehicle_service.dto.VehicleDTO;
 
+import java.util.List;
+
 @Service
 public interface VehicleService {
     VehicleDTO getByNumber(String number);
@@ -19,4 +21,5 @@ public interface VehicleService {
 
     void save(VehicleDTO vehicle1);
 
+    List<VehicleDTO> getAllVehicles();
 }
