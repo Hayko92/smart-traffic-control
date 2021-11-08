@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import smarttraffic.detectors_analyzer.errorResponseModel.SmartTrafficControlApiError;
-import smarttraffic.detectors_analyzer.errorResponseModel.SmartTrafficControlApiSubError;
-import smarttraffic.detectors_analyzer.exception.SmartTrafficControlException;
+import smarttraffic.vehicle_service.errorResponseModel.SmartTrafficControlApiError;
+import smarttraffic.vehicle_service.errorResponseModel.SmartTrafficControlApiSubError;
+import smarttraffic.vehicle_service.exception.SmartTrafficControlException;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;

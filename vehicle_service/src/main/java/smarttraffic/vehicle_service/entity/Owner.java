@@ -31,7 +31,7 @@ public class Owner {
     private String lastName;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<OwnerContact> vehicles;
+    private Set<Vehicle> vehicles;
 
     @OneToOne
     @JoinColumn(name = "contact_id")
@@ -56,11 +56,11 @@ public class Owner {
         this.points = points;
     }
 
-    public Set<OwnerContact> getVehicles() {
+    public Set<Vehicle> getVehicles() {
         return vehicles;
     }
 
-    public void setVehicles(Set<OwnerContact> vehicleSet) {
+    public void setVehicles(Set<Vehicle> vehicleSet) {
         this.vehicles = vehicleSet;
     }
 
