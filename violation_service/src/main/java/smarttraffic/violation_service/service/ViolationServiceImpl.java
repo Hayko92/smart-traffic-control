@@ -33,9 +33,11 @@ public class ViolationServiceImpl implements ViolationService {
     }
 
     @Override
-    public ViolationDTO getByNumber(String number) {
-        Optional<Violation> violation = violationRepository.findById(number);
-        return violation.map(ViolationMapper::mapToDto).orElse(null);
+    public List<ViolationDTO> getByNumber(String number) {
+        List<Violation> violation = violationRepository.getAllByNumber(number);
+        return violation.stream()
+                .map(ViolationMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface ViolationService {
 
     long save(ViolationDTO violation);
 
-    ViolationDTO getByNumber(String number);
+    List<ViolationDTO> getByNumber(String number);
 
     void delete(ViolationDTO violation);
 
