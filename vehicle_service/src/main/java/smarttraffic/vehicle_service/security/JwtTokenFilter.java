@@ -37,7 +37,7 @@ public class JwtTokenFilter extends GenericFilterBean {
                 User user = new User("trafficControlSystem");
                 user.setEnabled(true);
                 Role role = new Role("SMART_TRAFFIC_CONTROL");
-                role.setAuthorities(Set.of(new Authority("CAN_READ"), new Authority("CAN_WRITE")));
+                role.setAuthorities(Set.of  (new Authority("CAN_READ"), new Authority("CAN_WRITE")));
                 user.addRole(role);
                 CustomUserDetails customUserDetails = new CustomUserDetails(user);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken

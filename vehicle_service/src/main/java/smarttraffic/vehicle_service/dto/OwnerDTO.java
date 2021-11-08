@@ -87,5 +87,4 @@ public class OwnerDTO {
     public void setVehicleDTOSet(Set<VehicleDTO> vehicleDTOSet) {
         this.vehicleDTOSet = vehicleDTOSet;
     }
-
 }

@@ -47,7 +47,7 @@ public class VehicleServiceController {
     }
 
     @GetMapping("/set-status-checked/{id}")
-    public void setStatusCheched(@PathVariable Long id) {
+    public void setStatusChecked(@PathVariable Long id) {
         VehicleDTO vehicle1 = vehicleService.getById(id);
         vehicle1.setChecked(true);
         vehicleService.update(vehicle1);

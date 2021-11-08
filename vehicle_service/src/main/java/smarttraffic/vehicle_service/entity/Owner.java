@@ -98,8 +98,4 @@ public class Owner {
         this.lastName = lastName;
     }
 
-    public int getRedusedPoint() {
-        points--;
-        return points;
-    }
 }

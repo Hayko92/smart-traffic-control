@@ -157,4 +157,8 @@ public class Vehicle {
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
+
+    public void setMark(VehicleMark mark) {
+        this.mark = mark;
+    }
 }
