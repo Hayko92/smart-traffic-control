@@ -1,10 +1,11 @@
 package smarttraffic.violations_analyzer_service.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("ownerContact")
 public class OwnerContactDTO {
-
+@Id
     private long id;
     private String emailAddress;
     private String phoneNumber;

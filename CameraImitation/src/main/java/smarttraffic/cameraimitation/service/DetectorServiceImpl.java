@@ -32,4 +32,5 @@ public class DetectorServiceImpl implements DetectorService {
                 .map(DetectorMapper::mapToDetectorDTO)
                 .collect(Collectors.toList());
     }
+
 }

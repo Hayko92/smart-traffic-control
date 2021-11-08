@@ -1,10 +1,11 @@
 package smarttraffic.violations_analyzer_service.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("vehicleModel")
 public class VehicleModelDTO {
-
+@Id
     private int id;
     private String modelName;
     private VehicleMarkDTO vehicleMark;

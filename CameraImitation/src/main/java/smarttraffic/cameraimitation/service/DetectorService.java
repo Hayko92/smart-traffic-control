@@ -10,4 +10,5 @@ public interface DetectorService {
     DetectorDto getByPlace(String place);
 
     List<DetectorDto> findAll();
+
 }
