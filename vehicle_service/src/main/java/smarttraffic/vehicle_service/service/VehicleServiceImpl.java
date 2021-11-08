@@ -27,19 +27,19 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public void create(VehicleDTO vehicle) {
-        OwnerContact vehicle1 = VehicleMapper.mapToEntity(vehicle);
+        Vehicle vehicle1 = VehicleMapper.mapToEntity(vehicle);
         vehicleRepository.save(vehicle1);
     }
 
     @Override
     public void delete(VehicleDTO vehicle) {
-        OwnerContact vehicleEn = VehicleMapper.mapToEntity(vehicle);
+        Vehicle vehicleEn = VehicleMapper.mapToEntity(vehicle);
         vehicleRepository.delete(vehicleEn);
     }
 
     @Override
     public void update(VehicleDTO vehicle) {
-        OwnerContact vehicleEn = VehicleMapper.mapToEntity(vehicle);
+        Vehicle vehicleEn = VehicleMapper.mapToEntity(vehicle);
         vehicleRepository.save(vehicleEn);
     }
 
@@ -50,7 +50,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDTO getById(long id) {
-        OwnerContact vehicle = vehicleRepository.getById(id);
+        Vehicle vehicle = vehicleRepository.getById(id);
         VehicleDTO vehicleDTO;
         vehicleDTO = VehicleMapper.mapToDto(vehicle);
         return vehicleDTO;
@@ -58,13 +58,13 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public void save(VehicleDTO vehicle1) {
-        OwnerContact vehicle = VehicleMapper.mapToEntity(vehicle1);
+        Vehicle vehicle = VehicleMapper.mapToEntity(vehicle1);
         vehicleRepository.save(vehicle);
     }
 
     @Override
     public List<VehicleDTO> getAllVehicles() {
-        List<OwnerContact> vehicles = vehicleRepository.getAll();
+        List<Vehicle> vehicles = vehicleRepository.getAll();
         return vehicles
                 .stream()
                 .map(VehicleMapper::mapToDto)
