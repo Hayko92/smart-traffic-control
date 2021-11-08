@@ -1,6 +1,5 @@
 package smarttraffic.violations_analyzer_service.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -23,7 +22,6 @@ public class CaptureDTO {
         this.place = place;
         this.instant = instant;
     }
-
 
     public String getPhotoUrl() {
         return photoUrl;

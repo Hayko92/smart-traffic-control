@@ -13,10 +13,8 @@ import java.util.Date;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-
 @PropertySource("classpath:application.properties")
 public final class JwtTokenUtil {
-
 
     static final String secretKey = "smart_traffic_control";
 
@@ -63,4 +61,5 @@ public final class JwtTokenUtil {
         headers.add(AUTHORIZATION, token);
         return headers;
     }
+
 }

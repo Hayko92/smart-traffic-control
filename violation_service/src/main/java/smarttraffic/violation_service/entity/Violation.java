@@ -1,6 +1,8 @@
 package smarttraffic.violation_service.entity;
 
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Objects;
@@ -13,21 +15,27 @@ public class Violation {
     private long id;
 
     @Column(name = "plate_number")
+    @NotNull
     private String number;
 
     @Column(name = "place")
+    @NotNull
     private String place;
 
     @Column(name = "creation_date")
+    @NotNull
     private Instant creationDate;
 
     @Column(name = "price")
+    @NotNull
     private int price;
 
     @Column(name = "type")
+    @NotNull
     private String type;
 
     @Column(name = "photo_url1")
+    @NotNull
     private String photoUrl1;
 
     @Column(name = "photo_url2")

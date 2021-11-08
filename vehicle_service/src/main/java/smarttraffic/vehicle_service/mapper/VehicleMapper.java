@@ -1,13 +1,13 @@
 package smarttraffic.vehicle_service.mapper;
 
 import smarttraffic.vehicle_service.dto.VehicleDTO;
-import smarttraffic.vehicle_service.entity.Vehicle;
+import smarttraffic.vehicle_service.entity.OwnerContact;
 
 public final class VehicleMapper {
     private VehicleMapper() {
     }
 
-    public static VehicleDTO mapToDto(Vehicle vehicle) {
+    public static VehicleDTO mapToDto(OwnerContact vehicle) {
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setId(vehicle.getId());
         vehicleDTO.setVinNumber(vehicle.getVinNumber());
@@ -24,7 +24,7 @@ public final class VehicleMapper {
         return vehicleDTO;
     }
 
-    public static VehicleDTO mapToSimpleDto(Vehicle vehicle) {
+    public static VehicleDTO mapToSimpleDto(OwnerContact vehicle) {
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setId(vehicle.getId());
         vehicleDTO.setVinNumber(vehicle.getVinNumber());
@@ -40,8 +40,8 @@ public final class VehicleMapper {
         return vehicleDTO;
     }
 
-    public static Vehicle mapToEntityWithoutRelations(VehicleDTO vehicle) {
-        Vehicle vehicle1 = new Vehicle();
+    public static OwnerContact mapToEntityWithoutRelations(VehicleDTO vehicle) {
+        OwnerContact vehicle1 = new OwnerContact();
         vehicle1.setId(vehicle.getId());
         vehicle1.setVinNumber(vehicle.getVinNumber());
         vehicle1.setChecked(vehicle.isChecked());
@@ -55,8 +55,8 @@ public final class VehicleMapper {
         return vehicle1;
     }
 
-    public static Vehicle mapToEntity(VehicleDTO vehicle) {
-        Vehicle vehicle1 = new Vehicle();
+    public static OwnerContact mapToEntity(VehicleDTO vehicle) {
+        OwnerContact vehicle1 = new OwnerContact();
         vehicle1.setId(vehicle.getId());
         vehicle1.setVinNumber(vehicle.getVinNumber());
         vehicle1.setChecked(vehicle.isChecked());

@@ -95,4 +95,5 @@ public class OwnerDTO {
         points--;
         return points;
     }
+
 }

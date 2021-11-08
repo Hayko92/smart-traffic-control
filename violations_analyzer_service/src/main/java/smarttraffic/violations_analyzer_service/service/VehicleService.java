@@ -7,5 +7,7 @@ import java.util.List;
 
 @Service
 public interface VehicleService {
+
     void saveAll(List<VehicleDTO> allVehicles);
+
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 @Document("address")
 public class AddressDTO {
+
     private long id;
     private String country;
     private String city;
@@ -92,4 +93,5 @@ public class AddressDTO {
     public void setOwners(Set<OwnerContactDTO> owners) {
         this.owners = owners;
     }
+
 }
