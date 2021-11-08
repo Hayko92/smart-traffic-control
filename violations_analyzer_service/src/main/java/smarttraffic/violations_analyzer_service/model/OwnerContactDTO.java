@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("ownerContact")
 public class OwnerContactDTO {
+
     private long id;
     private String emailAddress;
     private String phoneNumber;
@@ -49,4 +50,5 @@ public class OwnerContactDTO {
     public void setAddressDTO(AddressDTO addressDTO) {
         this.addressDTO = addressDTO;
     }
+
 }

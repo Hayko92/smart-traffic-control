@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 
@@ -17,15 +18,19 @@ public class Vehicle {
     private long id;
 
     @Column(name = "vin_number")
+    @NotNull
     private String vinNumber;
 
     @Column(name = "plate_number")
+    @NotNull
     private String plateNumber;
 
     @Column(name = "horse_power")
+    @NotNull
     private int horsePower;
 
     @Column(name = "color")
+    @NotNull
     private String Color;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

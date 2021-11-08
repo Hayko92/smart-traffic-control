@@ -1,6 +1,5 @@
 package smarttraffic.violations_analyzer_service.security;
 
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -17,6 +16,7 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
+
     public static final String AUTHORIZATION = "Authorization";
 
     public JwtTokenFilter() {
@@ -51,4 +51,5 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return bearer.substring(7);
         } else return bearer;
     }
+
 }

@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("vehicleModel")
 public class VehicleModelDTO {
+
     private int id;
     private String modelName;
     private VehicleMarkDTO vehicleMark;
@@ -39,4 +40,5 @@ public class VehicleModelDTO {
     public void setVehicleMark(VehicleMarkDTO vehicleMark) {
         this.vehicleMark = vehicleMark;
     }
+
 }

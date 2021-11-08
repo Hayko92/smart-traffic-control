@@ -1,6 +1,5 @@
 package smarttraffic.violations_analyzer_service.security;
 
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 public class CustomUserDetails implements UserDetails {
+
     private User user;
     private String login;
     private String password;
@@ -68,4 +67,5 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

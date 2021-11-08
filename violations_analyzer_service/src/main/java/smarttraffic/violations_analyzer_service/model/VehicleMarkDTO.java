@@ -6,6 +6,7 @@ import java.util.Set;
 
 @Document("vehicleMark")
 public class VehicleMarkDTO {
+
     private int id;
     private String markName;
     private Set<VehicleModelDTO> models;
@@ -41,4 +42,5 @@ public class VehicleMarkDTO {
     public void setModels(Set<VehicleModelDTO> models) {
         this.models = models;
     }
+
 }

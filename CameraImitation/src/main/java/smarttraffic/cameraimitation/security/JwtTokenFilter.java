@@ -1,10 +1,12 @@
 package smarttraffic.cameraimitation.security;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import smarttraffic.cameraimitation.exception.SmartTrafficControlException;
 import smarttraffic.cameraimitation.util.JwtTokenUtil;
 
 import javax.servlet.FilterChain;
@@ -25,8 +27,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest servletRequest,
-                                    HttpServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
+                                    HttpServletResponse servletResponse, FilterChain filterChain) {
         logger.info("do filter");
         String token = getTokenFromRequest(servletRequest);
         if (token != null && JwtTokenUtil.validateToken(token)) {
@@ -43,7 +44,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        try {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } catch (IOException | ServletException e) {
+            throw new SmartTrafficControlException(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {

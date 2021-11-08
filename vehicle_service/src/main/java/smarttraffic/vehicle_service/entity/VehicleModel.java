@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @DynamicUpdate
@@ -16,6 +17,7 @@ public class VehicleModel {
     private long id;
 
     @Column(name = "model_name")
+    @NotNull
     private String modelName;
 
 

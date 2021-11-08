@@ -3,6 +3,7 @@ package smarttraffic.violations_analyzer_service.model;
 import java.time.Instant;
 
 public class VehicleSimpleDTO {
+
     private long id;
     private String vinNumber;
     private String plateNumber;
@@ -14,7 +15,6 @@ public class VehicleSimpleDTO {
     private Instant insuranceExpiry;
     private Instant techInspectionExpiry;
     private boolean checked;
-
 
     public VehicleSimpleDTO() {
     }

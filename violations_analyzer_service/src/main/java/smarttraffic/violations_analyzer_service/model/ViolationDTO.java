@@ -6,6 +6,7 @@ import java.time.Instant;
 
 @Document("violation")
 public class ViolationDTO implements Cloneable {
+
     private long id;
     private String number;
     private String place;

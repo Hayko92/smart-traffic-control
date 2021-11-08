@@ -1,6 +1,7 @@
 package smarttraffic.detectors_analyzer.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -12,15 +13,19 @@ public class Capture {
     private int id;
 
     @Column(name = "plate_number")
+    @NotNull
     private String plateNumber;
 
     @Column(name = "place")
+    @NotNull
     private String place;
 
     @Column(name = "time_stamp")
+    @NotNull
     private Instant instant;
 
     @Column(name = "photo_url")
+    @NotNull
     private String photoUrl;
 
 

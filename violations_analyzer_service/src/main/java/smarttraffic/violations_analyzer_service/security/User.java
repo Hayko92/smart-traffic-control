@@ -1,9 +1,7 @@
 package smarttraffic.violations_analyzer_service.security;
 
-
 import java.util.HashSet;
 import java.util.Set;
-
 
 public class User {
 

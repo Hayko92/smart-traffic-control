@@ -3,6 +3,7 @@ package smarttraffic.authentication.entity;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -14,6 +15,7 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @Column(name = "authority")
+    @NotNull
     private String authority;
 
     @ManyToMany(fetch = FetchType.EAGER)

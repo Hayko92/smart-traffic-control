@@ -9,10 +9,12 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import smarttraffic.cameraimitation.dto.CaptureDto;
 import smarttraffic.cameraimitation.dto.DetectorDto;
+import smarttraffic.cameraimitation.exception.SmartTrafficControlException;
 import smarttraffic.cameraimitation.repository.DetectorRepository;
 import smarttraffic.cameraimitation.service.DetectorService;
 import smarttraffic.cameraimitation.util.JwtTokenUtil;
@@ -54,19 +56,23 @@ public class StartService {
     private String s3BucketName;
 
     @GetMapping()
-    public void sendRequest() throws MalformedURLException, InterruptedException, URISyntaxException {
+    public void sendRequest() {
 
         while (true) {
             sendRandomPhotoFromRandomDetector(token);
-            Thread.sleep(3000);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new SmartTrafficControlException(e.getMessage(), HttpStatus.valueOf(500));
+            }
         }
 
     }
 
-    private void sendRandomPhotoFromRandomDetector(String token) throws MalformedURLException, URISyntaxException {
+    private void sendRandomPhotoFromRandomDetector(String token) {
         RestTemplate restTemplate = new RestTemplate();
         DetectorDto randomDetector = getRandomDetector();
-        URL urlLocalFile = getRadnomUrl();
+        URL urlLocalFile = getRandomURL();
         URL uploadedfile = uploadPhotoAndgetURLback(urlLocalFile, randomDetector.getPlace());
         String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(uploadedfile)));
         String plateNumber = NumberExtractor.extract(textFromImage);
@@ -77,7 +83,7 @@ public class StartService {
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.exchange(detectorAnalyzerUrl, HttpMethod.POST, httpEntity, Void.class);
         if (plateNumber == null) {
-            sendNotifocationToPatrol(capture);
+            sendNotificationToPatrol(capture);
         }
     }
 
@@ -92,11 +98,15 @@ public class StartService {
         return detector.getPreviousDetectorsDistance();
     }
 
-    private URL getRadnomUrl() throws MalformedURLException {
-        Random random = new Random();
-        String path = String.format("C:\\Users\\asatr\\OneDrive\\Рабочий стол\\smart_traffic_control_\\CameraImitation\\src\\main\\resources\\CAR_numbers\\%s.jpg", random.nextInt(30));
-        File file = new File(path);
-        return file.toURI().toURL();
+    private URL getRandomURL() {
+        try {
+            Random random = new Random();
+            String path = String.format("C:\\Users\\asatr\\OneDrive\\Рабочий стол\\smart_traffic_control_\\CameraImitation\\src\\main\\resources\\CAR_numbers\\%s.jpg", random.nextInt(30));
+            File file = new File(path);
+            return file.toURI().toURL();
+        } catch (MalformedURLException e) {
+            throw new SmartTrafficControlException(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     private DetectorDto getRandomDetector() {
@@ -105,20 +115,23 @@ public class StartService {
         return detectors.get(random.nextInt(detectors.size()));
     }
 
-    private void sendNotifocationToPatrol(CaptureDto capture) {
+    private void sendNotificationToPatrol(CaptureDto capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<CaptureDto> httpEntity = new HttpEntity<>(capture, headers);
         restTemplate.postForLocation(notifierServiceUrl + "/patrol", httpEntity);
     }
 
-    private URL uploadPhotoAndgetURLback(URL url, String place) throws URISyntaxException {
-        File file = Paths.get(url.toURI()).toFile();
-        String fileName = place + "-" + Instant.now().plus(4, ChronoUnit.HOURS).truncatedTo(ChronoUnit.MILLIS) + ".jpg";
-        final PutObjectRequest putObjectRequest = new PutObjectRequest(s3BucketName, fileName, file);
-        amazonS3.putObject(putObjectRequest);
-        URL s3Url = amazonS3.getUrl(s3BucketName, fileName);
-        return s3Url;
+    private URL uploadPhotoAndgetURLback(URL url, String place) {
+        try {
+            File file = null;
+            file = Paths.get(url.toURI()).toFile();
+            String fileName = place + "-" + Instant.now().plus(4, ChronoUnit.HOURS).truncatedTo(ChronoUnit.MILLIS) + ".jpg";
+            final PutObjectRequest putObjectRequest = new PutObjectRequest(s3BucketName, fileName, file);
+            amazonS3.putObject(putObjectRequest);
+            return amazonS3.getUrl(s3BucketName, fileName);
+        } catch (URISyntaxException e) {
+            throw new SmartTrafficControlException(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
-
 }

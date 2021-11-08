@@ -3,6 +3,7 @@ package smarttraffic.vehicle_service.entity;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -15,18 +16,23 @@ public class Address {
     private long id;
 
     @Column(name = "country")
+    @NotNull
     private String country;
 
     @Column(name = "city")
+    @NotNull
     private String city;
 
     @Column(name = "street")
+    @NotNull
     private String street;
 
     @Column(name = "building")
+    @NotNull
     private String building;
 
     @Column(name = "zip_code")
+    @NotNull
     private int zipCode;
 
     @OneToMany(mappedBy = "address")

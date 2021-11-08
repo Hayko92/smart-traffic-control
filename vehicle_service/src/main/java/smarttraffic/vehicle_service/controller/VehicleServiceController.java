@@ -39,7 +39,7 @@ public class VehicleServiceController {
     }
 
     @GetMapping("/all")
-    public List<VehicleDTO> sendAllVehicled( @RequestHeader(name = "AUTHORIZATION") String token) {
+    public List<VehicleDTO> sendAllVehicled(@RequestHeader(name = "AUTHORIZATION") String token) {
         return vehicleService.getAllVehicles();
 
     }

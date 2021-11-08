@@ -6,6 +6,7 @@ import java.time.Instant;
 
 @Document("vehicle")
 public class VehicleDTO {
+
     private long id;
     private String vinNumber;
     private String plateNumber;
@@ -132,4 +133,5 @@ public class VehicleDTO {
     public void setOwner(OwnerDTO owner) {
         this.owner = owner;
     }
+
 }
