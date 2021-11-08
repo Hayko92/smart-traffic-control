@@ -1,25 +1,18 @@
 package smarttraffic.vehicle_service.entity;
 
-import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 
 @Entity
-@DynamicUpdate
-@Table(name = "owner_contact")
+@Table(name = "ownerContact")
 public class OwnerContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "email_address")
-    @Email
     private String emailAddress;
 
     @Column(name = "phone_number")
-    @NotNull
     private String phoneNumber;
 
     @ManyToOne
