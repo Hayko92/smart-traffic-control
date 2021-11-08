@@ -7,10 +7,10 @@ public final class HTMLCreator {
     }
 
     public static String createSpeedViolationBlank(Map<String, String> info) {
-        return String.format("Dear Mr/Mrs %s, You have a you violation\n" +
+        return String.format("Dear Mr/Mrs %s, You have a new violation\n" +
                         "Violation ID: %s\n" +
                         "Violation type: %s,\n" +
-                        "Vehicle platenumber: %s\n" +
+                        "Vehicle plate number: %s\n" +
                         "Violation place: %s\n" +
                         "Violation time: %s\n" +
                         "Vehicle mark: %s\n" +
