@@ -4,18 +4,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("ownerContact")
-public class OwnerContactDTO {
-@Id
+public class OwnerContact {
+    @Id
     private long id;
     private String emailAddress;
     private String phoneNumber;
-    private AddressDTO addressDTO;
+    private Address addressDTO;
 
-    public OwnerContactDTO() {
+    public OwnerContact() {
 
     }
 
-    public OwnerContactDTO(String emailAddress, String phoneNumber) {
+    public OwnerContact(String emailAddress, String phoneNumber) {
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
     }
@@ -44,11 +44,11 @@ public class OwnerContactDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public AddressDTO getAddressDTO() {
+    public Address getAddressDTO() {
         return addressDTO;
     }
 
-    public void setAddressDTO(AddressDTO addressDTO) {
+    public void setAddressDTO(Address addressDTO) {
         this.addressDTO = addressDTO;
     }
 

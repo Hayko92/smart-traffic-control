@@ -3,7 +3,6 @@ package smarttraffic.vehicle_service.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import smarttraffic.vehicle_service.dto.VehicleDTO;
-import smarttraffic.vehicle_service.entity.OwnerContact;
 import smarttraffic.vehicle_service.entity.Vehicle;
 import smarttraffic.vehicle_service.mapper.VehicleMapper;
 import smarttraffic.vehicle_service.repository.VehicleRepository;

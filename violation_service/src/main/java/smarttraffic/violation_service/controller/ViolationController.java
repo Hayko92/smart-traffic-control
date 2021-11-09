@@ -39,6 +39,11 @@ public class ViolationController {
     @Autowired
     private ViolationService violationService;
 
+    @GetMapping("/all")
+    public List<ViolationDTO> getAllViolations(@RequestHeader(name = "AUTHORIZATION") String token) {
+        return violationService.findAll();
+    }
+
     @PostMapping("/speed")
     public void createSpeedViolationDTO(@RequestBody Map<String, Integer> info, @RequestHeader(name = "AUTHORIZATION") String token) {
         RestTemplate restTemplate = new RestTemplate();

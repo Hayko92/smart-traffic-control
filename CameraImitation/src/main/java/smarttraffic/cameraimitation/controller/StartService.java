@@ -91,8 +91,9 @@ public class StartService {
     public DetectorDto getDetector(@PathVariable String detectorPlace, @RequestHeader(name = "AUTHORIZATION") String token) {
         return detectorService.getByPlace(detectorPlace);
     }
+
     @GetMapping("/all")
-    public List<DetectorDto> getAllDetectors( @RequestHeader(name = "AUTHORIZATION") String token) {
+    public List<DetectorDto> getAllDetectors(@RequestHeader(name = "AUTHORIZATION") String token) {
         return detectorService.findAll();
     }
 

@@ -6,26 +6,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 
 @Document("vehicle")
-public class VehicleDTO {
-@Id
+public class Vehicle {
+    @Id
     private long id;
     private String vinNumber;
     private String plateNumber;
     private int horsePower;
     private String Color;
-    private VehicleMarkDTO mark;
-    private VehicleModelDTO model;
+    private VehicleMark mark;
+    private VehicleModel model;
     private int productionYear;
     private Instant insuranceExpiry;
     private Instant techInspectionExpiry;
     private boolean checked;
-    private OwnerDTO owner;
+    private Owner owner;
 
-    public VehicleDTO() {
+    public Vehicle() {
     }
 
-    public VehicleDTO(String vinNumber, String plateNumber, int horsePower, String color, VehicleMarkDTO mark, VehicleModelDTO model,
-                      int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, OwnerDTO owner) {
+    public Vehicle(String vinNumber, String plateNumber, int horsePower, String color, VehicleMark mark, VehicleModel model,
+                   int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, Owner owner) {
         this.vinNumber = vinNumber;
         this.plateNumber = plateNumber;
         this.horsePower = horsePower;
@@ -79,19 +79,19 @@ public class VehicleDTO {
         Color = color;
     }
 
-    public VehicleMarkDTO getMark() {
+    public VehicleMark getMark() {
         return mark;
     }
 
-    public void setMark(VehicleMarkDTO mark) {
+    public void setMark(VehicleMark mark) {
         this.mark = mark;
     }
 
-    public VehicleModelDTO getModel() {
+    public VehicleModel getModel() {
         return model;
     }
 
-    public void setModel(VehicleModelDTO model) {
+    public void setModel(VehicleModel model) {
         this.model = model;
     }
 
@@ -127,11 +127,11 @@ public class VehicleDTO {
         this.checked = checked;
     }
 
-    public OwnerDTO getOwner() {
+    public Owner getOwner() {
         return owner;
     }
 
-    public void setOwner(OwnerDTO owner) {
+    public void setOwner(Owner owner) {
         this.owner = owner;
     }
 

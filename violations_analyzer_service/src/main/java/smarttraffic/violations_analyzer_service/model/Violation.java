@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 
 @Document("violation")
-public class ViolationDTO implements Cloneable {
-@Id
+public class Violation implements Cloneable {
+    @Id
     private long id;
     private String number;
     private String place;
@@ -16,13 +16,13 @@ public class ViolationDTO implements Cloneable {
     private String type;
     private String photoUrl1;
     private String photoUrl2;
-    private OwnerDTO owner;
-    private VehicleDTO vehicle;
+    private Owner owner;
+    private Vehicle vehicle;
 
-    public ViolationDTO() {
+    public Violation() {
     }
 
-    public ViolationDTO(String number, String place, Instant creationDate, int price, String type, String photoUrl1, String photoUrl2, OwnerDTO owner, VehicleDTO vehicle) {
+    public Violation(String number, String place, Instant creationDate, int price, String type, String photoUrl1, String photoUrl2, Owner owner, Vehicle vehicle) {
         this.number = number;
         this.place = place;
         this.creationDate = creationDate;
@@ -34,7 +34,7 @@ public class ViolationDTO implements Cloneable {
         this.vehicle = vehicle;
     }
 
-    public ViolationDTO(String type) {
+    public Violation(String type) {
         this.type = type;
     }
 
@@ -102,19 +102,19 @@ public class ViolationDTO implements Cloneable {
         this.photoUrl2 = photoUrl2;
     }
 
-    public OwnerDTO getOwner() {
+    public Owner getOwner() {
         return owner;
     }
 
-    public void setOwner(OwnerDTO owner) {
+    public void setOwner(Owner owner) {
         this.owner = owner;
     }
 
-    public VehicleDTO getVehicle() {
+    public Vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(VehicleDTO vehicle) {
+    public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
 
