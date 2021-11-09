@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import smarttraffic.violation_service.errorResponseModel.SmartTrafficControlApiError;
 import smarttraffic.violation_service.errorResponseModel.SmartTrafficControlApiSubError;
 import smarttraffic.violation_service.exception.SmartTrafficControlException;

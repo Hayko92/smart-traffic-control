@@ -6,16 +6,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 @Document("vehicleMark")
-public class VehicleMarkDTO {
-@Id
+public class VehicleMark {
+    @Id
     private int id;
     private String markName;
-    private Set<VehicleModelDTO> models;
+    private Set<VehicleModel> models;
 
-    public VehicleMarkDTO() {
+    public VehicleMark() {
     }
 
-    public VehicleMarkDTO(String markName, Set<VehicleModelDTO> models) {
+    public VehicleMark(String markName, Set<VehicleModel> models) {
         this.markName = markName;
         this.models = models;
     }
@@ -36,11 +36,11 @@ public class VehicleMarkDTO {
         this.markName = markName;
     }
 
-    public Set<VehicleModelDTO> getModels() {
+    public Set<VehicleModel> getModels() {
         return models;
     }
 
-    public void setModels(Set<VehicleModelDTO> models) {
+    public void setModels(Set<VehicleModel> models) {
         this.models = models;
     }
 

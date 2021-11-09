@@ -18,4 +18,6 @@ public interface ViolationService {
     List<ViolationDTO> getAllByNumber(String number);
 
     List<ViolationDTO> getAllByOwnerID(Long ownerID);
+
+    List<ViolationDTO> findAll();
 }

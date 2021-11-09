@@ -2,25 +2,25 @@ package smarttraffic.violations_analyzer_service.model;
 
 import java.time.Instant;
 
-public class VehicleSimpleDTO {
+public class VehicleSimple {
 
     private long id;
     private String vinNumber;
     private String plateNumber;
     private int horsePower;
     private String Color;
-    private VehicleMarkDTO mark;
-    private VehicleModelDTO model;
+    private VehicleMark mark;
+    private VehicleModel model;
     private int productionYear;
     private Instant insuranceExpiry;
     private Instant techInspectionExpiry;
     private boolean checked;
 
-    public VehicleSimpleDTO() {
+    public VehicleSimple() {
     }
 
-    public VehicleSimpleDTO(String vinNumber, String plateNumber, int horsePower, String color, VehicleMarkDTO mark, VehicleModelDTO model,
-                            int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, OwnerDTO owner) {
+    public VehicleSimple(String vinNumber, String plateNumber, int horsePower, String color, VehicleMark mark, VehicleModel model,
+                         int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, Owner owner) {
         this.vinNumber = vinNumber;
         this.plateNumber = plateNumber;
         this.horsePower = horsePower;
@@ -74,19 +74,19 @@ public class VehicleSimpleDTO {
         Color = color;
     }
 
-    public VehicleMarkDTO getMark() {
+    public VehicleMark getMark() {
         return mark;
     }
 
-    public void setMark(VehicleMarkDTO mark) {
+    public void setMark(VehicleMark mark) {
         this.mark = mark;
     }
 
-    public VehicleModelDTO getModel() {
+    public VehicleModel getModel() {
         return model;
     }
 
-    public void setModel(VehicleModelDTO model) {
+    public void setModel(VehicleModel model) {
         this.model = model;
     }
 

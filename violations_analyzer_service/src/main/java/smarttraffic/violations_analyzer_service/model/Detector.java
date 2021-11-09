@@ -2,18 +2,18 @@ package smarttraffic.violations_analyzer_service.model;
 
 import java.util.Map;
 
-public class DetectorDto {
+public class Detector {
     private int id;
     private String place;
     private Map<String, Integer> previousDetectorsDistance;
 
-    public DetectorDto(int id, String place, Map<String, Integer> previousDetectorsDistance) {
+    public Detector(int id, String place, Map<String, Integer> previousDetectorsDistance) {
         this.id = id;
         this.place = place;
         this.previousDetectorsDistance = previousDetectorsDistance;
     }
 
-    public DetectorDto() {
+    public Detector() {
     }
 
     public int getId() {

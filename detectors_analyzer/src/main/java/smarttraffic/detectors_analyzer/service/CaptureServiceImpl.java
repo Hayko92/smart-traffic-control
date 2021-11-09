@@ -7,6 +7,9 @@ import smarttraffic.detectors_analyzer.entity.Capture;
 import smarttraffic.detectors_analyzer.repository.CaptureRepository;
 import smarttraffic.detectors_analyzer.util.CaptureMapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CaptureServiceImpl implements CaptureService {
     @Autowired
@@ -24,6 +27,14 @@ public class CaptureServiceImpl implements CaptureService {
         Capture capture = captureRepository.findFirstByPlaceAndPlateNumberOrderByIdDesc(place, platenumber);
         if (capture != null) return CaptureMapper.maptoDTO(capture);
         else return null;
+    }
+
+    @Override
+    public List<CaptureDTO> findAll() {
+        return captureRepository.findAll()
+                .stream()
+                .map(CaptureMapper::maptoDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
