@@ -81,7 +81,7 @@ public class ViolationsAnalyzerController {
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
-                .contentLength(file.length()) //
+                .contentLength(file.length())
                 .body(resource);
     }
 
