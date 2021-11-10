@@ -11,14 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class ViolationMapperTest {
 
+    Violation violation;
+    ViolationDTO violationDTO;
+
     @Test
     void checkMapToDTO() {
-
-        Violation violation = new Violation();
-        violation.setNumber("test");
-        ViolationDTO violationDTO = new ViolationDTO();
+        String vehiclePlateNumber = "01AM123";
+        violation.setNumber(vehiclePlateNumber);
         violationDTO.setNumber(violation.getNumber());
-
         assertThat(violationDTO.getNumber()).isEqualTo(violation.getNumber());
 
     }
