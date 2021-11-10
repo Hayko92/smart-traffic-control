@@ -3,13 +3,20 @@ package smarttraffic.violations_analyzer_service.service;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import smarttraffic.violations_analyzer_service.model.Capture;
 import smarttraffic.violations_analyzer_service.model.Detector;
 import smarttraffic.violations_analyzer_service.model.Violation;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +41,9 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
     }
 
     @Override
-    public Document startAnalyze(Instant from, Instant to) throws FileNotFoundException, DocumentException {
-        Document document = openDocument();
+    public Path startAnalyze(Instant from, Instant to) throws FileNotFoundException, DocumentException {
+        Path path = Paths.get("violations_analyzer_service/src/main/resources/analyze.pdf");
+        Document document = openDocument(path.toAbsolutePath());
         Font font = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
         List<Violation> violations = getViolations(from, to);
         List<Capture> captures = getCaptures(from, to);
@@ -52,7 +60,7 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
         addTextToDocument("=============analyze results per detectors==========", document, font);
         startAnalyzeByDetectors(document, font, captures, detectors, violations);
         document.close();
-        return document;
+       return path;
 
     }
 
@@ -77,7 +85,14 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
             addTextToDocument(String.format("Percent of TECH type violations: %s %%", getViolationPercentByTyoe("TECH", violationsOfConcretDetector)), document, font);
         }
     }
-
+    public ResponseEntity<InputStreamResource> downloadAnalyzeResult(Path path) throws FileNotFoundException {
+        File file = path.toFile();
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .contentLength(file.length()) //
+                .body(resource);
+    }
     private double getPercentOfViolationsIncaptures(List<Capture> captures, List<Violation> violations) {
         double res = 0;
         if (captures != null && violations != null) {
@@ -102,9 +117,9 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
         return Math.floor(res * 100) / 100;
     }
 
-    private Document openDocument() throws FileNotFoundException, DocumentException {
+    private Document openDocument(Path path) throws FileNotFoundException, DocumentException {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("analyze.pdf"));
+        PdfWriter.getInstance(document, new FileOutputStream(path.toFile()));
         document.open();
         return document;
     }
