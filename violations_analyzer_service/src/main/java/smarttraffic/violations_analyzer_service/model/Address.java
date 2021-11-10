@@ -1,12 +1,13 @@
 package smarttraffic.violations_analyzer_service.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Set;
 
 @Document("address")
-public class AddressDTO {
-
+public class Address {
+    @Id
     private long id;
     private String country;
     private String city;
@@ -14,9 +15,9 @@ public class AddressDTO {
     private String building;
     private String apartment;
     private int zipCode;
-    private Set<OwnerContactDTO> owners;
+    private Set<OwnerContact> owners;
 
-    public AddressDTO(String country, String city, String street, String building, String apartment, int zipCode, Set<OwnerContactDTO> owners) {
+    public Address(String country, String city, String street, String building, String apartment, int zipCode, Set<OwnerContact> owners) {
         this.country = country;
         this.city = city;
         this.street = street;
@@ -27,7 +28,7 @@ public class AddressDTO {
 
     }
 
-    public AddressDTO() {
+    public Address() {
     }
 
     public long getId() {
@@ -86,11 +87,11 @@ public class AddressDTO {
         this.zipCode = zipCode;
     }
 
-    public Set<OwnerContactDTO> getOwners() {
+    public Set<OwnerContact> getOwners() {
         return owners;
     }
 
-    public void setOwners(Set<OwnerContactDTO> owners) {
+    public void setOwners(Set<OwnerContact> owners) {
         this.owners = owners;
     }
 

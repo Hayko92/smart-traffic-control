@@ -1,25 +1,26 @@
 package smarttraffic.violations_analyzer_service.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Set;
 
 @Document("owner")
-public class OwnerDTO {
-
+public class Owner {
+    @Id
     private long id;
     private String idNumber;
     private String licenseNumber;
     private String firstName;
     private String lastName;
     private int points;
-    private OwnerContactDTO ownerContactDTO;
-    private Set<VehicleDTO> vehicleDTOSet;
+    private OwnerContact ownerContactDTO;
+    private Set<Vehicle> vehicleDTOSet;
 
-    public OwnerDTO() {
+    public Owner() {
     }
 
-    public OwnerDTO(String idNumber, String licenseNumber, String firstName, String lastName, int points) {
+    public Owner(String idNumber, String licenseNumber, String firstName, String lastName, int points) {
         this.idNumber = idNumber;
         this.licenseNumber = licenseNumber;
         this.firstName = firstName;
@@ -75,19 +76,19 @@ public class OwnerDTO {
         this.points = points;
     }
 
-    public OwnerContactDTO getOwnerContactDTO() {
+    public OwnerContact getOwnerContactDTO() {
         return ownerContactDTO;
     }
 
-    public void setOwnerContactDTO(OwnerContactDTO ownerContactDTO) {
+    public void setOwnerContactDTO(OwnerContact ownerContactDTO) {
         this.ownerContactDTO = ownerContactDTO;
     }
 
-    public Set<VehicleDTO> getVehicleDTOSet() {
+    public Set<Vehicle> getVehicleDTOSet() {
         return vehicleDTOSet;
     }
 
-    public void setVehicleDTOSet(Set<VehicleDTO> vehicleDTOSet) {
+    public void setVehicleDTOSet(Set<Vehicle> vehicleDTOSet) {
         this.vehicleDTOSet = vehicleDTOSet;
     }
 

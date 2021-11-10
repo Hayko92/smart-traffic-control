@@ -1,26 +1,31 @@
 package smarttraffic.violations_analyzer_service.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.Instant;
 
-public class VehicleSimpleDTO {
-
+@Document("vehicle")
+public class Vehicle {
+    @Id
     private long id;
     private String vinNumber;
     private String plateNumber;
     private int horsePower;
     private String Color;
-    private VehicleMarkDTO mark;
-    private VehicleModelDTO model;
+    private VehicleMark mark;
+    private VehicleModel model;
     private int productionYear;
     private Instant insuranceExpiry;
     private Instant techInspectionExpiry;
     private boolean checked;
+    private Owner owner;
 
-    public VehicleSimpleDTO() {
+    public Vehicle() {
     }
 
-    public VehicleSimpleDTO(String vinNumber, String plateNumber, int horsePower, String color, VehicleMarkDTO mark, VehicleModelDTO model,
-                            int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, OwnerDTO owner) {
+    public Vehicle(String vinNumber, String plateNumber, int horsePower, String color, VehicleMark mark, VehicleModel model,
+                   int productionYear, Instant insuranceExpiry, Instant techInspectionExpiry, boolean checked, Owner owner) {
         this.vinNumber = vinNumber;
         this.plateNumber = plateNumber;
         this.horsePower = horsePower;
@@ -31,7 +36,7 @@ public class VehicleSimpleDTO {
         this.insuranceExpiry = insuranceExpiry;
         this.techInspectionExpiry = techInspectionExpiry;
         this.checked = checked;
-
+        this.owner = owner;
     }
 
     public long getId() {
@@ -74,19 +79,19 @@ public class VehicleSimpleDTO {
         Color = color;
     }
 
-    public VehicleMarkDTO getMark() {
+    public VehicleMark getMark() {
         return mark;
     }
 
-    public void setMark(VehicleMarkDTO mark) {
+    public void setMark(VehicleMark mark) {
         this.mark = mark;
     }
 
-    public VehicleModelDTO getModel() {
+    public VehicleModel getModel() {
         return model;
     }
 
-    public void setModel(VehicleModelDTO model) {
+    public void setModel(VehicleModel model) {
         this.model = model;
     }
 
@@ -120,6 +125,14 @@ public class VehicleSimpleDTO {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 
 }

@@ -1,27 +1,31 @@
 package smarttraffic.violations_analyzer_service.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.Instant;
 
-@Document("capture")
-public class CaptureDTO {
+public class Capture {
 
     private int id;
+
     private String plateNumber;
+
     private String place;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private Instant instant;
+
     private String photoUrl;
 
-    public CaptureDTO() {
+    public Capture() {
     }
 
-    public CaptureDTO(String plateNumber, String photoUrl, String place, Instant instant) {
+    public Capture(String plateNumber, String photoUrl, String place, Instant instant) {
         this.plateNumber = plateNumber;
         this.photoUrl = photoUrl;
         this.place = place;
         this.instant = instant;
     }
+
 
     public String getPhotoUrl() {
         return photoUrl;

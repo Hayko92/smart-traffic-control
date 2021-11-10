@@ -8,7 +8,6 @@ import smarttraffic.violation_service.mapper.ViolationMapper;
 import smarttraffic.violation_service.repository.ViolationRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +32,11 @@ public class ViolationServiceImpl implements ViolationService {
     }
 
     @Override
-    public ViolationDTO getByNumber(String number) {
-        Optional<Violation> violation = violationRepository.findById(number);
-        return violation.map(ViolationMapper::mapToDto).orElse(null);
+    public List<ViolationDTO> getByNumber(String number) {
+        List<Violation> violation = violationRepository.getAllByNumber(number);
+        return violation.stream()
+                .map(ViolationMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -57,6 +58,14 @@ public class ViolationServiceImpl implements ViolationService {
     public List<ViolationDTO> getAllByOwnerID(Long ownerID) {
         List<Violation> violationList = violationRepository.getAllByOwnerId(ownerID);
         return violationList
+                .stream()
+                .map(ViolationMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ViolationDTO> findAll() {
+        return violationRepository.findAll()
                 .stream()
                 .map(ViolationMapper::mapToDto)
                 .collect(Collectors.toList());

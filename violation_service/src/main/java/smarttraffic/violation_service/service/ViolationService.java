@@ -11,11 +11,13 @@ public interface ViolationService {
 
     long save(ViolationDTO violation);
 
-    ViolationDTO getByNumber(String number);
+    List<ViolationDTO> getByNumber(String number);
 
     void delete(ViolationDTO violation);
 
     List<ViolationDTO> getAllByNumber(String number);
 
     List<ViolationDTO> getAllByOwnerID(Long ownerID);
+
+    List<ViolationDTO> findAll();
 }

@@ -15,6 +15,7 @@ import smarttraffic.detectors_analyzer.service.VehicleService;
 import smarttraffic.detectors_analyzer.util.JwtTokenUtil;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,6 +33,11 @@ public class DetectorController {
     private String notifierServiceUrl;
     @Value("${vehicleService}")
     private String vehicleServiceUrl;
+
+    @GetMapping("/all")
+    public List<CaptureDTO> getAllDetectors(@RequestHeader(name = "AUTHORIZATION") String token) {
+        return captureService.findAll();
+    }
 
     @GetMapping("/capture/{id}")
     public CaptureDTO sendCapture(@PathVariable String id) {
