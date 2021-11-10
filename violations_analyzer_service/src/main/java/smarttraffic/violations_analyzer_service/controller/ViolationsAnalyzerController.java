@@ -55,7 +55,7 @@ public class ViolationsAnalyzerController {
     @GetMapping("/all_time")
     public void collectdata(@RequestHeader(name = "AUTHORIZATION") String token,
                             @RequestParam(required = false) Instant from,
-                            @RequestParam(required = false) Instant to) throws FileNotFoundException {
+                            @RequestParam(required = false) Instant to) throws FileNotFoundException, DocumentException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity httpEntity = new HttpEntity(headers);
