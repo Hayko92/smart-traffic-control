@@ -3,6 +3,7 @@ package smarttraffic.violations_analyzer_service.model;
 import java.util.Map;
 
 public class Detector {
+
     private int id;
     private String place;
     private Map<String, Integer> previousDetectorsDistance;
@@ -39,4 +40,5 @@ public class Detector {
     public void setPreviousDetectorsDistance(Map<String, Integer> previousDetectorsDistance) {
         this.previousDetectorsDistance = previousDetectorsDistance;
     }
+
 }

@@ -9,9 +9,11 @@ import java.util.List;
 
 @Repository
 public interface ViolationRepository extends MongoRepository<Violation, Long> {
+
     List<Violation> findAllByCreationDateBetween(Instant from, Instant to);
 
     List<Violation> findAllByCreationDateAfter(Instant from);
 
     List<Violation> findAllByCreationDateBefore(Instant to);
+
 }

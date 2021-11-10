@@ -7,6 +7,7 @@ import java.time.Instant;
 
 @Document("vehicle")
 public class Vehicle {
+
     @Id
     private long id;
     private String vinNumber;

@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("vehicleModel")
 public class VehicleModel {
+
     @Id
     private int id;
     private String modelName;

@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CaptureRepository extends MongoRepository<Capture, Long> {
+
     List<Capture> findAllByInstantBetween(Instant from, Instant to);
 
     List<Capture> findAllByInstantAfter(Instant from);

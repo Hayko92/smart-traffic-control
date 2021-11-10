@@ -7,11 +7,12 @@ plugins {
 
 group = 'smart-traffic'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '13'
 
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.6'

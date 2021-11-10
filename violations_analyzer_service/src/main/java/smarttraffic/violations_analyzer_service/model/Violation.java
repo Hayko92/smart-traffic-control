@@ -7,6 +7,7 @@ import java.time.Instant;
 
 @Document("violation")
 public class Violation implements Cloneable {
+
     @Id
     private long id;
     private String number;

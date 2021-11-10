@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService {
@@ -33,9 +34,9 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
     }
 
     @Override
-    public void startAnalyze(Instant from, Instant to) throws FileNotFoundException, DocumentException {
+    public Document startAnalyze(Instant from, Instant to) throws FileNotFoundException, DocumentException {
         Document document = openDocument();
-        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+        Font font = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
         List<Violation> violations = getViolations(from, to);
         List<Capture> captures = getCaptures(from, to);
         List<Detector> detectors = getDetectors();
@@ -45,7 +46,35 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
         addTextToDocument(String.format("Count of violations: %s", violations.size()), document, font);
         addTextToDocument("====================================================", document, font);
         addTextToDocument(String.format("Percent of violations in captures: %s %%", getPercentOfViolationsIncaptures(captures, violations)), document, font);
+        addTextToDocument(String.format("Percent of SPEED type violations: %s", getViolationPercentByTyoe("SPEED", violations)), document, font);
+        addTextToDocument(String.format("Percent of INS type violations: %s", getViolationPercentByTyoe("INS", violations)), document, font);
+        addTextToDocument(String.format("Percent of TECH type violations: %s", getViolationPercentByTyoe("TECH", violations)), document, font);
+        addTextToDocument("=============analyze results per detectors==========", document, font);
+        startAnalyzeByDetectors(document, font, captures, detectors, violations);
         document.close();
+        return document;
+
+    }
+    private void startAnalyzeByDetectors(Document document, Font font, List<Capture> captures, List<Detector> detectors, List<Violation> violations) throws DocumentException {
+
+        for (Detector detector : detectors) {
+            List<Capture> capturesOfConcretDetector = captures
+                    .stream()
+                    .filter(e -> e.getPlace().equals(detector.getPlace()))
+                    .collect(Collectors.toList());
+            List<Violation> violationsOfConcretDetector = violations
+                    .stream()
+                    .filter(e -> e.getPlace().equals(detector.getPlace()))
+                    .collect(Collectors.toList());
+            addTextToDocument(String.format("============-detectors place : %s==========", detector.getPlace()), document, font);
+            addTextToDocument(String.format("Count of captures: %s", capturesOfConcretDetector.size()), document, font);
+            addTextToDocument(String.format("Count of violations: %s", violationsOfConcretDetector.size()), document, font);
+            addTextToDocument("====================================================", document, font);
+            addTextToDocument(String.format("Percent of violations in captures: %s %%", getPercentOfViolationsIncaptures(capturesOfConcretDetector, violationsOfConcretDetector)), document, font);
+            addTextToDocument(String.format("Percent of SPEED type violations: %s", getViolationPercentByTyoe("SPEED", violationsOfConcretDetector)), document, font);
+            addTextToDocument(String.format("Percent of INS type violations: %s", getViolationPercentByTyoe("INS", violationsOfConcretDetector)), document, font);
+            addTextToDocument(String.format("Percent of TECH type violations: %s", getViolationPercentByTyoe("TECH", violationsOfConcretDetector)), document, font);
+        }
     }
 
     private double getPercentOfViolationsIncaptures(List<Capture> captures, List<Violation> violations) {
@@ -64,6 +93,12 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
         return captureService.setCaptures(from, to);
     }
 
+    private double getViolationPercentByTyoe(String type, List<Violation> violations) {
+        long count = violations.stream()
+                .filter(e -> e.getType().equals(type)).count();
+        return (double) count * 100 / violations.size();
+    }
+
     private Document openDocument() throws FileNotFoundException, DocumentException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("analyze.pdf"));
@@ -80,4 +115,5 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
     private List<Violation> getViolations(Instant from, Instant to) {
         return violationService.getViolations(from, to);
     }
+
 }
