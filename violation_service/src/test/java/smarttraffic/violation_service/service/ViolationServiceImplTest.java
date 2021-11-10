@@ -21,18 +21,19 @@ public class ViolationServiceImplTest {
 
     @Test
     void checkGetByNumber() {
+        String vehiclePlateNumber = "01AM123";
         Violation violation = new Violation();
-        violation.setNumber("01AM123");
+        violation.setNumber(vehiclePlateNumber);
         violation.setType("INS");
         violation.setId(1234567L);
         violation.setCreationDate(Instant.now());
         violation.setPhotoUrl1("testUrl1");
         violation.setPlace("Arshakunyac");
         violation.setPrice(20000);
-        if ((violationServiceImpl.getByNumber("01AM123")) == null) {
+        if ((violationServiceImpl.getByNumber(vehiclePlateNumber)) == null) {
             violationRepository.save(violation);
-            violationServiceImpl.getByNumber("01AM123");
+            violationServiceImpl.getByNumber(vehiclePlateNumber);
         }
-        assertThat(violationServiceImpl.getByNumber("01AM123")).isNotNull();
+        assertThat(violationServiceImpl.getByNumber(vehiclePlateNumber)).isNotNull();
     }
 }
