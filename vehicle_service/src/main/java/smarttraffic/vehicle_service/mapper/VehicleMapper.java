@@ -1,7 +1,6 @@
 package smarttraffic.vehicle_service.mapper;
 
 import smarttraffic.vehicle_service.dto.VehicleDTO;
-import smarttraffic.vehicle_service.entity.OwnerContact;
 import smarttraffic.vehicle_service.entity.Vehicle;
 
 public final class VehicleMapper {
