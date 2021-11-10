@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("ownerContact")
 public class OwnerContact {
+
     @Id
     private long id;
     private String emailAddress;

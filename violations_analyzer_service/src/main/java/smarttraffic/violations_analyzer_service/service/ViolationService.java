@@ -8,7 +8,9 @@ import java.util.List;
 
 @Service
 public interface ViolationService {
+
     void saveAll(List<Violation> violations);
 
     List<Violation> getViolations(Instant from, Instant to);
+
 }

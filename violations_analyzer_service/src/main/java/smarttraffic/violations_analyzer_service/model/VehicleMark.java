@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Document("vehicleMark")
 public class VehicleMark {
+
     @Id
     private int id;
     private String markName;

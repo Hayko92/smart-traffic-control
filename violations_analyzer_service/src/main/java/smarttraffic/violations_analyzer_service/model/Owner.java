@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Document("owner")
 public class Owner {
+
     @Id
     private long id;
     private String idNumber;

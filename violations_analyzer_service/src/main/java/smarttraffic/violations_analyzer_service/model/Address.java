@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Document("address")
 public class Address {
+
     @Id
     private long id;
     private String country;

@@ -26,7 +26,6 @@ public class Capture {
         this.instant = instant;
     }
 
-
     public String getPhotoUrl() {
         return photoUrl;
     }
