@@ -29,4 +29,5 @@ public class ViolationServiceImpl implements ViolationService {
             else return violationRepository.findAllByCreationDateBetween(from, to);
         }
     }
+
 }

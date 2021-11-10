@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class DetectotServiceImpl implements DetectorService {
+
     @Autowired
     DetectorRepository detectorRepository;
 
@@ -21,4 +22,5 @@ public class DetectotServiceImpl implements DetectorService {
     public List<Detector> findAll() {
         return detectorRepository.findAll();
     }
+
 }

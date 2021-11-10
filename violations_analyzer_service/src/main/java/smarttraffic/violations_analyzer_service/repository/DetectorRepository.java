@@ -6,4 +6,5 @@ import smarttraffic.violations_analyzer_service.model.Detector;
 
 @Repository
 public interface DetectorRepository extends MongoRepository<Detector, Long> {
+
 }

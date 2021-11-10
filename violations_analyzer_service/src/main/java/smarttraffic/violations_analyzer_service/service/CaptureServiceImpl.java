@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class CaptureServiceImpl implements CaptureService {
+
     @Autowired
     CaptureRepository captureRepository;
 
@@ -28,4 +29,5 @@ public class CaptureServiceImpl implements CaptureService {
             else return captureRepository.findAllByInstantBetween(from, to);
         }
     }
+
 }

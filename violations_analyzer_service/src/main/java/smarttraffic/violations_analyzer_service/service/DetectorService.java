@@ -7,7 +7,9 @@ import java.util.List;
 
 @Service
 public interface DetectorService {
+
     void saveAll(List<Detector> allVehicles);
 
     List<Detector> findAll();
+
 }
