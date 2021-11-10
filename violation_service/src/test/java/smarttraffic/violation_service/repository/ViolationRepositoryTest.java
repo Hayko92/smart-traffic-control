@@ -6,7 +6,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
 import smarttraffic.violation_service.entity.Violation;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest

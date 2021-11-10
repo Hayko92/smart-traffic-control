@@ -46,15 +46,16 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
         addTextToDocument(String.format("Count of violations: %s", violations.size()), document, font);
         addTextToDocument("====================================================", document, font);
         addTextToDocument(String.format("Percent of violations in captures: %s %%", getPercentOfViolationsIncaptures(captures, violations)), document, font);
-        addTextToDocument(String.format("Percent of SPEED type violations: %s", getViolationPercentByTyoe("SPEED", violations)), document, font);
-        addTextToDocument(String.format("Percent of INS type violations: %s", getViolationPercentByTyoe("INS", violations)), document, font);
-        addTextToDocument(String.format("Percent of TECH type violations: %s", getViolationPercentByTyoe("TECH", violations)), document, font);
+        addTextToDocument(String.format("Percent of SPEED type violations: %s %%", getViolationPercentByTyoe("SPEED", violations)), document, font);
+        addTextToDocument(String.format("Percent of INS type violations: %s %%", getViolationPercentByTyoe("INS", violations)), document, font);
+        addTextToDocument(String.format("Percent of TECH type violations: %s %%", getViolationPercentByTyoe("TECH", violations)), document, font);
         addTextToDocument("=============analyze results per detectors==========", document, font);
         startAnalyzeByDetectors(document, font, captures, detectors, violations);
         document.close();
         return document;
 
     }
+
     private void startAnalyzeByDetectors(Document document, Font font, List<Capture> captures, List<Detector> detectors, List<Violation> violations) throws DocumentException {
 
         for (Detector detector : detectors) {
@@ -71,9 +72,9 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
             addTextToDocument(String.format("Count of violations: %s", violationsOfConcretDetector.size()), document, font);
             addTextToDocument("====================================================", document, font);
             addTextToDocument(String.format("Percent of violations in captures: %s %%", getPercentOfViolationsIncaptures(capturesOfConcretDetector, violationsOfConcretDetector)), document, font);
-            addTextToDocument(String.format("Percent of SPEED type violations: %s", getViolationPercentByTyoe("SPEED", violationsOfConcretDetector)), document, font);
-            addTextToDocument(String.format("Percent of INS type violations: %s", getViolationPercentByTyoe("INS", violationsOfConcretDetector)), document, font);
-            addTextToDocument(String.format("Percent of TECH type violations: %s", getViolationPercentByTyoe("TECH", violationsOfConcretDetector)), document, font);
+            addTextToDocument(String.format("Percent of SPEED type violations: %s %%", getViolationPercentByTyoe("SPEED", violationsOfConcretDetector)), document, font);
+            addTextToDocument(String.format("Percent of INS type violations: %s %%", getViolationPercentByTyoe("INS", violationsOfConcretDetector)), document, font);
+            addTextToDocument(String.format("Percent of TECH type violations: %s %%", getViolationPercentByTyoe("TECH", violationsOfConcretDetector)), document, font);
         }
     }
 
@@ -94,9 +95,11 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
     }
 
     private double getViolationPercentByTyoe(String type, List<Violation> violations) {
+        double res = 0;
         long count = violations.stream()
                 .filter(e -> e.getType().equals(type)).count();
-        return (double) count * 100 / violations.size();
+        res = (double) count * 100 / violations.size();
+        return Math.floor(res * 100) / 100;
     }
 
     private Document openDocument() throws FileNotFoundException, DocumentException {

@@ -3,9 +3,6 @@ package smarttraffic.violation_service.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import smarttraffic.violation_service.entity.Owner;
-import smarttraffic.violation_service.entity.Vehicle;
 import smarttraffic.violation_service.entity.Violation;
 import smarttraffic.violation_service.repository.ViolationRepository;
 
@@ -23,7 +20,7 @@ public class ViolationServiceImplTest {
     private ViolationRepository violationRepository;
 
     @Test
-    void checkGetByNumber(){
+    void checkGetByNumber() {
         Violation violation = new Violation();
         violation.setNumber("01AM123");
         violation.setType("INS");
@@ -32,7 +29,7 @@ public class ViolationServiceImplTest {
         violation.setPhotoUrl1("testUrl1");
         violation.setPlace("Arshakunyac");
         violation.setPrice(20000);
-        if((violationServiceImpl.getByNumber("01AM123")) == null){
+        if ((violationServiceImpl.getByNumber("01AM123")) == null) {
             violationRepository.save(violation);
             violationServiceImpl.getByNumber("01AM123");
         }

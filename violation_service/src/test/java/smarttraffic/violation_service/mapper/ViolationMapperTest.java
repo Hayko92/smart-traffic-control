@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ViolationMapperTest {
 
     @Test
-    void checkMapToDTO(){
+    void checkMapToDTO() {
 
         Violation violation = new Violation();
         violation.setNumber("test");

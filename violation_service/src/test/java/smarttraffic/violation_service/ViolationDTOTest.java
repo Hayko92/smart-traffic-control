@@ -12,7 +12,7 @@ public class ViolationDTOTest {
     ViolationDTO violationDTO = new ViolationDTO();
 
     @Test
-    void violationDTOTest(){
+    void violationDTOTest() {
         violationDTO.setNumber("01AM911");
         assertThat(violationDTO.getNumber()).isEqualTo("01AM911");
 
