@@ -29,7 +29,7 @@ public class VehicleServiceController {
     @Autowired
     private VehicleService vehicleService;
     @Autowired
-    private OwnerService ownerService;
+    private OwnerService   ownerService;
 
     @GetMapping("/vehicle/owner/{plateNumber}")
     public OwnerDTO sendOwnerByPlateNumber(@PathVariable String plateNumber) {
