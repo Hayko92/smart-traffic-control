@@ -1,5 +1,9 @@
 package smarttraffic.violation_service.controller;
 
+import com.amazonaws.services.sqs.AmazonSQS;
+import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.model.Message;
+import com.amazonaws.services.sqs.model.SendMessageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -18,12 +22,15 @@ import smarttraffic.violation_service.util.JwtTokenUtil;
 import smarttraffic.violation_service.util.ViolationCounter;
 
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("api/violation-service")
 public class ViolationController {
+    @Value("${sqs.url}")
+    private String sqsURL;
 
     @Value("${cameraImitationServise}")
     private String detectorImitationUrl;
@@ -38,6 +45,8 @@ public class ViolationController {
     private String notificationServiceUrl;
     @Autowired
     private ViolationService violationService;
+
+    final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
 
     @GetMapping("/all")
     public List<ViolationDTO> getAllViolations(@RequestHeader(name = "AUTHORIZATION") String token) {
@@ -153,8 +162,11 @@ public class ViolationController {
         Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violationDTO);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(speedViolationInfo, headers);
-        restTemplate.exchange(notificationServiceUrl + "/email", HttpMethod.POST, httpEntity, Void.class);
-        restTemplate.exchange(notificationServiceUrl + "/sms", HttpMethod.POST, httpEntity, Void.class);
+        //todo
+        sqs.sendMessage(sqsURL,speedViolationInfo.toString());
+
+       // restTemplate.exchange(notificationServiceUrl + "/email", HttpMethod.POST, httpEntity, Void.class);
+       // restTemplate.exchange(notificationServiceUrl + "/sms", HttpMethod.POST, httpEntity, Void.class);
     }
 
     @GetMapping("/platenumber/{vehiclenumber}")
