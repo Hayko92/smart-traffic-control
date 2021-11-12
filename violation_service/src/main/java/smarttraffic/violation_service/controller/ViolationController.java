@@ -12,6 +12,7 @@ import smarttraffic.violation_service.dto.CaptureDTO;
 import smarttraffic.violation_service.dto.OwnerDTO;
 import smarttraffic.violation_service.dto.VehicleDTO;
 import smarttraffic.violation_service.dto.ViolationDTO;
+import smarttraffic.violation_service.kafkaService.KafkaSender;
 import smarttraffic.violation_service.service.ViolationService;
 import smarttraffic.violation_service.util.InfoExtractor;
 import smarttraffic.violation_service.util.JwtTokenUtil;
@@ -38,6 +39,8 @@ public class ViolationController {
     private String notificationServiceUrl;
     @Autowired
     private ViolationService violationService;
+    @Autowired
+    KafkaSender kafkaSender;
 
     @GetMapping("/all")
     public List<ViolationDTO> getAllViolations(@RequestHeader(name = "AUTHORIZATION") String token) {
@@ -153,8 +156,9 @@ public class ViolationController {
         Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violationDTO);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(speedViolationInfo, headers);
-        restTemplate.exchange(notificationServiceUrl + "/email", HttpMethod.POST, httpEntity, Void.class);
-        restTemplate.exchange(notificationServiceUrl + "/sms", HttpMethod.POST, httpEntity, Void.class);
+        kafkaSender.sendMessage("notification",speedViolationInfo);
+       // restTemplate.exchange(notificationServiceUrl + "/email", HttpMethod.POST, httpEntity, Void.class);
+       // restTemplate.exchange(notificationServiceUrl + "/sms", HttpMethod.POST, httpEntity, Void.class);
     }
 
     @GetMapping("/platenumber/{vehiclenumber}")
