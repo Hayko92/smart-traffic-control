@@ -29,7 +29,7 @@ public class ViolationControllerTest {
     @Autowired
     private ViolationRepository violationRepository;
 
-//    @MockBean
+    //    @MockBean
 //    private AzureService azureService;
     @Autowired(required = false)
     private SecurityUtils securityUtils;

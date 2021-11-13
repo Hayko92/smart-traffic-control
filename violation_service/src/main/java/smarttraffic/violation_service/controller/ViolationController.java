@@ -1,9 +1,11 @@
 package smarttraffic.violation_service.controller;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
-import com.amazonaws.services.sqs.model.Message;
-import com.amazonaws.services.sqs.model.SendMessageRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -22,7 +24,6 @@ import smarttraffic.violation_service.util.JwtTokenUtil;
 import smarttraffic.violation_service.util.ViolationCounter;
 
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +31,16 @@ import java.util.Map;
 @RequestMapping("api/violation-service")
 public class ViolationController {
     @Value("${sqs.url}")
-    private String sqsURL;
+    String sqsURL;
 
+    @Value("${sqs.region}")
+    String region;
+
+    @Value("${access.key.id}")
+    String accessKey;
+
+    @Value("${access.key.secret}")
+    private String secretKey;
     @Value("${cameraImitationServise}")
     private String detectorImitationUrl;
 
@@ -46,7 +55,6 @@ public class ViolationController {
     @Autowired
     private ViolationService violationService;
 
-    final AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
 
     @GetMapping("/all")
     public List<ViolationDTO> getAllViolations(@RequestHeader(name = "AUTHORIZATION") String token) {
@@ -54,7 +62,7 @@ public class ViolationController {
     }
 
     @PostMapping("/speed")
-    public void createSpeedViolationDTO(@RequestBody Map<String, Integer> info, @RequestHeader(name = "AUTHORIZATION") String token) {
+    public void createSpeedViolationDTO(@RequestBody Map<String, Integer> info, @RequestHeader(name = "AUTHORIZATION") String token) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         OwnerDTO owner = null;
         int idPrev = info.get("previousCapture");
@@ -80,7 +88,7 @@ public class ViolationController {
 
 
     @PostMapping
-    public void createViolation(@RequestBody Map<String, CaptureDTO> body, @RequestHeader(name = "AUTHORIZATION") String token) {
+    public void createViolation(@RequestBody Map<String, CaptureDTO> body, @RequestHeader(name = "AUTHORIZATION") String token) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         CaptureDTO capture = getCapture(body);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
@@ -157,16 +165,18 @@ public class ViolationController {
 
     }
 
-    private void sendNotifications(ViolationDTO violationDTO, String token) {
-        RestTemplate restTemplate = new RestTemplate();
+    private void sendNotifications(ViolationDTO violationDTO, String token) throws JsonProcessingException {
+        AmazonSQS sqs = getAmazonSQS();
+        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violationDTO);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(speedViolationInfo, headers);
         //todo
-        sqs.sendMessage(sqsURL,speedViolationInfo.toString());
+        String jsonToMap = objectMapper.writeValueAsString(speedViolationInfo);
+        sqs.sendMessage(sqsURL, jsonToMap);
 
-       // restTemplate.exchange(notificationServiceUrl + "/email", HttpMethod.POST, httpEntity, Void.class);
-       // restTemplate.exchange(notificationServiceUrl + "/sms", HttpMethod.POST, httpEntity, Void.class);
+        // restTemplate.exchange(notificationServiceUrl + "/email", HttpMethod.POST, httpEntity, Void.class);
+        // restTemplate.exchange(notificationServiceUrl + "/sms", HttpMethod.POST, httpEntity, Void.class);
     }
 
     @GetMapping("/platenumber/{vehiclenumber}")
@@ -177,5 +187,16 @@ public class ViolationController {
     @GetMapping("/ownerID/{ownerID}")
     public List<ViolationDTO> getAllViolationsByOwnerId(@RequestBody Long ownerID) {
         return violationService.getAllByOwnerID(ownerID);
+    }
+
+    private AmazonSQS getAmazonSQS() {
+        BasicAWSCredentials bAWSc = new BasicAWSCredentials(accessKey, secretKey);
+
+        AmazonSQS sqs = AmazonSQSClientBuilder
+                .standard()
+                .withRegion(region)
+                .withCredentials(new AWSStaticCredentialsProvider(bAWSc))
+                .build();
+        return sqs;
     }
 }

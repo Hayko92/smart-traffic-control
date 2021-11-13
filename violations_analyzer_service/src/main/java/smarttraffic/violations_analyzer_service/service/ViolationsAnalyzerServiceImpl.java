@@ -60,7 +60,7 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
         addTextToDocument("=============analyze results per detectors==========", document, font);
         startAnalyzeByDetectors(document, font, captures, detectors, violations);
         document.close();
-       return path;
+        return path;
 
     }
 
@@ -85,6 +85,7 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
             addTextToDocument(String.format("Percent of TECH type violations: %s %%", getViolationPercentByTyoe("TECH", violationsOfConcretDetector)), document, font);
         }
     }
+
     public ResponseEntity<InputStreamResource> downloadAnalyzeResult(Path path) throws FileNotFoundException {
         File file = path.toFile();
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
@@ -93,6 +94,7 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
                 .contentLength(file.length()) //
                 .body(resource);
     }
+
     private double getPercentOfViolationsIncaptures(List<Capture> captures, List<Violation> violations) {
         double res = 0;
         if (captures != null && violations != null) {

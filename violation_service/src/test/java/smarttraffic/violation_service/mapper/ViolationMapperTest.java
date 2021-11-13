@@ -16,9 +16,9 @@ public class ViolationMapperTest {
     Owner owner = new Owner();
     OwnerContact ownerContact = new OwnerContact();
     Address address = new Address();
-    Vehicle vehicle  =new Vehicle();
+    Vehicle vehicle = new Vehicle();
     VehicleMark vehicleMark = new VehicleMark();
-    VehicleModel vehicleModel  =new VehicleModel();
+    VehicleModel vehicleModel = new VehicleModel();
 
     @Test
     void checkMapToDTO() {
