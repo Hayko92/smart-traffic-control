@@ -171,12 +171,9 @@ public class ViolationController {
         Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violationDTO);
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(speedViolationInfo, headers);
-        //todo
         String jsonToMap = objectMapper.writeValueAsString(speedViolationInfo);
         sqs.sendMessage(sqsURL, jsonToMap);
 
-        // restTemplate.exchange(notificationServiceUrl + "/email", HttpMethod.POST, httpEntity, Void.class);
-        // restTemplate.exchange(notificationServiceUrl + "/sms", HttpMethod.POST, httpEntity, Void.class);
     }
 
     @GetMapping("/platenumber/{vehiclenumber}")
