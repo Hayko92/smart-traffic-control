@@ -16,7 +16,6 @@ import smarttraffic.violations_analyzer_service.model.Violation;
 import smarttraffic.violations_analyzer_service.service.*;
 import smarttraffic.violations_analyzer_service.util.JwtTokenUtil;
 
-import java.time.Instant;
 import java.util.List;
 
 @Service

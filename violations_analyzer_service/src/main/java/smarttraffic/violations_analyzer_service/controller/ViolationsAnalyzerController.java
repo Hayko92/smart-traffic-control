@@ -44,6 +44,7 @@ public class ViolationsAnalyzerController {
     public ResponseEntity<InputStreamResource> collectdata(@RequestHeader(name = "AUTHORIZATION") String token,
                                                            @RequestParam(required = false) Instant from,
                                                            @RequestParam(required = false) Instant to) throws DocumentException, FileNotFoundException {
+
         dataGrabberFacade.grabData(token);
         Path path = violationsAnalyzerService.startAnalyze(from, to);
         return violationsAnalyzerService.downloadAnalyzeResult(path);
