@@ -20,4 +20,6 @@ public interface ViolationService {
     List<ViolationDTO> getAllByOwnerID(Long ownerID);
 
     List<ViolationDTO> findAll();
+
+      void scheduleFixedDelayTask();
 }
