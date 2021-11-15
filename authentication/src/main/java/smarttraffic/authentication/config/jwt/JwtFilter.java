@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import smarttraffic.authentication.Constants;
 import smarttraffic.authentication.config.CustomUserDetails;
 import smarttraffic.authentication.config.UserDetailService;
 import smarttraffic.authentication.entity.Role;
@@ -40,15 +41,16 @@ public class JwtFilter extends OncePerRequestFilter {
         if (token != null && jwtProvider.validateToken(token)) {
             String userLogin = jwtProvider.getLoginFromToken(token);
             String requestType = jwtProvider.getRequestType(token);
-            if (requestType.equals("EXT")) {
+            RequestType requestTypeEnum =RequestType.valueOf(requestType);
+            if (requestTypeEnum.equals(RequestType.EXTERNAL)) {
                 CustomUserDetails userDetails = userDetailService.loadUserByUsername(userLogin);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            } else if (requestType.equals("INT")) {
+            } else if (requestTypeEnum.equals(RequestType.INTERNAL)) {
                 User user = new User("trafficControlSystem");
                 user.setEnabled(true);
-                Role role = new Role("SYSTEM");
+                Role role = new Role(Authorities.SYSTEM.name());
                 user.addRole(role);
                 CustomUserDetails customUserDetails = new CustomUserDetails(user);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
@@ -61,7 +63,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private String getTokenFromRequest(HttpServletRequest request) {
         String bearer = request.getHeader(AUTHORIZATION);
-        if (hasText(bearer) && bearer.startsWith("Bearer ")) {
+        if (hasText(bearer) && bearer.startsWith(Constants.BEARER)) {
             return bearer.substring(7);
         }
         return null;

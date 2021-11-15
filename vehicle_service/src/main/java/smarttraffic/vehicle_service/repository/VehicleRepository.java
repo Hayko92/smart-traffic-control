@@ -10,6 +10,8 @@ import java.util.List;
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Vehicle getByPlateNumber(String plateNumber);
 
-    @Query("from Vehicle as v")
-    List<Vehicle> getAll();
+    List<Vehicle> findAll();
+
+    @Query("update Vehicle set checked=false ")
+    void setChekedToFalse();
 }

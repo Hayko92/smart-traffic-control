@@ -1,10 +1,12 @@
 package smarttraffic.violation_service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import smarttraffic.violation_service.dto.ViolationDTO;
 import smarttraffic.violation_service.entity.Violation;
 import smarttraffic.violation_service.mapper.ViolationMapper;
+import smarttraffic.violation_service.repository.VehicleRepository;
 import smarttraffic.violation_service.repository.ViolationRepository;
 
 import java.util.List;
@@ -15,6 +17,8 @@ public class ViolationServiceImpl implements ViolationService {
 
     @Autowired
     private ViolationRepository violationRepository;
+    @Autowired
+    private VehicleRepository vehicleRepository;
 
     @Override
     public List<ViolationDTO> getAllViolations() {
@@ -69,5 +73,11 @@ public class ViolationServiceImpl implements ViolationService {
                 .stream()
                 .map(ViolationMapper::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 0 * * *")
+    public void scheduleFixedDelayTask() {
+        vehicleRepository.setChekedToFalse();
     }
 }

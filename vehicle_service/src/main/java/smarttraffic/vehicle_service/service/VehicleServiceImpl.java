@@ -1,6 +1,7 @@
 package smarttraffic.vehicle_service.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import smarttraffic.vehicle_service.dto.VehicleDTO;
 import smarttraffic.vehicle_service.entity.Vehicle;
@@ -62,11 +63,15 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public List<VehicleDTO> getAllVehicles() {
-        List<Vehicle> vehicles = vehicleRepository.getAll();
+        List<Vehicle> vehicles = vehicleRepository.findAll();
         return vehicles
                 .stream()
                 .map(VehicleMapper::mapToDto)
                 .collect(Collectors.toList());
     }
-
+    @Override
+    @Scheduled(cron = "0 0 0 * * *")
+    public void scheduleFixedDelayTask() {
+        vehicleRepository.setChekedToFalse();
+    }
 }
