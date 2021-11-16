@@ -12,5 +12,9 @@ public class NumberExtractorTest {
         String result = NumberExtractor.extract(text);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result).isEqualTo(text);
+
+        text = "5OZ0000";
+        result = NumberExtractor.extract(text);
+        Assertions.assertThat(result).isNull();
     }
 }
