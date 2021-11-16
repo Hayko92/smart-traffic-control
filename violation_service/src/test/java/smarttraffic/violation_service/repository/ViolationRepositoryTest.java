@@ -13,7 +13,7 @@ public class ViolationRepositoryTest {
     @Autowired
     private ViolationRepository violationRepository;
 
-    private Violation violation;
+    private final Violation violation = new Violation();
 
     @Test
     void saveViolation() {

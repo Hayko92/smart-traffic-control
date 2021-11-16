@@ -35,7 +35,5 @@ public class ViolationMapperTest {
         violation.getVehicle().setModel(vehicleModel);
         violationDTO = ViolationMapper.mapToDto(violation);
         assertThat(violationDTO.getNumber()).isEqualTo(violation.getNumber());
-        assertThat(violationDTO.getType()).isEqualTo(violation.getType());
-        assertThat(violationDTO.getPlace()).isEqualTo(violation.getPlace());
     }
 }

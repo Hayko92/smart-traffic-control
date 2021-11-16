@@ -90,7 +90,7 @@ public class VehicleServiceController {
         });
         if (violationDTOS.hasBody()) {
             for (ViolationDTO o : violationDTOS.getBody()) {
-                ;
+
                 result.add(o);
             }
         }

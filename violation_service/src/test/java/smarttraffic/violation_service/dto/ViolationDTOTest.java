@@ -1,8 +1,7 @@
-package smarttraffic.violation_service;
+package smarttraffic.violation_service.dto;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import smarttraffic.violation_service.dto.ViolationDTO;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,8 +12,9 @@ public class ViolationDTOTest {
 
     @Test
     void violationDTOTest() {
-        violationDTO.setNumber("01AM911");
-        assertThat(violationDTO.getNumber()).isEqualTo("01AM911");
+        String vehiclePlateNumber = "01AM123";
+        violationDTO.setNumber(vehiclePlateNumber);
+        assertThat(violationDTO.getNumber()).isEqualTo(vehiclePlateNumber);
 
         violationDTO.setType("INS");
         assertThat(violationDTO.getType()).isEqualTo("INS");

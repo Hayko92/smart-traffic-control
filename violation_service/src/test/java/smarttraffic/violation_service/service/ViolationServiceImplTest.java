@@ -32,7 +32,6 @@ public class ViolationServiceImplTest {
         violation.setPrice(20000);
         if ((violationServiceImpl.getByNumber(vehiclePlateNumber)) == null) {
             violationRepository.save(violation);
-            violationServiceImpl.getByNumber(vehiclePlateNumber);
         }
         assertThat(violationServiceImpl.getByNumber(vehiclePlateNumber)).isNotNull();
     }

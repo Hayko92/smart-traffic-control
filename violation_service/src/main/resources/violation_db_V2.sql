@@ -1,19 +1,20 @@
 CREATE
-DATABASE smart_traffic_control;
+    DATABASE smart_traffic_control;
 CREATE SCHEMA violation_service;
 create table violation_service.owner
 (
-    id            integer      not null,
-    firstname     varchar(255) not null,
-    lastname      varchar(255) not null,
-    date_of_birth date         not null,
-    vehicle_vin   varchar(7)   not null,
-    points        integer      not null,
-    phone         varchar(20),
-    email         varchar(50),
-    address_id    integer,
+    id_number      integer      not null,
+    firstname      varchar(255) not null,
+    lastname       varchar(255) not null,
+    date_of_birth  date         not null,
+    license_number varchar(20)  not null,
+    vehicle_vin    varchar(7)   not null,
+    points         integer      not null,
+    phone          varchar(20),
+    email          varchar(50),
+    address_id     integer,
     constraint vehicle_owner_pkey
-        primary key (id)
+        primary key (id_number)
 );
 
 create table violation_service.address
