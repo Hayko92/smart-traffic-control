@@ -1,6 +1,4 @@
 //package smarttraffic.violation_service.controller;
-
-//
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import com.google.api.client.util.SecurityUtils;
 //import org.junit.jupiter.api.Test;
