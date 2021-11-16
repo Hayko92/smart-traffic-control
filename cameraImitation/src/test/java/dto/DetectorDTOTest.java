@@ -1,13 +1,15 @@
 package dto;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import smarttraffic.detectors_analyzer.dto.DetectorDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import smarttraffic.cameraimitation.dto.DetectorDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DetectorDTOTest {
-    DetectorDTO detectorDTO = new DetectorDTO();
+
+    @Autowired
+    DetectorDto detectorDTO = new DetectorDto();
 
     @Test
     void DetectorDTOTest() {

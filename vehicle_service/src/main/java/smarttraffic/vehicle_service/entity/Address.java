@@ -31,6 +31,9 @@ public class Address {
     @NotNull
     private String building;
 
+    @Column(name = "apartment")
+    private String apartment;
+
     @Column(name = "zip_code")
     @NotNull
     private int zipCode;
@@ -81,6 +84,14 @@ public class Address {
         this.building = building;
     }
 
+    public String getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(String apartment) {
+        this.apartment = apartment;
+    }
+
     public int getZipCode() {
         return zipCode;
     }
@@ -96,4 +107,5 @@ public class Address {
     public void setOwners(Set<OwnerContact> owners) {
         this.owners = owners;
     }
+
 }

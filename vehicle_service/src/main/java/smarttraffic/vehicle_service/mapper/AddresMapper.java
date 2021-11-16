@@ -14,6 +14,7 @@ public final class AddresMapper {
         addressDTO.setCity(address.getCity());
         addressDTO.setStreet(address.getStreet());
         addressDTO.setBuilding(address.getBuilding());
+        addressDTO.setApartment(address.getApartment());
         addressDTO.setZipCode(address.getZipCode());
         return addressDTO;
     }
@@ -25,6 +26,7 @@ public final class AddresMapper {
         addressEntity.setCity(address.getCity());
         addressEntity.setStreet(address.getStreet());
         addressEntity.setBuilding(address.getBuilding());
+        addressEntity.setApartment(address.getApartment());
         addressEntity.setZipCode(address.getZipCode());
         return addressEntity;
     }
