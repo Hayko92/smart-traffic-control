@@ -21,5 +21,5 @@ public interface ViolationService {
 
     List<ViolationDTO> findAll();
 
-      void scheduleFixedDelayTask();
+    void scheduleFixedDelayTask();
 }

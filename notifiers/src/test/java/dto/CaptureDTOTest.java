@@ -1,12 +1,11 @@
 package dto;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 import smarttraffic.notifiers.dto.CaptureDto;
 
 import java.time.Instant;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class CaptureDTOTest {

@@ -22,5 +22,6 @@ public interface VehicleService {
     void save(VehicleDTO vehicle1);
 
     List<VehicleDTO> getAllVehicles();
+
     void scheduleFixedDelayTask();
 }

@@ -1,5 +1,5 @@
 CREATE
-    DATABASE smart_traffic_control;
+DATABASE smart_traffic_control;
 CREATE SCHEMA violation_service;
 create table violation_service.owner
 (

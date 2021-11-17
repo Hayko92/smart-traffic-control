@@ -133,6 +133,7 @@ public class ViolationController {
         violationDTO.setPlace(capture.getPlace());
         violationDTO.setOwner(vehicle.getOwner());
         violationDTO.setVehicle(vehicle);
+        violationDTO.setNumber(capture.getPlateNumber());
         return violationDTO;
     }
 
