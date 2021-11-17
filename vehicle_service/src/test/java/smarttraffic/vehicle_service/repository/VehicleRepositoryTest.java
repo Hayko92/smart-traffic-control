@@ -10,10 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class VehicleRepositoryTest {
 
+    private final Vehicle vehicle = new Vehicle();
     @Autowired
     private VehicleRepository repository;
-
-    private final Vehicle vehicle = new Vehicle();
 
     @Test
     void saveVehicle() {

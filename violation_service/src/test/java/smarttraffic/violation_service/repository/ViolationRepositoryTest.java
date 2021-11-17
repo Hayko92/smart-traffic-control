@@ -10,10 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class ViolationRepositoryTest {
 
+    private final Violation violation = new Violation();
     @Autowired
     private ViolationRepository violationRepository;
-
-    private final Violation violation = new Violation();
 
     @Test
     void saveViolation() {

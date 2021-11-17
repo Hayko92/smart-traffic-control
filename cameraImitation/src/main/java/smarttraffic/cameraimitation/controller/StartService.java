@@ -2,6 +2,7 @@ package smarttraffic.cameraimitation.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
@@ -17,14 +18,14 @@ import smarttraffic.cameraimitation.dto.DetectorDto;
 import smarttraffic.cameraimitation.exception.SmartTrafficControlException;
 import smarttraffic.cameraimitation.repository.DetectorRepository;
 import smarttraffic.cameraimitation.service.DetectorService;
+import smarttraffic.cameraimitation.util.Constants;
 import smarttraffic.cameraimitation.util.JwtTokenUtil;
 import smarttraffic.cameraimitation.util.NumberExtractor;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -40,6 +41,7 @@ public class StartService {
     DetectorRepository detectorRepository;
     @Autowired
     DetectorService detectorService;
+
     @Value("${detectorsAnalyzer}")
     private String detectorAnalyzerUrl;
     @Value("${notificationService}")
@@ -74,7 +76,8 @@ public class StartService {
         DetectorDto randomDetector = getRandomDetector();
         URL urlLocalFile = getRandomURL();
         URL uploadedfile = uploadPhotoAndgetURLback(urlLocalFile, randomDetector.getPlace());
-        String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(String.valueOf(uploadedfile)));
+        System.out.println("THIS LINE IS OK...");
+        String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(uploadedfile.toString()));
         String plateNumber = NumberExtractor.extract(textFromImage);
         Instant instant = Instant.now().plus(4, ChronoUnit.HOURS);
         String place = randomDetector.getPlace();
@@ -106,9 +109,8 @@ public class StartService {
     private URL getRandomURL() {
         try {
             Random random = new Random();
-            String path = String.format("C:\\Users\\asatr\\OneDrive\\Рабочий стол\\smart_traffic_control_\\CameraImitation\\src\\main\\resources\\CAR_numbers\\%s.jpg", random.nextInt(30));
-            File file = new File(path);
-            return file.toURI().toURL();
+            String vehiclePhotoUrl = String.format(Constants.VEHICLE_PHOTO_URL, random.nextInt(30));
+            return new URL(vehiclePhotoUrl);
         } catch (MalformedURLException e) {
             throw new SmartTrafficControlException(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -129,13 +131,13 @@ public class StartService {
 
     private URL uploadPhotoAndgetURLback(URL url, String place) {
         try {
-            File file = null;
-            file = Paths.get(url.toURI()).toFile();
+            File file = new File("filename.jpg");
+            FileUtils.copyURLToFile(url, file);
             String fileName = place + "-" + Instant.now().plus(4, ChronoUnit.HOURS).truncatedTo(ChronoUnit.MILLIS) + ".jpg";
             final PutObjectRequest putObjectRequest = new PutObjectRequest(s3BucketName, fileName, file);
             amazonS3.putObject(putObjectRequest);
             return amazonS3.getUrl(s3BucketName, fileName);
-        } catch (URISyntaxException e) {
+        } catch (IOException e) {
             throw new SmartTrafficControlException(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

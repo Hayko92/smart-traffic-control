@@ -9,6 +9,7 @@ import smarttraffic.vehicle_service.mapper.VehicleMapper;
 import smarttraffic.vehicle_service.repository.VehicleRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -19,9 +20,8 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDTO getByNumber(String number) {
-        Vehicle vehicle = vehicleRepository.getByPlateNumber(number);
-        if (vehicle != null) return VehicleMapper.mapToDto(vehicle);
-        else return null;
+        Optional<Vehicle> vehicle = vehicleRepository.findByPlateNumber(number);
+        return vehicle.map(VehicleMapper::mapToDto).orElse(null);
     }
 
     @Override
@@ -69,6 +69,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .map(VehicleMapper::mapToDto)
                 .collect(Collectors.toList());
     }
+
     @Override
     @Scheduled(cron = "0 0 0 * * *")
     public void scheduleFixedDelayTask() {

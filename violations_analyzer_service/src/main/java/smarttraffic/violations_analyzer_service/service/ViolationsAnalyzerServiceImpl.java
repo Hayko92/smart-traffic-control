@@ -42,7 +42,7 @@ public class ViolationsAnalyzerServiceImpl implements ViolationsAnalyzerService 
 
     @Override
     public Path startAnalyze(Instant from, Instant to) throws FileNotFoundException, DocumentException {
-        Path path = Paths.get("violations_analyzer_service/src/main/resources/analyze.pdf");
+        Path path = Paths.get("classpath:analyze.pdf");
         Document document = openDocument(path.toAbsolutePath());
         Font font = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
         List<Violation> violations = getViolations(from, to);

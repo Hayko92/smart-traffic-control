@@ -41,7 +41,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (token != null && jwtProvider.validateToken(token)) {
             String userLogin = jwtProvider.getLoginFromToken(token);
             String requestType = jwtProvider.getRequestType(token);
-            RequestType requestTypeEnum =RequestType.valueOf(requestType);
+            RequestType requestTypeEnum = RequestType.valueOf(requestType);
             if (requestTypeEnum.equals(RequestType.EXTERNAL)) {
                 CustomUserDetails userDetails = userDetailService.loadUserByUsername(userLogin);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

@@ -1,7 +1,6 @@
 package dto;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import smarttraffic.detectors_analyzer.dto.DetectorDTO;
 
 import static org.assertj.core.api.Assertions.assertThat;
