@@ -76,7 +76,6 @@ public class StartService {
         DetectorDto randomDetector = getRandomDetector();
         URL urlLocalFile = getRandomURL();
         URL uploadedfile = uploadPhotoAndgetURLback(urlLocalFile, randomDetector.getPlace());
-        System.out.println("THIS LINE IS OK...");
         String textFromImage = this.cloudVisionTemplate.extractTextFromImage(this.resourceLoader.getResource(uploadedfile.toString()));
         String plateNumber = NumberExtractor.extract(textFromImage);
         Instant instant = Instant.now().plus(4, ChronoUnit.HOURS);

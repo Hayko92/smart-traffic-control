@@ -16,6 +16,7 @@ public final class ViolationMapper {
         violationDTO.setPrice(violation.getPrice());
         violationDTO.setType(violation.getType());
         violationDTO.setPhotoUrl1(violation.getPhotoUrl1());
+        if(violation.getType().equals("SPEED")) violationDTO.setPhotoUrl2(violation.getPhotoUrl2());
         violationDTO.setOwner(OwnerMapper.mapToDto(violation.getOwner()));
         violationDTO.setVehicle(VehicleMapper.mapToDto(violation.getVehicle()));
         return violationDTO;
