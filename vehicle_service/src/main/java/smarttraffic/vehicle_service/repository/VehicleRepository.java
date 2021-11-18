@@ -14,6 +14,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     List<Vehicle> findAll();
 
-    @Query("update Vehicle set checked=false ")
+    @Query("update Vehicle set checked=false where id>1")
     void setChekedToFalse();
 }

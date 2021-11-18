@@ -61,6 +61,11 @@ public class ViolationController {
         return violationService.findAll();
     }
 
+    @GetMapping("/violation/{id}")
+    public  ViolationDTO getViolationById(@PathVariable long id) {
+        return violationService.findById(id);
+    }
+
     @PostMapping("/speed")
     public void createSpeedViolationDTO(@RequestBody Map<String, Integer> info, @RequestHeader(name = "AUTHORIZATION") String token) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();

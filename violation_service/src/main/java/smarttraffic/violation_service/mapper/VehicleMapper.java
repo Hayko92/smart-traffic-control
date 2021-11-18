@@ -10,6 +10,7 @@ public final class VehicleMapper {
     public static VehicleDTO mapToDto(Vehicle vehicle) {
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setId(vehicle.getId());
+        vehicleDTO.setVinNumber(vehicle.getVinNumber());
         vehicleDTO.setMark(MarkMapper.mapToDto(vehicle.getMark()));
         vehicleDTO.setModel(ModelMapper.mapToDto(vehicle.getModel()));
         vehicleDTO.setOwner(OwnerMapper.mapToDto(vehicle.getOwner()));
