@@ -10,6 +10,7 @@ import smarttraffic.violation_service.repository.VehicleRepository;
 import smarttraffic.violation_service.repository.ViolationRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,5 +80,11 @@ public class ViolationServiceImpl implements ViolationService {
     @Scheduled(cron = "0 0 0 * * *")
     public void scheduleFixedDelayTask() {
         vehicleRepository.setChekedToFalse();
+    }
+
+    @Override
+    public ViolationDTO findById(long id) {
+        Violation violation = violationRepository.findById(id);
+        return  ViolationMapper.mapToDto(violation);
     }
 }

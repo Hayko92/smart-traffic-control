@@ -5,6 +5,7 @@ import com.twilio.sdk.creator.api.v2010.account.MessageCreator;
 import com.twilio.sdk.resource.api.v2010.account.Message;
 import com.twilio.sdk.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -29,6 +30,9 @@ public class NotificationServiceImpl implements NotificationService {
     private static final String TWILIO_NUMBER = "+12075013766";
     @Autowired
     private JavaMailSender mailSender;
+
+    @Value("${violationService}")
+    String violationServiceURL;
 
     @Override
     public void sendMail(Map<String, String> info) throws MessagingException, IOException {
@@ -55,8 +59,8 @@ public class NotificationServiceImpl implements NotificationService {
         MessageCreator message = Message.create(ACCOUNT_SID,
                 new PhoneNumber("+37493191719"),
                 new PhoneNumber(TWILIO_NUMBER),
-                "Ճանապարհային Ոստիկանություն \n Դուք ունեք նոր իրավախախտում,\n խնդրում ենք մուտք գործել https://roadpolice.am/ և վճարել");
-        //  message.execute();
+                creatSMStext(info));
+          message.execute();
     }
 
     public File getFileFromURL(String photoUrl) throws IOException {
@@ -68,4 +72,9 @@ public class NotificationServiceImpl implements NotificationService {
                 .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         return new File("photo.jpg");
     }
+    private String creatSMStext(Map<String, String> info) {
+        String violationURL = violationServiceURL+"/violation/"+info.get("id");
+        return "SMART TRAFFIC CONTROL ARMENIA\nYou have a new violation, for more information please visit "+violationURL;
+    }
+
 }
