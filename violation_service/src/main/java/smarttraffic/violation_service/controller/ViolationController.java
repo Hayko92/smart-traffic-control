@@ -1,29 +1,13 @@
 package smarttraffic.violation_service.controller;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import smarttraffic.violation_service.dto.CaptureDTO;
-import smarttraffic.violation_service.dto.OwnerDTO;
-import smarttraffic.violation_service.dto.VehicleDTO;
 import smarttraffic.violation_service.dto.ViolationDTO;
 import smarttraffic.violation_service.service.ViolationService;
-import smarttraffic.violation_service.util.InfoExtractor;
-import smarttraffic.violation_service.util.JwtTokenUtil;
-import smarttraffic.violation_service.util.ViolationCounter;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 
@@ -39,19 +23,9 @@ public class ViolationController {
     @Value("${access.key.id}")
     String accessKey;
 
-    @Value("${access.key.secret}")
-    private String secretKey;
-    @Value("${cameraImitationServise}")
-    private String detectorImitationUrl;
 
-    @Value("${detectorsAnalyzer}")
-    private String detectorAnalyzerUrl;
 
-    @Value("${vehicleService}")
-    private String vehicleServiceUrl;
 
-    @Value("${notificationService}")
-    private String notificationServiceUrl;
     @Autowired
     private ViolationService violationService;
 
@@ -68,119 +42,27 @@ public class ViolationController {
 
     @PostMapping("/speed")
     public void createSpeedViolationDTO(@RequestBody Map<String, Integer> info, @RequestHeader(name = "AUTHORIZATION") String token) throws JsonProcessingException {
-        RestTemplate restTemplate = new RestTemplate();
-        OwnerDTO owner = null;
-        int idPrev = info.get("previousCapture");
-        int idCurr = info.get("currentCapture");
-        int speed = info.get("speed");
-        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
-        HttpEntity httpEntity = new HttpEntity(headers);
-        int price = ViolationCounter.countSpeedViolationBasePrice(speed);
-        ResponseEntity<CaptureDTO> capturePrevResp = restTemplate.exchange(detectorAnalyzerUrl + "/capture/" + idPrev, HttpMethod.GET, httpEntity, CaptureDTO.class);
-        ResponseEntity<CaptureDTO> captureCurrentResp = restTemplate.exchange(detectorAnalyzerUrl + "/capture/" + idCurr, HttpMethod.GET, httpEntity, CaptureDTO.class);
-        CaptureDTO capturePrev = capturePrevResp.getBody();
-        CaptureDTO captureCurrent = captureCurrentResp.getBody();
-        ResponseEntity<VehicleDTO> vehicleResp = restTemplate.exchange(vehicleServiceUrl + "/" + captureCurrent.getPlateNumber(), HttpMethod.GET, httpEntity, VehicleDTO.class);
-        VehicleDTO vehicle = vehicleResp.getBody();
-        if (vehicle != null) owner = vehicle.getOwner();
-        ViolationDTO violationDTO = createSpeedViolation(price, capturePrev, captureCurrent, vehicle);
-        checkOwnerPoints(owner, token);
-        long id = violationService.save(violationDTO);
+       violationService.createSpeedViolation(info,token);
+        extracted(info, token);
+    }
 
-        violationDTO.setId(id);
-        sendNotifications(violationDTO, token);
+
+    private void extracted(Map<String, Integer> info, String token) throws JsonProcessingException {
+
     }
 
 
     @PostMapping
     public void createViolation(@RequestBody Map<String, CaptureDTO> body, @RequestHeader(name = "AUTHORIZATION") String token) throws JsonProcessingException {
-        RestTemplate restTemplate = new RestTemplate();
-        CaptureDTO capture = getCapture(body);
-        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
-        HttpEntity httpEntity = new HttpEntity(headers);
-        ResponseEntity<VehicleDTO> vehicleResp = restTemplate.exchange(vehicleServiceUrl + "/" + capture.getPlateNumber(), HttpMethod.GET, httpEntity, VehicleDTO.class);
-        VehicleDTO vehicle = vehicleResp.getBody();
-        ViolationDTO violationDTO = checkViolationTypeAndCreate(body, vehicle);
-        checkOwnerPoints(vehicle.getOwner(), token);
-        long id = violationService.save(violationDTO);
-        violationDTO.setId(id);
-        sendNotifications(violationDTO, token);
+       violationService.createViolation(body,token);
+        extracted1(body, token);
     }
 
-    private ViolationDTO checkViolationTypeAndCreate(Map<String, CaptureDTO> body, VehicleDTO vehicle) {
-        CaptureDTO capture;
-        ViolationDTO violationDTO;
-        if (body.containsKey("TECH")) {
-            capture = body.get("TECH");
-            violationDTO = createViolationDTO("TECH", capture, vehicle);
-        } else {
-            capture = body.get("INS");
-            violationDTO = createViolationDTO("INS", capture, vehicle);
-        }
-        return violationDTO;
-    }
-
-    private CaptureDTO getCapture(Map<String, CaptureDTO> info) {
-        CaptureDTO capture;
-        if (info.containsKey("TECH")) {
-            capture = info.get("TECH");
-        } else {
-            capture = info.get("INS");
-        }
-        return capture;
-    }
-
-    private ViolationDTO createViolationDTO(String type, CaptureDTO capture, VehicleDTO vehicle) {
-        ViolationDTO violationDTO = new ViolationDTO(type);
-        violationDTO.setCreationDate(capture.getInstant().truncatedTo(ChronoUnit.DAYS));
-        violationDTO.setPhotoUrl1(capture.getPhotoUrl());
-        violationDTO.setPrice(5000);
-        violationDTO.setPlace(capture.getPlace());
-        violationDTO.setOwner(vehicle.getOwner());
-        violationDTO.setVehicle(vehicle);
-        violationDTO.setNumber(capture.getPlateNumber());
-        return violationDTO;
-    }
-
-    private ViolationDTO createSpeedViolation(int price, CaptureDTO capturePrev, CaptureDTO captureCurrent, VehicleDTO vehicle) {
-        ViolationDTO violationDTO = new ViolationDTO();
-        violationDTO.setType("SPEED");
-        violationDTO.setCreationDate(captureCurrent.getInstant().truncatedTo(ChronoUnit.MILLIS));
-        violationDTO.setPhotoUrl1(captureCurrent.getPhotoUrl());
-        violationDTO.setPhotoUrl2(capturePrev.getPhotoUrl());
-        violationDTO.setPrice(price);
-        violationDTO.setPlace(captureCurrent.getPlace());
-        violationDTO.setOwner(vehicle.getOwner());
-        violationDTO.setVehicle(vehicle);
-        violationDTO.setNumber(captureCurrent.getPlateNumber());
-        return violationDTO;
-    }
-
-    private void checkOwnerPoints(OwnerDTO owner, String token) {
-        if (owner != null) {
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
-            HttpEntity httpEntity = new HttpEntity(headers);
-            if (owner.getRedusedPoint() < 0)
-                restTemplate.exchange(notificationServiceUrl + "/patrol/owner/" + owner.getId(), HttpMethod.GET, httpEntity, Void.class);
-            else {
-                HttpEntity<OwnerDTO> httpEntityWithOwner = new HttpEntity<>(owner, headers);
-                restTemplate.exchange(vehicleServiceUrl + "/owner/" + owner.getId(), HttpMethod.PUT, httpEntityWithOwner, Void.class);
-            }
-        }
+    private void extracted1(Map<String, CaptureDTO> body, String token) {
 
     }
 
-    private void sendNotifications(ViolationDTO violationDTO, String token) throws JsonProcessingException {
-        AmazonSQS sqs = getAmazonSQS();
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> speedViolationInfo = InfoExtractor.extractViolationInformation(violationDTO);
-        HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
-        HttpEntity<Map<String, String>> httpEntity = new HttpEntity<>(speedViolationInfo, headers);
-        String jsonToMap = objectMapper.writeValueAsString(speedViolationInfo);
-        sqs.sendMessage(sqsURL, jsonToMap);
 
-    }
 
     @GetMapping("/platenumber/{vehiclenumber}")
     public List<ViolationDTO> sendViolationsByplatenumber(@PathVariable String vehiclenumber) {
@@ -192,14 +74,4 @@ public class ViolationController {
         return violationService.getAllByOwnerID(ownerID);
     }
 
-    private AmazonSQS getAmazonSQS() {
-        BasicAWSCredentials bAWSc = new BasicAWSCredentials(accessKey, secretKey);
-
-        AmazonSQS sqs = AmazonSQSClientBuilder
-                .standard()
-                .withRegion(region)
-                .withCredentials(new AWSStaticCredentialsProvider(bAWSc))
-                .build();
-        return sqs;
-    }
 }

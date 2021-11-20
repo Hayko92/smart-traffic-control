@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @DynamicUpdate
-@Table(name = "owner")
+@Table(name = "owner", schema = "vehicle_service")
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @DynamicUpdate
-@Table(name = "vehicle_model")
+@Table(name = "vehicle_model", schema = "vehicle_service")
 public class VehicleModel {
 
     @Id

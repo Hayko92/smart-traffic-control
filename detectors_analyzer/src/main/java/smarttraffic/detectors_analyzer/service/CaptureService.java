@@ -11,7 +11,9 @@ public interface CaptureService {
 
     int save(CaptureDTO capture);
 
-    CaptureDTO getByPlaceAndNumber(String place, String platenumber);
+    CaptureDTO getByPlaceAndNumber(String place, String plateNumber);
 
     List<CaptureDTO> findAll();
+
+    void receiveCapture(CaptureDTO capture, String token);
 }

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @DynamicUpdate
-@Table(name = "owner_contact")
+@Table(name = "owner_contact", schema = "vehicle_service")
 public class OwnerContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

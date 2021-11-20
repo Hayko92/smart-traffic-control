@@ -1,5 +1,6 @@
 package smarttraffic.vehicle_service.validating;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import smarttraffic.vehicle_service.entity.*;
 
@@ -10,21 +11,15 @@ import java.util.Set;
 
 @Service
 public class ValidatingService {
-    private Validator validator;
+    private final Validator validator;
 
+    @Autowired
     ValidatingService(Validator validator) {
         this.validator = validator;
     }
 
     void validateAddressWithInjectedValidator(Address address) {
         Set<ConstraintViolation<Address>> violations = validator.validate(address);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
-    }
-
-    void validateOwnerWithInjectedValidator(Owner owner) {
-        Set<ConstraintViolation<Owner>> violations = validator.validate(owner);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }

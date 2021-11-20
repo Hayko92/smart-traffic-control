@@ -20,10 +20,14 @@ import java.util.Map;
 @Service
 public class VehicleServiceImpl implements VehicleService {
 
-    @Autowired
-    CaptureService captureService;
+    private final CaptureService captureService;
     @Value("${cameraImitationServise}")
     private String cameraImitationServiceUrl;
+
+    @Autowired
+    public VehicleServiceImpl(CaptureService captureService) {
+        this.captureService = captureService;
+    }
 
     @Override
     public boolean checkInsurance(CaptureDTO capture, VehicleDTO vehicleDTO) {

@@ -23,24 +23,9 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
-    //    public CustomUserDetails(String login, Collection<Role> roleSet) {
-//        this.login = login;
-//        this.grantedAuthorities = roleSet
-//                .stream()
-//                .map(e -> new SimpleGrantedAuthority(e.getAuthority()))
-//                .collect(Collectors.toSet());
-//    }
     public CustomUserDetails(String login, Collection<GrantedAuthority> roleSet) {
         this.login = login;
         this.grantedAuthorities = roleSet;
-    }
-
-    public static CustomUserDetails fromUserEntityToCustomUserDetails(User userEntity) {
-        CustomUserDetails userDetails = new CustomUserDetails();
-        userDetails.login = userEntity.getLogin();
-        userDetails.password = userEntity.getPassword();
-        userDetails.grantedAuthorities = userDetails.getAuthorities();
-        return userDetails;
     }
 
     @Override
