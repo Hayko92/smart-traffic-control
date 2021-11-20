@@ -50,9 +50,9 @@ public class UserService {
     }
 
     public AuthResponse getAuthResponse(AuthRequest request) {
-            User userEntity = findByLoginAndPassword(request.getLogin(), request.getPassword());
-            String token = jwtProvider.generateToken(userEntity.getLogin(), userEntity.getRoles());
-            return new AuthResponse(token);
+        User userEntity = findByLoginAndPassword(request.getLogin(), request.getPassword());
+        String token = jwtProvider.generateToken(userEntity.getLogin(), userEntity.getRoles());
+        return new AuthResponse(token);
     }
 
 }

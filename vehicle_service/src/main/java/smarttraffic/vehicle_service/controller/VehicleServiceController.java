@@ -1,24 +1,15 @@
 package smarttraffic.vehicle_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import smarttraffic.vehicle_service.dto.OwnerDTO;
 import smarttraffic.vehicle_service.dto.VehicleDTO;
 import smarttraffic.vehicle_service.dto.ViolationDTO;
 import smarttraffic.vehicle_service.service.OwnerService;
 import smarttraffic.vehicle_service.service.VehicleService;
-import smarttraffic.vehicle_service.util.JwtTokenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/vehicle-service")
@@ -53,7 +44,7 @@ public class VehicleServiceController {
 
     @GetMapping("/set-status-checked/{id}")
     public void setStatusCheched(@PathVariable Long id) {
-       vehicleService.setStatusChecked(id);
+        vehicleService.setStatusChecked(id);
     }
 
     @GetMapping("/owner/{id}")
@@ -83,7 +74,7 @@ public class VehicleServiceController {
 
     @GetMapping("/user/violations")
     public List<ViolationDTO> getViolationsOfConcreteUser(@RequestHeader String authorization) {
-       return vehicleService.getViolationsOfConcreteUser(authorization);
+        return vehicleService.getViolationsOfConcreteUser(authorization);
     }
 
 }

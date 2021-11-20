@@ -22,7 +22,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class CaptureServiceImpl implements CaptureService {
-
+    @Autowired
+    private VehicleService vehicleService;
+    private final CaptureRepository captureRepository;
     @Value("${violationService}")
     private String violationServiceUrl;
     @Value("${notificationService}")
@@ -30,13 +32,9 @@ public class CaptureServiceImpl implements CaptureService {
     @Value("${vehicleService}")
     private String vehicleServiceUrl;
 
-    private final CaptureRepository captureRepository;
-    private final VehicleService vehicleService;
-
     @Autowired
-    public CaptureServiceImpl(CaptureRepository captureRepository, VehicleService vehicleService) {
+    public CaptureServiceImpl(CaptureRepository captureRepository) {
         this.captureRepository = captureRepository;
-        this.vehicleService = vehicleService;
     }
 
     @Override

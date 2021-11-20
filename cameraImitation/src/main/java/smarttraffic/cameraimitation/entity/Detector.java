@@ -3,7 +3,6 @@ package smarttraffic.cameraimitation.entity;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,7 +16,7 @@ public class Detector {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "place",nullable = false)
+    @Column(name = "place", nullable = false)
     private String place;
 
     @ElementCollection(fetch = FetchType.EAGER)

@@ -23,9 +23,9 @@ import smarttraffic.violation_service.entity.Violation;
 import smarttraffic.violation_service.mapper.ViolationMapper;
 import smarttraffic.violation_service.repository.VehicleRepository;
 import smarttraffic.violation_service.repository.ViolationRepository;
-import smarttraffic.violation_service.util.ViolationInfoResolver;
 import smarttraffic.violation_service.util.JwtTokenUtil;
 import smarttraffic.violation_service.util.ViolationCounter;
+import smarttraffic.violation_service.util.ViolationInfoResolver;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -34,32 +34,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class ViolationServiceImpl implements ViolationService {
-    @Value("${sqs.url}")
-    String sqsURL;
-
-    @Value("${sqs.region}")
-    String region;
-
-    @Value("${access.key.id}")
-    String accessKey;
-
-    @Value("${access.key.secret}")
-    private String secretKey;
-
-    @Value("${cameraImitationServise}")
-    private String detectorImitationUrl;
-
-    @Value("${detectorsAnalyzer}")
-    private String detectorAnalyzerUrl;
-
-    @Value("${vehicleService}")
-    private String vehicleServiceUrl;
-
-    @Value("${notificationService}")
-    private String notificationServiceUrl;
-
     private final ViolationRepository violationRepository;
     private final VehicleRepository vehicleRepository;
+    @Value("${sqs.url}")
+    String sqsURL;
+    @Value("${sqs.region}")
+    String region;
+    @Value("${access.key.id}")
+    String accessKey;
+    @Value("${access.key.secret}")
+    private String secretKey;
+    @Value("${cameraImitationServise}")
+    private String detectorImitationUrl;
+    @Value("${detectorsAnalyzer}")
+    private String detectorAnalyzerUrl;
+    @Value("${vehicleService}")
+    private String vehicleServiceUrl;
+    @Value("${notificationService}")
+    private String notificationServiceUrl;
 
     @Autowired
     public ViolationServiceImpl(ViolationRepository violationRepository, VehicleRepository vehicleRepository) {
@@ -131,7 +123,7 @@ public class ViolationServiceImpl implements ViolationService {
     @Override
     public ViolationDTO findById(long id) {
         Violation violation = violationRepository.findById(id);
-        return  ViolationMapper.mapToDto(violation);
+        return ViolationMapper.mapToDto(violation);
     }
 
     @Override
@@ -185,6 +177,7 @@ public class ViolationServiceImpl implements ViolationService {
         violationDTO.setNumber(capture.getPlateNumber());
         return violationDTO;
     }
+
     private ViolationDTO createSpeedViolationDto(int price, CaptureDTO capturePrev, CaptureDTO captureCurrent, VehicleDTO vehicle) {
         ViolationDTO violationDTO = new ViolationDTO();
         violationDTO.setType("SPEED");
@@ -198,6 +191,7 @@ public class ViolationServiceImpl implements ViolationService {
         violationDTO.setNumber(captureCurrent.getPlateNumber());
         return violationDTO;
     }
+
     private void checkOwnerPoints(OwnerDTO owner, String token) {
         if (owner != null) {
             RestTemplate restTemplate = new RestTemplate();
@@ -211,6 +205,7 @@ public class ViolationServiceImpl implements ViolationService {
             }
         }
     }
+
     private void sendNotifications(ViolationDTO violationDTO, String token) throws JsonProcessingException {
         AmazonSQS sqs = getAmazonSQS();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -220,6 +215,7 @@ public class ViolationServiceImpl implements ViolationService {
         String jsonToMap = objectMapper.writeValueAsString(speedViolationInfo);
         sqs.sendMessage(sqsURL, jsonToMap);
     }
+
     private AmazonSQS getAmazonSQS() {
         BasicAWSCredentials bAWSc = new BasicAWSCredentials(accessKey, secretKey);
         AmazonSQS sqs = AmazonSQSClientBuilder
@@ -229,6 +225,7 @@ public class ViolationServiceImpl implements ViolationService {
                 .build();
         return sqs;
     }
+
     private CaptureDTO getCapture(Map<String, CaptureDTO> info) {
         CaptureDTO capture;
         if (info.containsKey("TECH")) {
@@ -238,6 +235,7 @@ public class ViolationServiceImpl implements ViolationService {
         }
         return capture;
     }
+
     private ViolationDTO checkViolationTypeAndCreate(Map<String, CaptureDTO> body, VehicleDTO vehicle) {
         CaptureDTO capture;
         ViolationDTO violationDTO;

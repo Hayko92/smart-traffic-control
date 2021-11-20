@@ -10,12 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/detector-analyzer")
 public class DetectorController {
-
-   private final CaptureService captureService;
-    @Autowired
-    public DetectorController(CaptureService captureService) {
-        this.captureService = captureService;
-    }
+     @Autowired
+     private CaptureService captureService;
 
     @GetMapping("/all")
     public List<CaptureDTO> getAllDetectors(@RequestHeader(name = "AUTHORIZATION") String token) {
@@ -29,7 +25,7 @@ public class DetectorController {
 
     @PostMapping
     public void receiveCapture(@RequestBody CaptureDTO capture, @RequestHeader(name = "AUTHORIZATION") String token) {
-        captureService.receiveCapture(capture,token);
+        captureService.receiveCapture(capture, token);
     }
 
 }

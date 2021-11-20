@@ -35,17 +35,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class DetectorServiceImpl implements DetectorService {
+    private final DetectorRepository detectorRepository;
+    private final AmazonS3 amazonS3;
+    private final ResourceLoader resourceLoader;
+    private final CloudVisionTemplate cloudVisionTemplate;
+    private final String token = JwtTokenUtil.generateToken("${username}");
     @Value("${detectorsAnalyzer}")
     private String detectorAnalyzerUrl;
     @Value("${notificationService}")
     private String notifierServiceUrl;
     @Value("${s3.bucket.name}")
     private String s3BucketName;
-    private  final DetectorRepository detectorRepository;
-    private final AmazonS3 amazonS3;
-    private final ResourceLoader resourceLoader;
-    private final CloudVisionTemplate cloudVisionTemplate;
-    private final String token = JwtTokenUtil.generateToken("${username}");
 
     @Autowired
     public DetectorServiceImpl(DetectorRepository detectorRepository,
@@ -100,6 +100,7 @@ public class DetectorServiceImpl implements DetectorService {
         List<DetectorDto> detectors = findAll();
         return detectors.get(random.nextInt(detectors.size()));
     }
+
     private URL getRandomURL() {
         try {
             Random random = new Random();
@@ -122,6 +123,7 @@ public class DetectorServiceImpl implements DetectorService {
             throw new SmartTrafficControlException(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
     private void sendNotificationToPatrol(CaptureDto capture) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);

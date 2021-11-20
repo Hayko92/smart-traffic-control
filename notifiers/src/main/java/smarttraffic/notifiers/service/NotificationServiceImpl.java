@@ -26,6 +26,7 @@ import java.util.Map;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
+    private final JavaMailSender mailSender;
     @Value("${twillio.accaunt.sid}")
     String twillioAccaountSid;
     @Value("${twillio.accaunt.token}")
@@ -36,8 +37,6 @@ public class NotificationServiceImpl implements NotificationService {
     String violationServiceURL;
     @Value("${spring.mail.username}")
     String mailUsername;
-
-    private final JavaMailSender mailSender;
 
     @Autowired
     public NotificationServiceImpl(JavaMailSender mailSender) {
@@ -70,7 +69,7 @@ public class NotificationServiceImpl implements NotificationService {
                 new PhoneNumber("+37493191719"),
                 new PhoneNumber(twillioAccauntNumber),
                 creatSMStext(info));
-      //  message.execute();
+        //  message.execute();
     }
 
     public File getFileFromURL(String photoUrl) throws IOException {

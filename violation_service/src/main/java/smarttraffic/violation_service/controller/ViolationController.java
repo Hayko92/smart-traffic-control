@@ -24,8 +24,6 @@ public class ViolationController {
     String accessKey;
 
 
-
-
     @Autowired
     private ViolationService violationService;
 
@@ -36,13 +34,13 @@ public class ViolationController {
     }
 
     @GetMapping("/violation/{id}")
-    public  ViolationDTO getViolationById(@PathVariable long id) {
+    public ViolationDTO getViolationById(@PathVariable long id) {
         return violationService.findById(id);
     }
 
     @PostMapping("/speed")
     public void createSpeedViolationDTO(@RequestBody Map<String, Integer> info, @RequestHeader(name = "AUTHORIZATION") String token) throws JsonProcessingException {
-       violationService.createSpeedViolation(info,token);
+        violationService.createSpeedViolation(info, token);
         extracted(info, token);
     }
 
@@ -54,14 +52,13 @@ public class ViolationController {
 
     @PostMapping
     public void createViolation(@RequestBody Map<String, CaptureDTO> body, @RequestHeader(name = "AUTHORIZATION") String token) throws JsonProcessingException {
-       violationService.createViolation(body,token);
+        violationService.createViolation(body, token);
         extracted1(body, token);
     }
 
     private void extracted1(Map<String, CaptureDTO> body, String token) {
 
     }
-
 
 
     @GetMapping("/platenumber/{vehiclenumber}")

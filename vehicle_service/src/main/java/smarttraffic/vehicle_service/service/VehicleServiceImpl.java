@@ -27,11 +27,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
-    @Value("${violationService}")
-    private String violationServiceUrl;
-
     private final VehicleRepository vehicleRepository;
     private final OwnerService ownerService;
+    @Value("${violationService}")
+    private String violationServiceUrl;
 
     @Autowired
     public VehicleServiceImpl(VehicleRepository vehicleRepository, OwnerService ownerService) {

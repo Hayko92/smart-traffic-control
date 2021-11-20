@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class CaptureServiceImpl implements CaptureService {
 
-   private final CaptureRepository captureRepository;
+    private final CaptureRepository captureRepository;
 
     @Autowired
     public CaptureServiceImpl(CaptureRepository captureRepository) {

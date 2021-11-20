@@ -15,8 +15,6 @@ import java.io.IOException;
 public class NotificationController {
 
     @Autowired
-    private JavaMailSender mailSender;
-    @Autowired
     private NotificationService notificationService;
 
     @PostMapping("/patrol")
