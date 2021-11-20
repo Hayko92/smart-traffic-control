@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class CaptureServiceImpl implements CaptureService {
 
+    private final CaptureRepository captureRepository;
+
     @Autowired
-    CaptureRepository captureRepository;
+    public CaptureServiceImpl(CaptureRepository captureRepository) {
+        this.captureRepository = captureRepository;
+    }
 
     @Override
     public void saveAll(List<Capture> allCaptureList) {

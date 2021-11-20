@@ -19,7 +19,7 @@ import smarttraffic.violations_analyzer_service.util.JwtTokenUtil;
 import java.util.List;
 
 @Service
-public class DataGrabberFacade {
+public class DataCollector {
 
     private final VehicleService vehicleService;
     private final DetectorService detectorService;
@@ -39,14 +39,14 @@ public class DataGrabberFacade {
     private String violationServiceUrl;
 
     @Autowired
-    public DataGrabberFacade(VehicleService vehicleService, DetectorService detectorService, CaptureService captureService, ViolationService violationService, ViolationsAnalyzerService violationsAnalyzerService) {
+    public DataCollector(VehicleService vehicleService, DetectorService detectorService, CaptureService captureService, ViolationService violationService, ViolationsAnalyzerService violationsAnalyzerService) {
         this.vehicleService = vehicleService;
         this.detectorService = detectorService;
         this.captureService = captureService;
         this.violationService = violationService;
     }
 
-    public void grabData(String token) {
+    public void collectData(String token) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = JwtTokenUtil.getHeadersWithToken(token);
         HttpEntity httpEntity = new HttpEntity(headers);

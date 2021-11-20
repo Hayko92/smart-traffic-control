@@ -17,9 +17,6 @@ public class CaptureDTO {
 
     private String photoUrl;
 
-    public CaptureDTO() {
-    }
-
     public CaptureDTO(String plateNumber, String photoUrl, String place, Instant instant) {
         this.plateNumber = plateNumber;
         this.photoUrl = photoUrl;

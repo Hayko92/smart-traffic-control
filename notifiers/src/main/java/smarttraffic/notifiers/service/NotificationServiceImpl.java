@@ -10,6 +10,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import smarttraffic.notifiers.dto.CaptureDto;
 import smarttraffic.notifiers.util.HTMLCreator;
 
 import javax.mail.MessagingException;
@@ -25,20 +26,28 @@ import java.util.Map;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
-    private static final String ACCOUNT_SID = "ACf8751052d983ad03251129ce8f0c7e98";
-    private static final String AUTH_TOKEN = "e4e1682b011dc6677232b5b8f3ae0ad1";
-    private static final String TWILIO_NUMBER = "+12075013766";
-    @Autowired
-    private JavaMailSender mailSender;
-
+    private final JavaMailSender mailSender;
+    @Value("${twillio.accaunt.sid}")
+    String twillioAccaountSid;
+    @Value("${twillio.accaunt.token}")
+    String twillioAccauntToken;
+    @Value("${twillio.accaunt.number}")
+    String twillioAccauntNumber;
     @Value("${violationService}")
     String violationServiceURL;
+    @Value("${spring.mail.username}")
+    String mailUsername;
+
+    @Autowired
+    public NotificationServiceImpl(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
     @Override
     public void sendMail(Map<String, String> info) throws MessagingException, IOException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+        helper.setFrom(mailUsername);
         helper.setTo(info.get("email"));
         helper.setSubject("YOU HAVE A NEW VIOLATION!");
         helper.setText(HTMLCreator.createSpeedViolationBlank(info));
@@ -55,12 +64,12 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendSMS(Map<String, String> info) {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        MessageCreator message = Message.create(ACCOUNT_SID,
+        Twilio.init(twillioAccaountSid, twillioAccauntToken);
+        MessageCreator message = Message.create(twillioAccaountSid,
                 new PhoneNumber("+37493191719"),
-                new PhoneNumber(TWILIO_NUMBER),
+                new PhoneNumber(twillioAccauntNumber),
                 creatSMStext(info));
-          message.execute();
+        //  message.execute();
     }
 
     public File getFileFromURL(String photoUrl) throws IOException {
@@ -72,9 +81,35 @@ public class NotificationServiceImpl implements NotificationService {
                 .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         return new File("photo.jpg");
     }
+
+    @Override
+    public void sendToPatrol(CaptureDto capture) throws MessagingException, IOException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+        helper.setTo("asatryanhayko92@gmail.com");
+        helper.setSubject("Unrecognized vehicle!");
+        helper.setText(String.format("unrecognized vehicle fixed at %s in the place %s", capture.getInstant(), capture.getPlace()));
+        File file = getFileFromURL(capture.getPhotoUrl());
+        FileSystemResource file1 = new FileSystemResource(file);
+        helper.addAttachment("car_photo1.jpg", file1);
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendToPatrolIDofOwner(Long ownerID) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, false);
+        helper.setFrom("SmartTrafficServiceArmenia@gmail.com");
+        helper.setTo("asatryanhayko92@gmail.com");
+        helper.setSubject("Driver with null points!");
+        helper.setText(String.format("Driver with ID %d have 0 points left", ownerID));
+        mailSender.send(message);
+    }
+
     private String creatSMStext(Map<String, String> info) {
-        String violationURL = violationServiceURL+"/violation/"+info.get("id");
-        return "SMART TRAFFIC CONTROL ARMENIA\nYou have a new violation, for more information please visit "+violationURL;
+        String violationURL = violationServiceURL + "/violation/" + info.get("id");
+        return "SMART TRAFFIC CONTROL ARMENIA\nYou have a new violation, for more information please visit " + violationURL;
     }
 
 }

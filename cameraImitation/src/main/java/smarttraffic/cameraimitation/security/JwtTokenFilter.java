@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import smarttraffic.cameraimitation.exception.SmartTrafficControlException;
 import smarttraffic.cameraimitation.util.JwtTokenUtil;
+import smarttraffic.cameraimitation.util.RoleValues;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -36,7 +37,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             if (requestType.equals("INT") && userLogin.equals("${username}")) {
                 User user = new User("trafficControlSystem");
                 user.setEnabled(true);
-                Role role = new Role("SYSTEM");
+                Role role = new Role(RoleValues.SYSTEM.name());
                 user.addRole(role);
                 CustomUserDetails customUserDetails = new CustomUserDetails(user);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken

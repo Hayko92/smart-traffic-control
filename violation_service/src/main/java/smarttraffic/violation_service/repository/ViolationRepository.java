@@ -9,5 +9,6 @@ public interface ViolationRepository extends JpaRepository<Violation, String> {
     List<Violation> getAllByNumber(String number);
 
     List<Violation> getAllByOwnerId(Long id);
+
     Violation findById(Long id);
 }

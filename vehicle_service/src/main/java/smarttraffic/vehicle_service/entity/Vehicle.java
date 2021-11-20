@@ -11,7 +11,7 @@ import java.time.Instant;
 
 @Entity
 @DynamicUpdate
-@Table(name = "vehicle")
+@Table(name = "vehicle", schema = "vehicle_service")
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

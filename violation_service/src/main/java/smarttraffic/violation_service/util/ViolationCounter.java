@@ -5,14 +5,17 @@ public final class ViolationCounter {
     }
 
     public static int countSpeedViolationBasePrice(int speed) {
-        int overSpeed = (speed - 70);
+        int overSpeed = (speed - ViolationConstants.MAX_PERMISSIBLE_SPEED);
         int result = 0;
-        if (overSpeed > 0 && overSpeed <= 10) result = overSpeed * 1000;
-        else if (overSpeed > 10 && overSpeed <= 30) result = 20000;
-        else if (overSpeed > 30 && overSpeed <= 50) result = 25000;
-        else if (overSpeed > 50 && overSpeed <= 80) result = 29000;
-        else if (overSpeed > 80) {
-            result = 200000;
+        if (overSpeed > 0 && overSpeed <= ViolationConstants.FIRST_SPEED_RANGE) result = overSpeed * 1000;
+        else if (overSpeed > ViolationConstants.FIRST_SPEED_RANGE && overSpeed <= ViolationConstants.SECOND_SPEED_RANGE)
+            result = ViolationConstants.VIOLATION_COST_FIRST;
+        else if (overSpeed > ViolationConstants.SECOND_SPEED_RANGE && overSpeed <= ViolationConstants.THIRD_SPEED_RANGE)
+            result = ViolationConstants.VIOLATION_COST_SECOND;
+        else if (overSpeed > ViolationConstants.THIRD_SPEED_RANGE && overSpeed <= ViolationConstants.THOURTH_SPEED_RANGE)
+            result = ViolationConstants.VIOLATION_COST_THIRD;
+        else if (overSpeed > ViolationConstants.THOURTH_SPEED_RANGE) {
+            result = ViolationConstants.VIOLATION_COST_THOURTH;
         }
         return result;
     }

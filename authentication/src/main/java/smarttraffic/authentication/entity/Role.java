@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
-@Table(name = "role")
+@Table(name = "role", schema = "authentication_service")
 public class Role implements GrantedAuthority {
 
     @Id

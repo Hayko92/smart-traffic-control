@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import smarttraffic.detectors_analyzer.util.JwtTokenUtil;
+import smarttraffic.detectors_analyzer.util.RoleValues;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,9 +20,6 @@ import static org.springframework.util.StringUtils.hasText;
 public class JwtTokenFilter extends OncePerRequestFilter {
     public static final String AUTHORIZATION = "Authorization";
 
-    public JwtTokenFilter() {
-    }
-
     @Override
     public void doFilterInternal(HttpServletRequest servletRequest,
                                  HttpServletResponse servletResponse, FilterChain filterChain)
@@ -34,7 +32,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             if (requestType.equals("INT") && userLogin.equals("${username}")) {
                 User user = new User("trafficControlSystem");
                 user.setEnabled(true);
-                Role role = new Role("SYSTEM");
+                Role role = new Role(RoleValues.ADMIN.name());
                 user.addRole(role);
                 CustomUserDetails customUserDetails = new CustomUserDetails(user);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken

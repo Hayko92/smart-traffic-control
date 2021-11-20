@@ -68,7 +68,6 @@ public final class JwtTokenUtil {
 
     public static Collection<GrantedAuthority> getGrantedAuthorities(String token) {
         String x = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("roles").toString();
-        // String rolesString = claims.get("roles").toString();
         Set<Role> roles = Arrays.stream(x.split(","))
                 .map(Role::new)
                 .collect(Collectors.toSet());

@@ -2,12 +2,11 @@ package smarttraffic.violations_analyzer_service.controller;
 
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import smarttraffic.violations_analyzer_service.security.DataGrabberFacade;
+import smarttraffic.violations_analyzer_service.security.DataCollector;
 import smarttraffic.violations_analyzer_service.service.ViolationsAnalyzerService;
 
 import java.io.FileNotFoundException;
@@ -18,25 +17,12 @@ import java.time.Instant;
 @RequestMapping("api/violations_analyzer_service")
 public class ViolationsAnalyzerController {
 
-    @Autowired
-    private final DataGrabberFacade dataGrabberFacade;
-    @Autowired
+    private final DataCollector dataCollector;
     ViolationsAnalyzerService violationsAnalyzerService;
 
-    @Value("${detectorsAnalyzer}")
-    private String detectorAnalyzerUrl;
-
-    @Value("${vehicleService}")
-    private String vehicleServiceURL;
-
-    @Value("${cameraImitationServise}")
-    private String detectorImitationUrl;
-
-    @Value("${violationService}")
-    private String violationServiceUrl;
-
-    public ViolationsAnalyzerController(DataGrabberFacade dataGrabberFacade, ViolationsAnalyzerService violationsAnalyzerService) {
-        this.dataGrabberFacade = dataGrabberFacade;
+    @Autowired
+    public ViolationsAnalyzerController(DataCollector dataCollector, ViolationsAnalyzerService violationsAnalyzerService) {
+        this.dataCollector = dataCollector;
         this.violationsAnalyzerService = violationsAnalyzerService;
     }
 
@@ -45,10 +31,9 @@ public class ViolationsAnalyzerController {
                                                            @RequestParam(required = false) Instant from,
                                                            @RequestParam(required = false) Instant to) throws DocumentException, FileNotFoundException {
 
-        dataGrabberFacade.grabData(token);
+        dataCollector.collectData(token);
         Path path = violationsAnalyzerService.startAnalyze(from, to);
         return violationsAnalyzerService.downloadAnalyzeResult(path);
     }
-
 
 }

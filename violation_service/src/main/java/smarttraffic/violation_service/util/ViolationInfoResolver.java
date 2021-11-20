@@ -6,12 +6,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class InfoExtractor {
+public final class ViolationInfoResolver {
 
-    private InfoExtractor() {
+    private ViolationInfoResolver() {
     }
 
-    public static Map<String, String> extractViolationInformation(ViolationDTO violationDTO) {
+    public static Map<String, String> resolve(ViolationDTO violationDTO) {
         Map<String, String> result = new HashMap<>();
         result.put("id", String.valueOf(violationDTO.getId()));
         result.put("type", violationDTO.getType());

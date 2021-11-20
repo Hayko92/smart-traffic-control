@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @DynamicUpdate
-@Table(name = "vehicle_mark")
+@Table(name = "vehicle_mark", schema = "vehicle_service")
 public class VehicleMark {
 
     @Id

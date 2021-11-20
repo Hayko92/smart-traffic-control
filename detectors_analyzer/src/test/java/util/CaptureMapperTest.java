@@ -21,7 +21,7 @@ public class CaptureMapperTest {
         capture.setPhotoUrl("INS");
         capture.setPlace("BestPlace");
         capture.setInstant(Instant.now());
-        captureDTO = CaptureMapper.maptoDTO(capture);
+        captureDTO = CaptureMapper.mapToDto(capture);
         assertThat(captureDTO.getPlateNumber()).isEqualTo(capture.getPlateNumber());
     }
 }

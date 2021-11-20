@@ -1,6 +1,7 @@
 package smarttraffic.notifiers.service;
 
 import org.springframework.stereotype.Service;
+import smarttraffic.notifiers.dto.CaptureDto;
 
 import javax.mail.MessagingException;
 import java.io.File;
@@ -14,4 +15,8 @@ public interface NotificationService {
     void sendSMS(Map<String, String> info);
 
     File getFileFromURL(String photoURL) throws IOException;
+
+    void sendToPatrol(CaptureDto capture) throws MessagingException, IOException;
+
+    void sendToPatrolIDofOwner(Long ownerID) throws MessagingException;
 }

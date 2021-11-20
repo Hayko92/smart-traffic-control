@@ -19,9 +19,8 @@ import java.util.Map;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
-
     @Autowired
-    CaptureService captureService;
+    private  CaptureService captureService;
     @Value("${cameraImitationServise}")
     private String cameraImitationServiceUrl;
 

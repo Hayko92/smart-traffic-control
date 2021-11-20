@@ -1,4 +1,4 @@
-package smarttraffic.notifiers.errorResponseModel;
+package smarttraffic.authentication.errorResponseModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.http.HttpStatus;
@@ -7,32 +7,32 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmartTrafficControlApiError {
+public class ResponseError {
 
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
     private String message;
     private String debugMessage;
-    private List<SmartTrafficControlApiSubError> subErrors = new ArrayList<>();
+    private List<smarttraffic.authentication.exceptionHandler.SmartTrafficControlApiError> subErrors = new ArrayList<>();
 
-    public SmartTrafficControlApiError() {
+    public ResponseError() {
         timestamp = LocalDateTime.now();
     }
 
-    public SmartTrafficControlApiError(HttpStatus status) {
+    public ResponseError(HttpStatus status) {
         this();
         this.status = status;
     }
 
-    public SmartTrafficControlApiError(HttpStatus status, Throwable ex) {
+    public ResponseError(HttpStatus status, Throwable ex) {
         this();
         this.status = status;
         this.message = "Unexpected error";
         this.debugMessage = ex.getLocalizedMessage();
     }
 
-    public SmartTrafficControlApiError(HttpStatus status, String message, Throwable ex) {
+    public ResponseError(HttpStatus status, String message, Throwable ex) {
         this();
         this.status = status;
         this.message = message;
@@ -71,12 +71,12 @@ public class SmartTrafficControlApiError {
         this.debugMessage = debugMessage;
     }
 
-    public List<SmartTrafficControlApiSubError> getSubErrors() {
+    public List<smarttraffic.authentication.exceptionHandler.SmartTrafficControlApiError> getSubErrors() {
         if (subErrors == null) subErrors = new ArrayList<>();
         return subErrors;
     }
 
-    public void setSubErrors(List<SmartTrafficControlApiSubError> subErrors) {
+    public void setSubErrors(List<smarttraffic.authentication.exceptionHandler.SmartTrafficControlApiError> subErrors) {
         this.subErrors = subErrors;
     }
 }

@@ -8,15 +8,6 @@ public class Detector {
     private String place;
     private Map<String, Integer> previousDetectorsDistance;
 
-    public Detector(int id, String place, Map<String, Integer> previousDetectorsDistance) {
-        this.id = id;
-        this.place = place;
-        this.previousDetectorsDistance = previousDetectorsDistance;
-    }
-
-    public Detector() {
-    }
-
     public int getId() {
         return id;
     }

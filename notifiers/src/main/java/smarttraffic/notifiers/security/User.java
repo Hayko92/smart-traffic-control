@@ -21,9 +21,6 @@ public class User {
         this.login = login;
     }
 
-    public User() {
-    }
-
     public Long getId() {
         return id;
     }

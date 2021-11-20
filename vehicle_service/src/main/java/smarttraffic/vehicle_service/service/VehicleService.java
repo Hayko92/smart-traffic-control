@@ -2,6 +2,7 @@ package smarttraffic.vehicle_service.service;
 
 import org.springframework.stereotype.Service;
 import smarttraffic.vehicle_service.dto.VehicleDTO;
+import smarttraffic.vehicle_service.dto.ViolationDTO;
 
 import java.util.List;
 
@@ -24,4 +25,10 @@ public interface VehicleService {
     List<VehicleDTO> getAllVehicles();
 
     void scheduleFixedDelayTask();
+
+    void setStatusChecked(Long id);
+
+    List<ViolationDTO> getViolationsOfVehicle(String authorization, VehicleDTO vehicleDTO);
+
+    List<ViolationDTO> getViolationsOfConcreteUser(String authorization);
 }

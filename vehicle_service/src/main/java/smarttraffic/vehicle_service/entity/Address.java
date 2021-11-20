@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @DynamicUpdate
-@Table(name = "address")
+@Table(name = "address", schema = "vehicle_service")
 public class Address {
 
     @Id

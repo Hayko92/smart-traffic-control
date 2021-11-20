@@ -1,15 +1,16 @@
-package smarttraffic.violations_analyzer_service.errorResponseModel;
+package smarttraffic.detectors_analyzer.exceptionHandler;
+
 
 import org.springframework.http.HttpStatus;
+import smarttraffic.detectors_analyzer.errorResponseModel.ResponseError;
 
-public class SmartTrafficControlApiSubError extends SmartTrafficControlApiError {
-
+public class SmartTrafficControlApiError extends ResponseError {
     private String object;
     private String field;
     private Object rejectedValue;
     private String message;
 
-    public SmartTrafficControlApiSubError(HttpStatus status, String message, Throwable ex, String object, String field, Object rejectedValue, String message1) {
+    public SmartTrafficControlApiError(HttpStatus status, String message, Throwable ex, String object, String field, Object rejectedValue, String message1) {
         super(status, message, ex);
         this.object = object;
         this.field = field;
@@ -17,24 +18,24 @@ public class SmartTrafficControlApiSubError extends SmartTrafficControlApiError 
         this.message = message1;
     }
 
-    public SmartTrafficControlApiSubError(String field, String message) {
+    public SmartTrafficControlApiError(String field, String message) {
         this.field = field;
         this.message = message;
     }
 
-    public SmartTrafficControlApiSubError(HttpStatus status) {
+    public SmartTrafficControlApiError(HttpStatus status) {
         super(status);
     }
 
-    public SmartTrafficControlApiSubError(HttpStatus status, Throwable ex) {
+    public SmartTrafficControlApiError(HttpStatus status, Throwable ex) {
         super(status, ex);
     }
 
-    public SmartTrafficControlApiSubError(HttpStatus status, String message, Throwable ex) {
+    public SmartTrafficControlApiError(HttpStatus status, String message, Throwable ex) {
         super(status, message, ex);
     }
 
-    public SmartTrafficControlApiSubError() {
+    public SmartTrafficControlApiError() {
     }
 
     public String getObject() {
@@ -68,5 +69,4 @@ public class SmartTrafficControlApiSubError extends SmartTrafficControlApiError 
     public void setMessage(String message) {
         this.message = message;
     }
-
 }

@@ -3,12 +3,11 @@ package smarttraffic.cameraimitation.entity;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Objects;
 
 @Entity
-@Table(name = "detector")
+@Table(name = "detector", schema = "camera_imitation")
 @Embeddable
 
 public class Detector {
@@ -17,8 +16,7 @@ public class Detector {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "place")
-    @NotNull
+    @Column(name = "place", nullable = false)
     private String place;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -27,7 +25,7 @@ public class Detector {
     public Detector() {
     }
 
-    public Detector(int id, String place, Map<String, Integer> previousDetectors, Detector nextCamId) {
+    public Detector(int id, String place, Map<String, Integer> previousDetectors) {
         this.id = id;
         this.place = place;
         this.previousDetectorsDistance = previousDetectors;

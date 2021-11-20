@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table(name = "capture")
+@Table(name = "capture", schema = "detectors_analyzer")
 public class Capture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

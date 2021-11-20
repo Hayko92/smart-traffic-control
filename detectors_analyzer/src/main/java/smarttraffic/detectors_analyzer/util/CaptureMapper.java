@@ -9,7 +9,7 @@ public final class CaptureMapper {
     private CaptureMapper() {
     }
 
-    public static CaptureDTO maptoDTO(Capture capture) {
+    public static CaptureDTO mapToDto(Capture capture) {
         CaptureDTO captureDTO = new CaptureDTO();
         captureDTO.setId(capture.getId());
         captureDTO.setInstant(capture.getInstant());
@@ -19,7 +19,7 @@ public final class CaptureMapper {
         return captureDTO;
     }
 
-    public static Capture maptoCapture(CaptureDTO captureDTO) {
+    public static Capture mapToCapture(CaptureDTO captureDTO) {
         Capture capture = new Capture();
         capture.setId(captureDTO.getId());
         capture.setInstant(captureDTO.getInstant());
@@ -29,3 +29,4 @@ public final class CaptureMapper {
         return capture;
     }
 }
+
