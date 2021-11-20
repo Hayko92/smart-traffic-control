@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import smarttraffic.authentication.config.jwt.JwtProvider;
 import smarttraffic.authentication.entity.User;
 import smarttraffic.authentication.model.AuthRequest;
 import smarttraffic.authentication.model.AuthResponse;
@@ -17,14 +16,10 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private JwtProvider jwtProvider;
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
-        User userEntity = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
-        String token = jwtProvider.generateToken(userEntity.getLogin(), userEntity.getRoles());
-        return new AuthResponse(token);
+        return userService.getAuthResponse(request);
     }
 
     @PostMapping("/register")

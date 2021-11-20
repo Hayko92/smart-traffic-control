@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Service
 public class ValidatingService {
-    private Validator validator;
+    private final Validator validator;
 
     ValidatingService(Validator validator) {
         this.validator = validator;

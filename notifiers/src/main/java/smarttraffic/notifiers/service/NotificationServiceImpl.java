@@ -25,14 +25,13 @@ import java.util.Map;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
-    private static final String ACCOUNT_SID = "ACf8751052d983ad03251129ce8f0c7e98";
-    private static final String AUTH_TOKEN = "e4e1682b011dc6677232b5b8f3ae0ad1";
-    private static final String TWILIO_NUMBER = "+12075013766";
-    @Autowired
-    private JavaMailSender mailSender;
-
+    private static final String ACCOUNT_SID = "AC85e89c2b42169d37c31a3b7fd040342d";
+    private static final String AUTH_TOKEN = "8492151e720a88399afbaa3d000e62d3";
+    private static final String TWILIO_NUMBER = "+12184133723";
     @Value("${violationService}")
     String violationServiceURL;
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Override
     public void sendMail(Map<String, String> info) throws MessagingException, IOException {
@@ -60,7 +59,7 @@ public class NotificationServiceImpl implements NotificationService {
                 new PhoneNumber("+37493191719"),
                 new PhoneNumber(TWILIO_NUMBER),
                 creatSMStext(info));
-          message.execute();
+        message.execute();
     }
 
     public File getFileFromURL(String photoUrl) throws IOException {
@@ -72,9 +71,10 @@ public class NotificationServiceImpl implements NotificationService {
                 .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         return new File("photo.jpg");
     }
+
     private String creatSMStext(Map<String, String> info) {
-        String violationURL = violationServiceURL+"/violation/"+info.get("id");
-        return "SMART TRAFFIC CONTROL ARMENIA\nYou have a new violation, for more information please visit "+violationURL;
+        String violationURL = violationServiceURL + "/violation/" + info.get("id");
+        return "SMART TRAFFIC CONTROL ARMENIA\nYou have a new violation, for more information please visit " + violationURL;
     }
 
 }

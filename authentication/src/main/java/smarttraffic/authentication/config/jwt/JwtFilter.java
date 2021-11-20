@@ -6,7 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import smarttraffic.authentication.Constants;
+import smarttraffic.authentication.util.Constants;
 import smarttraffic.authentication.config.CustomUserDetails;
 import smarttraffic.authentication.config.UserDetailService;
 import smarttraffic.authentication.entity.Role;
